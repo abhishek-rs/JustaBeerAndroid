@@ -23,11 +23,14 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.navigation_myhangouts:
                     mTextMessage.setText(R.string.title_myhangouts);
                     return true;
-                case R.id.navigation_profile:
-                    mTextMessage.setText(R.string.title_profile);
+                case R.id.navigation_addhangout:
+                    mTextMessage.setText(R.string.title_addhangout);
                     return true;
                 case R.id.navigation_notifications:
                     mTextMessage.setText(R.string.title_notifications);
+                    return true;
+                case R.id.navigation_profile:
+                    mTextMessage.setText(R.string.title_profile);
                     return true;
             }
             return false;

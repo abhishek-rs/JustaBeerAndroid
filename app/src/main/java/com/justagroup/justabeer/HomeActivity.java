@@ -68,8 +68,8 @@ public class HomeActivity extends AppCompatActivity {
         BottomNavigationViewHelper.disableShiftMode(navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        // Get ListView object from xml
-        final ListView listView = (ListView) findViewById(R.id.listView);
+        // Will delete this stuff later
+    /*    final ListView listView = (ListView) findViewById(R.id.listView);
 
         // Create a new Adapter
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -154,7 +154,8 @@ public class HomeActivity extends AppCompatActivity {
                 })
                 ;}
         })
-        ;}
+        */
+        }
 }
 
 

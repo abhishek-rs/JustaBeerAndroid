@@ -8,6 +8,16 @@
     android:background="#cccccc"
     tools:context="com.justagroup.justabeer.HomeActivity">
 
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="172dp"
+        android:layout_marginTop="64dp"
+        android:text="@string/title_home"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="0dp"
@@ -24,7 +34,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        tools:layout_editor_absoluteY="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
         <ScrollView
             android:layout_width="fill_parent"
@@ -87,7 +101,7 @@
                         <Button
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/button_bg"
+                            android:background="@color/colorPrimary"
                             android:bottomLeftRadius="10dp"
                             android:bottomRightRadius="10dp"
                             android:text="@string/card_seemorebutton"
@@ -150,7 +164,7 @@
                         <Button
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/button_bg"
+                            android:background="@color/colorPrimary"
                             android:text="@string/card_seemorebutton"
                             android:textColor="#FFFFFF" />
                     </LinearLayout>
@@ -208,7 +222,7 @@
                         <Button
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/button_bg"
+                            android:background="@color/colorPrimary"
                             android:text="@string/card_seemorebutton"
                             android:textColor="#FFFFFF" />
                     </LinearLayout>
@@ -266,7 +280,7 @@
                         <Button
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/button_bg"
+                            android:background="@color/colorPrimary"
                             android:text="@string/card_seemorebutton"
                             android:textColor="#FFFFFF" />
                     </LinearLayout>

@@ -16,4 +16,5 @@
     <string name="card_timelocation">22.11.2017 at 15 - 16</string>
     <string name="card_content">Test description</string>
     <string name="card_seemorebutton">See more</string>
+    <string name="placeholder">Placeholder</string>
 </resources>

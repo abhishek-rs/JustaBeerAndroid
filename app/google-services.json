@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "966812679615",
+    "firebase_url": "https://justabeer-10b50.firebaseio.com",
+    "project_id": "justabeer-10b50",
+    "storage_bucket": "justabeer-10b50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:966812679615:android:5e8accd842a64a99",
+        "android_client_info": {
+          "package_name": "com.justagroup.justabeer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "966812679615-mobgcgu0i2hbp4rqi2lngikru44oa4mu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.justagroup.justabeer",
+            "certificate_hash": "239f41902aff0f9cb2b7ba5b37ab55a3ff5e935f"
+          }
+        },
+        {
+          "client_id": "966812679615-50sk7g6dmmrpvne2hr5ih0rao38q2rgj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDljs83WAdV2mJPTmISn_8Upz8CYmcTGIc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "966812679615-50sk7g6dmmrpvne2hr5ih0rao38q2rgj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

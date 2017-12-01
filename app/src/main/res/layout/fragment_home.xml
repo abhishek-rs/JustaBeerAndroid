@@ -1,0 +1,269 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.justagroup.justabeer.Fragments.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/hangoutCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/hangoutCard1Title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#000000"
+                            android:capitalize="characters"
+                            android:fontFamily="sans-serif-condensed"
+                            android:lineSpacingExtra="12sp"
+                            android:paddingHorizontal="4sp"
+                            android:paddingVertical="4sp"
+                            android:text="@string/card_title"
+                            android:textAppearance="@android:style/TextAppearance.Material.Widget"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:visibility="visible" />
+
+                        <Button
+                            android:id="@+id/hangoutCard1Profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FFFFFF"
+                            android:fontFamily="sans-serif"
+                            android:text="@string/card_profile"
+                            android:textAlignment="viewStart"
+                            android:textColor="#333333"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/hangoutCard1TimeLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_timelocation"
+                            android:textColor="#333333" />
+                        <TextView
+                            android:id="@+id/hangoutCard1Content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_content" />
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimary"
+                            android:bottomLeftRadius="10dp"
+                            android:bottomRightRadius="10dp"
+                            android:text="@string/card_seemorebutton"
+                            android:textColor="#FFFFFF"
+                            android:topLeftRadius="10dp"
+                            android:topRightRadius="10dp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/hangoutCard2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/hangoutCard2Title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#000000"
+                            android:capitalize="characters"
+                            android:fontFamily="sans-serif-condensed"
+                            android:lineSpacingExtra="12sp"
+                            android:paddingHorizontal="4sp"
+                            android:paddingVertical="4sp"
+                            android:text="@string/card_title"
+                            android:textAppearance="@android:style/TextAppearance.Material.Widget"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:visibility="visible" />
+
+                        <Button
+                            android:id="@+id/hangoutCard2Profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FFFFFF"
+                            android:fontFamily="sans-serif"
+                            android:text="@string/card_profile"
+                            android:textAlignment="viewStart"
+                            android:textColor="#333333"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/hangoutCard2TimeLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_timelocation"
+                            android:textColor="#333333" />
+                        <TextView
+                            android:id="@+id/hangoutCard2Content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_content" />
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimary"
+                            android:text="@string/card_seemorebutton"
+                            android:textColor="#FFFFFF" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:id="@+id/hangoutCard3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/hangoutCard3Title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#000000"
+                            android:capitalize="characters"
+                            android:fontFamily="sans-serif-condensed"
+                            android:lineSpacingExtra="12sp"
+                            android:paddingHorizontal="4sp"
+                            android:paddingVertical="4sp"
+                            android:text="@string/card_title"
+                            android:textAppearance="@android:style/TextAppearance.Material.Widget"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:visibility="visible" />
+
+                        <Button
+                            android:id="@+id/hangoutCard3Profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FFFFFF"
+                            android:fontFamily="sans-serif"
+                            android:text="@string/card_profile"
+                            android:textAlignment="viewStart"
+                            android:textColor="#333333"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/hangoutCard3TimeLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_timelocation"
+                            android:textColor="#333333" />
+                        <TextView
+                            android:id="@+id/hangoutCard3Content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_content" />
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimary"
+                            android:text="@string/card_seemorebutton"
+                            android:textColor="#FFFFFF" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:id="@+id/hangoutCard4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/hangoutCard4Title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#000000"
+                            android:capitalize="characters"
+                            android:fontFamily="sans-serif-condensed"
+                            android:lineSpacingExtra="12sp"
+                            android:paddingHorizontal="4sp"
+                            android:paddingVertical="4sp"
+                            android:text="@string/card_title"
+                            android:textAppearance="@android:style/TextAppearance.Material.Widget"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:visibility="visible" />
+
+                        <Button
+                            android:id="@+id/hangoutCard4Profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FFFFFF"
+                            android:fontFamily="sans-serif"
+                            android:text="@string/card_profile"
+                            android:textAlignment="viewStart"
+                            android:textColor="#333333"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/hangoutCard4TimeLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_timelocation"
+                            android:textColor="#333333" />
+                        <TextView
+                            android:id="@+id/hangoutCard4Content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_content" />
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimary"
+                            android:text="@string/card_seemorebutton"
+                            android:textColor="#FFFFFF" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,10 +1,13 @@
 package com.justagroup.justabeer;
 
+import android.app.Fragment;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -26,51 +29,111 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.justagroup.justabeer.Fragments.CreateHangoutFragment;
+import com.justagroup.justabeer.Fragments.HomeFragment;
+import com.justagroup.justabeer.Fragments.MyHangoutsFragment;
+import com.justagroup.justabeer.Fragments.NotificationsFragment;
+import com.justagroup.justabeer.Fragments.ProfileFragment;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
+        MyHangoutsFragment.OnFragmentInteractionListener,
+        CreateHangoutFragment.OnFragmentInteractionListener,
+        NotificationsFragment.OnFragmentInteractionListener,
+        ProfileFragment.OnFragmentInteractionListener
+{
+    private ViewPager viewPager;
 
-    private TextView mTextMessage;
-    private CardView mCardView;
-    private TextView mDbmessage;
+    HomeFragment homeFragment;
+    MyHangoutsFragment myHangoutsFragment;
+    CreateHangoutFragment createHangoutFragment;
+    NotificationsFragment notificationsFragment;
+    ProfileFragment profileFragment;
+    MenuItem prevMenuItem;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    //mTextMessage.setText(R.string.title_home);
-                   //mCardView.
-                    return true;
-                case R.id.navigation_myhangouts:
-                    //mTextMessage.setText(R.string.title_myhangouts);
-                    return true;
-                case R.id.navigation_addhangout:
-                    //mTextMessage.setText(R.string.title_addhangout);
-                    return true;
-                case R.id.navigation_notifications:
-                    //mTextMessage.setText(R.string.title_notifications);
-                    return true;
-                case R.id.navigation_profile:
-                    //mTextMessage.setText(R.string.title_profile);
-                    return true;
-            }
-            return false;
-        }
-    };
+    @Override
+    public void onFragmentInteraction(Uri uri){
+        //you can leave it empty
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
-        mCardView = (CardView) findViewById(R.id.hangoutCard);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        BottomNavigationViewHelper.disableShiftMode(navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        final BottomNavigationViewEx bnve = (BottomNavigationViewEx) findViewById(R.id.bnve);
+        bnve.enableAnimation(false);
+        bnve.enableShiftingMode(false);
+        bnve.enableItemShiftingMode(false);
+        bnve.setTextVisibility(false);
+        bnve.setIconSize(32, 32);
+
+        bnve.setOnNavigationItemSelectedListener(
+                new BottomNavigationViewEx.OnNavigationItemSelectedListener(){
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item){
+                        switch(item.getItemId()){
+                            case R.id.navigation_home:
+                                //mTextMessage.setText(R.string.title_home);
+                                //mCardView.
+                                viewPager.setCurrentItem(0);
+                                return true;
+                            case R.id.navigation_myhangouts:
+                                //mTextMessage.setText(R.string.title_myhangouts);
+                                viewPager.setCurrentItem(1);
+                                return true;
+                            case R.id.navigation_addhangout:
+                                //mTextMessage.setText(R.string.title_addhangout);
+                                viewPager.setCurrentItem(2);
+                                return true;
+                            case R.id.navigation_notifications:
+                                //mTextMessage.setText(R.string.title_notifications);
+                                viewPager.setCurrentItem(3);
+                                return true;
+                            case R.id.navigation_profile:
+                                viewPager.setCurrentItem(4);
+                                //mTextMessage.setText(R.string.title_profile);
+                                return true;
+                        }
+                        return false;
+                    }
+                }
+        );
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (prevMenuItem != null) {
+                    prevMenuItem.setChecked(false);
+                }
+                else
+                {
+                    bnve.getMenu().getItem(0).setChecked(false);
+                }
+                Log.d("page", "onPageSelected: "+position);
+                bnve.getMenu().getItem(position).setChecked(true);
+                prevMenuItem = bnve.getMenu().getItem(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        setupViewPager(viewPager);
+
+        //BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+     //   BottomNavigationViewHelper.disableShiftMode(navigation);
+     //   navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // Will delete this stuff later
     /*    final ListView listView = (ListView) findViewById(R.id.listView);
@@ -160,6 +223,23 @@ public class HomeActivity extends AppCompatActivity {
         })
         */
         }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        homeFragment = new HomeFragment();
+        myHangoutsFragment = new MyHangoutsFragment();
+        createHangoutFragment = new CreateHangoutFragment();
+        notificationsFragment = new NotificationsFragment();
+        profileFragment = new ProfileFragment();
+        adapter.addFragment(homeFragment);
+        adapter.addFragment(myHangoutsFragment);
+        adapter.addFragment(createHangoutFragment);
+        adapter.addFragment(notificationsFragment);
+        adapter.addFragment(profileFragment);
+        viewPager.setAdapter(adapter);
+
+    }
+
 }
 
 

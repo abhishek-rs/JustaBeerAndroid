@@ -16,6 +16,10 @@
     <string name="card_content">Test description</string>
     <string name="card_seemorebutton">See more</string>
     <string name="placeholder">Placeholder</string>
+    <!--Hangouts-->
+    <string name="hangouts_tab1">Joining</string>
+    <string name="hangouts_tab2">Pending</string>
+    <string name="hangouts_tab3">Hosting</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

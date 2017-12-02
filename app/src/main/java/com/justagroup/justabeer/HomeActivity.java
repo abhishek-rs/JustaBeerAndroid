@@ -22,6 +22,8 @@ import android.support.v7.widget.CardView;
 
 import java.lang.reflect.Field;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,6 +45,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         ProfileFragment.OnFragmentInteractionListener
 {
     private ViewPager viewPager;
+    private FirebaseAuth mAuth;
 
     HomeFragment homeFragment;
     MyHangoutsFragment myHangoutsFragment;
@@ -60,7 +63,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        mAuth = FirebaseAuth.getInstance();
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         final BottomNavigationViewEx bnve = (BottomNavigationViewEx) findViewById(R.id.bnve);
@@ -223,6 +226,13 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         })
         */
         }
+
+    public void onStart(){
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        Log.e("User loggged in: ", currentUser.getEmail());
+    }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());

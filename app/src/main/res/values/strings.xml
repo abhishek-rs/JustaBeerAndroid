@@ -46,4 +46,6 @@
     <string name="drawer_close">Close</string>
 
     <string name="web_client_id">Include your web client id here</string>
+    <string name="profile_edit">Edit</string>
+
 </resources>

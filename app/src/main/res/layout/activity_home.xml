@@ -11,7 +11,7 @@
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
         android:id="@+id/bnve"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100px"
         android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/colorPrimary"

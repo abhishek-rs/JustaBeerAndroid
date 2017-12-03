@@ -10,11 +10,74 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Create fragment" />
 
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Description" />
+
+        <EditText
+            android:id="@+id/editText3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="Date"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/editText4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="Start time"
+            android:inputType="time" />
+        <EditText
+            android:id="@+id/editText5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="End time"
+            android:inputType="time" />
+        <EditText
+            android:id="@+id/editText6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Location" />
+
+        <Spinner
+            android:id="@+id/SpinnerFeedbackType"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/eventtypelist"
+            android:prompt="@string/eventtype">
+        </Spinner>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_margin="15dp"
+            android:background="@color/colorPrimary"
+            android:bottomLeftRadius="10dp"
+            android:bottomRightRadius="10dp"
+            android:text="@string/create_hangout"
+            android:textColor="#FFFFFF"
+            android:topLeftRadius="10dp"
+            android:topRightRadius="10dp" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_margin="15dp"
+            android:background="@color/colorPrimary"
+            android:bottomLeftRadius="10dp"
+            android:bottomRightRadius="10dp"
+            android:text="@string/cancel_hangout"
+            android:textColor="#FFFFFF"
+            android:topLeftRadius="10dp"
+            android:topRightRadius="10dp" />
     </LinearLayout>
 
 </FrameLayout>

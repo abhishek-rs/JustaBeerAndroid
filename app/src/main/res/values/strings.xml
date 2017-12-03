@@ -27,4 +27,17 @@
     <string name="action_settings">Settings</string>
     <!-- Profile -->
     <string name="profile_edit">Edit</string>
+    <!-- Create Hangout -->
+    <string name="create_hangout">Create hangout</string>
+    <string name="cancel_hangout">Cancel hangout</string>
+    <string name="eventtype">Beer</string>
+    <string name="eventtype2">Coffee</string>
+    <string name="eventtype3">Food</string>
+    <!--Other string resources also defined in this file… -->
+    <string-array name="eventtypelist">
+        <item>@string/eventtype</item>
+        <item>@string/eventtype2</item>
+        <item>@string/eventtype3</item>
+    </string-array>
+
 </resources>

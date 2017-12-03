@@ -32,6 +32,7 @@ public class CreateHangoutFragment extends Fragment {
 
     public CreateHangoutFragment() {
         // Required empty public constructor
+
     }
 
     /**
@@ -91,6 +92,8 @@ public class CreateHangoutFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

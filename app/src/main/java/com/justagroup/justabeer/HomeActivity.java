@@ -8,6 +8,7 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -63,6 +64,9 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
+        final ActionBar ab = getSupportActionBar();
+        ab.setTitle("JUST A BEER");
+
         final BottomNavigationViewEx bnve = (BottomNavigationViewEx) findViewById(R.id.bnve);
         bnve.enableAnimation(false);
         bnve.enableShiftingMode(false);
@@ -79,22 +83,27 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
                                 //mTextMessage.setText(R.string.title_home);
                                 //mCardView.
                                 viewPager.setCurrentItem(0);
+                                ab.setTitle("JUST A BEER");//@ string not working here
                                 return true;
                             case R.id.navigation_myhangouts:
                                 //mTextMessage.setText(R.string.title_myhangouts);
                                 viewPager.setCurrentItem(1);
+                                ab.setTitle("MY HANGOUTS");
                                 return true;
                             case R.id.navigation_addhangout:
                                 //mTextMessage.setText(R.string.title_addhangout);
                                 viewPager.setCurrentItem(2);
+                                ab.setTitle("CREATE HANGOUT");
                                 return true;
                             case R.id.navigation_notifications:
                                 //mTextMessage.setText(R.string.title_notifications);
                                 viewPager.setCurrentItem(3);
+                                ab.setTitle("NOTIFICATIONS");
                                 return true;
                             case R.id.navigation_profile:
                                 viewPager.setCurrentItem(4);
                                 //mTextMessage.setText(R.string.title_profile);
+                                ab.setTitle("PROFILE");
                                 return true;
                         }
                         return false;
@@ -127,6 +136,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
             public void onPageScrollStateChanged(int state) {
 
             }
+
         });
 
         setupViewPager(viewPager);

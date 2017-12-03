@@ -8,11 +8,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.text.InputFilter;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -79,6 +82,19 @@ public class CreateHangoutFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_create_hangout, container, false);
 
         /*------- EVENT TYPE ----------
+        ImageView beer = (ImageView) view.findViewById(R.id.beerIcon);
+        ImageView coffee = (ImageView) view.findViewById(R.id.coffeeIcon);
+        ImageView food = (ImageView) view.findViewById(R.id.foodIcon);
+
+        RadioGroup eventTypeRadioGroup = (RadioGroup) view.findViewById(R.id.eventTypeRadio);
+        RadioButton radio1 = view.findViewById(R.id.beerRadio);
+        eventTypeRadioGroup.addView(radio1);
+        RadioButton radio2 = view.findViewById(R.id.coffeeRadio);
+        eventTypeRadioGroup.addView(radio2);
+        RadioButton radio3 = view.findViewById(R.id.foodRadio);
+        eventTypeRadioGroup.addView(radio3);
+
+        /*
         //init event type radio group
         RadioGroup eventTypeRadioGroup = (RadioGroup) view.findViewById(R.id.eventTypeRadio);
         final String[] eventNames = new String[] {"Beer","Food","Sports"};
@@ -109,6 +125,17 @@ public class CreateHangoutFragment extends Fragment {
                 }
             }
         });*/
+        //---------- TIME ------------
+
+
+        //-------- LOCATION ----------
+
+
+        //-------- DESCRIPTION ----------
+        /*EditText description = (EditText) view.findViewById(R.id.descriptionText);
+        description.setFilters(new InputFilter[] {new InputFilter.LengthFilter(200)});
+        */
+
 
         return view;
 

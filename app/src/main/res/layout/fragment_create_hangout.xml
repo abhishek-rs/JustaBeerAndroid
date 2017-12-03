@@ -13,8 +13,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="40dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="40dp">
 
             <!-- WHAT: event type -->
             <TextView
@@ -28,33 +28,82 @@
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
-            <RadioGroup
-                android:id="@+id/eventTypeRadio"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:orientation='horizontal'>
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background"
+                android:orientation="vertical"
+                android:paddingTop="5dp">
 
-                <RadioButton
-                    android:id="@+id/beerRadio"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/eventtype" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/foodRadio"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/eventtype2" />
+                    <ImageView
+                        android:id="@+id/beerIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/pint" />
 
-                <RadioButton
-                    android:id="@+id/sportsRadio"
-                    android:layout_width="120dp"
+                    <ImageView
+                        android:id="@+id/coffeeIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/coffee" />
+
+                    <ImageView
+                        android:id="@+id/foodIcon"
+                        android:layout_width="120dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/food" />
+
+                </LinearLayout>
+
+                <RadioGroup
+                    android:id="@+id/eventTypeRadio"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/eventtype3" />
-            </RadioGroup>
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/beerRadio"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:paddingLeft="20dp"
+                        android:text="@string/eventtype" />
+
+                    <RadioButton
+                        android:id="@+id/coffeeRadio"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingLeft="20dp"
+                        android:text="@string/eventtype2" />
+
+                    <RadioButton
+                        android:id="@+id/foodRadio"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="20dp"
+                        android:text="@string/eventtype3" />
+
+                </RadioGroup>
+            </LinearLayout>
 
             <!--
             <Spinner
@@ -81,37 +130,55 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/clock" />
 
                 <EditText
-                    android:layout_width="23dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:background="@android:drawable/btn_dropdown"
                     android:ems="10"
-                    android:inputType="time" />
+                    android:inputType="time"
+                    android:text="18"
+                    tools:text="18" />
 
                 <TextView
                     android:id="@+id/textView4"
-                    android:layout_width="5dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="-"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    tools:text="-" />
 
                 <EditText
                     android:id="@+id/editText5"
-                    android:layout_width="23dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:background="@android:drawable/btn_dropdown"
                     android:ems="10"
-                    android:inputType="time" />
+                    android:inputType="time"
+                    android:text="20"
+                    tools:text="20" />
 
             </LinearLayout>
 
@@ -126,20 +193,25 @@
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
-            <AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@android:drawable/btn_dropdown"
-                android:text="Current Location" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
             </LinearLayout>
+
+            <EditText
+                android:id="@+id/eventPlace"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@android:color/white"
+                android:ems="10"
+                android:hint="current location"
+                android:inputType="text|textPersonName"
+                android:padding="5dp" />
 
             <TextView
                 android:id="@+id/time2"
@@ -153,10 +225,11 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/descriptionText"
                 android:layout_width="match_parent"
                 android:layout_height="74dp"
-                android:layout_margin="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="@color/cardview_light_background"
                 android:ems="10"

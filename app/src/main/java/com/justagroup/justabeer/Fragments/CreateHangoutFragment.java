@@ -1,12 +1,16 @@
 package com.justagroup.justabeer.Fragments;
 
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TimePicker;
 
 import com.justagroup.justabeer.R;
 
@@ -32,6 +36,7 @@ public class CreateHangoutFragment extends Fragment {
 
     public CreateHangoutFragment() {
         // Required empty public constructor
+
     }
 
     /**
@@ -91,6 +96,8 @@ public class CreateHangoutFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

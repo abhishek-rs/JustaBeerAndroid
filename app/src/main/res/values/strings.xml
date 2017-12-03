@@ -50,4 +50,52 @@
     <string name="web_client_id">Include your web client id here</string>
     <string name="profile_edit">Edit</string>
 
+    <!-- Create Hangout -->
+    <string name="create_hangout">Create hangout</string>
+    <string name="cancel_hangout">Cancel hangout</string>
+    <string name="eventtype">Beer</string>
+    <string name="eventtype2">Coffee</string>
+    <string name="eventtype3">Food</string>
+    <string name="addType">WHAT</string>
+    <string name="addTime">WHEN</string>
+    <string name="addPlace">WHERE</string>
+    <string name="addDescription">WHY</string>
+
+    <!--Other string resources also defined in this file… -->
+    <string-array name="eventtypelist">
+        <item>@string/eventtype</item>
+        <item>@string/eventtype2</item>
+        <item>@string/eventtype3</item>
+    </string-array>
+
+    <string-array name="eventTime">
+        <item name="18">18</item>
+        <item name="19">19</item>
+        <item name="20">20</item>
+        <item name="21">21</item>
+        <item name="22">23</item>
+        <item name="00">00</item>
+        <item name="01">01</item>
+        <item name="02">02</item>
+        <item name="03">03</item>
+        <item name="04">04</item>
+        <item name="05">05</item>
+        <item name="06">06</item>
+        <item name="07">07</item>
+        <item name="08">08</item>
+        <item name="09">09</item>
+        <item name="10">10</item>
+        <item name="11">11</item>
+        <item name="12">12</item>
+        <item name="13">13</item>
+        <item name="14">15</item>
+        <item name="16">16</item>
+        <item name="17">17</item>
+    </string-array>
+
+    <string-array name="eventPlace">
+        <item name="current">Current location</item>
+        <item name="other">Select from map...</item>
+    </string-array>
+
 </resources>

@@ -8,6 +8,7 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -65,6 +66,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         setContentView(R.layout.activity_home);
         mAuth = FirebaseAuth.getInstance();
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.abs_layout);
 
         final BottomNavigationViewEx bnve = (BottomNavigationViewEx) findViewById(R.id.bnve);
         bnve.enableAnimation(false);
@@ -72,6 +75,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         bnve.enableItemShiftingMode(false);
         bnve.setTextVisibility(false);
         bnve.setIconSize(32, 32);
+        bnve.setItemHeight(100);
 
         bnve.setOnNavigationItemSelectedListener(
                 new BottomNavigationViewEx.OnNavigationItemSelectedListener(){

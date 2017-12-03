@@ -1,83 +1,218 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.justagroup.justabeer.Fragments.CreateHangoutFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
+        <!-- Hangout Setting Fields-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="40dp"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Description" />
+            <!-- WHAT: event type -->
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:text="@string/addType"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/editText3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:text="Date"
-            android:inputType="date" />
+            <RadioGroup
+                android:id="@+id/eventTypeRadio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:orientation='horizontal'>
 
-        <EditText
-            android:id="@+id/editText4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:text="Start time"
-            android:inputType="time" />
-        <EditText
-            android:id="@+id/editText5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:text="End time"
-            android:inputType="time" />
-        <EditText
-            android:id="@+id/editText6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Location" />
+                <RadioButton
+                    android:id="@+id/beerRadio"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/eventtype" />
 
-        <Spinner
-            android:id="@+id/SpinnerFeedbackType"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/eventtypelist"
-            android:prompt="@string/eventtype">
-        </Spinner>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_margin="15dp"
-            android:background="@color/colorPrimary"
-            android:bottomLeftRadius="10dp"
-            android:bottomRightRadius="10dp"
-            android:text="@string/create_hangout"
-            android:textColor="#FFFFFF"
-            android:topLeftRadius="10dp"
-            android:topRightRadius="10dp" />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_margin="15dp"
-            android:background="@color/colorPrimary"
-            android:bottomLeftRadius="10dp"
-            android:bottomRightRadius="10dp"
-            android:text="@string/cancel_hangout"
-            android:textColor="#FFFFFF"
-            android:topLeftRadius="10dp"
-            android:topRightRadius="10dp" />
-    </LinearLayout>
+                <RadioButton
+                    android:id="@+id/foodRadio"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eventtype2" />
+
+                <RadioButton
+                    android:id="@+id/sportsRadio"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eventtype3" />
+            </RadioGroup>
+
+            <!--
+            <Spinner
+                android:id="@+id/SpinnerFeedbackType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/btn_dropdown"
+                android:entries="@array/eventtypelist"
+                android:prompt="@string/eventtype"></Spinner>-->
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:text="WHEN"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="23dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:ems="10"
+                    android:inputType="time" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="-"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/editText5"
+                    android:layout_width="23dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:ems="10"
+                    android:inputType="time" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:text="@string/addPlace"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/btn_dropdown"
+                android:text="Current Location" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/time2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:text="@string/addDescription"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editText4"
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background"
+                android:ems="10"
+                android:gravity="top|left"
+                android:hint="add optional description"
+                android:inputType="textMultiLine"
+                android:padding="5dp" />
+
+            <!--WHEN: time of the event-->
+
+            <!-- WHERE: place of event -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="0dp"
+                android:gravity="right"
+                android:text="200 characters left" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_margin="15dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:bottomLeftRadius="10dp"
+                    android:bottomRightRadius="10dp"
+                    android:text="@string/cancel_hangout"
+                    android:textColor="#FFFFFF"
+                    android:topLeftRadius="10dp"
+                    android:topRightRadius="10dp" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_margin="15dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:bottomLeftRadius="10dp"
+                    android:bottomRightRadius="10dp"
+                    android:text="@string/create_hangout"
+                    android:textColor="#FFFFFF"
+                    android:topLeftRadius="10dp"
+                    android:topRightRadius="10dp" />
+
+            </LinearLayout>
+        </LinearLayout><!--Hangout settings end-->
+
+    </ScrollView>
+
+    <!--Time picker that shows up only when time input clicked-->
 
 </FrameLayout>

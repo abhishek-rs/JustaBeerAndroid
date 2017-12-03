@@ -48,7 +48,6 @@
                             android:paddingHorizontal="4sp"
                             android:paddingVertical="4sp"
                             android:text="Beer @ Södermalm 19-20"
-                            android:textAppearance="@android:style/TextAppearance.Material.Widget.ActionBar.Menu"
                             android:textColor="#FFFFFF"
                             android:textStyle="bold"
                             android:visibility="visible" />
@@ -140,7 +139,6 @@
                             android:paddingHorizontal="4sp"
                             android:paddingVertical="4sp"
                             android:text="Beer @ Södermalm 19-20"
-                            android:textAppearance="@android:style/TextAppearance.Material.Widget.ActionBar.Menu"
                             android:textColor="#FFFFFF"
                             android:textStyle="bold"
                             android:visibility="visible" />
@@ -166,8 +164,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
-                            android:text="Anyone up for a beer?"
-                            android:textSize="18sp" />
+                            android:text="Anyone up for a beer?" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

@@ -3,10 +3,20 @@ package com.justagroup.justabeer.Fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabItem;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.justagroup.justabeer.R;
 
@@ -62,11 +72,59 @@ public class MyHangoutsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_hangouts, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_my_hangouts, container, false);
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        TabLayout.Tab joiningTab = tabLayout.getTabAt(0);
+        TabLayout.Tab pendingTab = tabLayout.getTabAt(1);
+        TabLayout.Tab hostingTab = tabLayout.getTabAt(2);
+
+        final LinearLayout joiningContent = (LinearLayout) view.findViewById(R.id.joiningContent);
+        final LinearLayout pendingContent = (LinearLayout) view.findViewById(R.id.pendingContent);
+        final LinearLayout hostingContent = (LinearLayout) view.findViewById(R.id.hostingContent);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.d("testing", "selected tab:" + tab.getText());
+                if (tab.getText().equals("JOINING")) {
+                    joiningContent.setVisibility(View.VISIBLE);
+                    pendingContent.setVisibility(View.GONE);
+                    hostingContent.setVisibility(View.GONE);
+                } else if (tab.getText().equals("PENDING")) {
+                    joiningContent.setVisibility(View.GONE);
+                    pendingContent.setVisibility(View.VISIBLE);
+                    hostingContent.setVisibility(View.GONE);
+                } else {
+                    joiningContent.setVisibility(View.GONE);
+                    pendingContent.setVisibility(View.GONE);
+                    hostingContent.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Log.d("testing", "unselected tab:" + tab.getText());
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                Log.d("testing", "reselected tab:" + tab.getText());
+            }
+        });
+
+        return view;
     }
+
+    /*Tab logic
+    public void onClick(View v) {
+        v.findViewById(R.id.joiningContent).setVisibility(View.VISIBLE);
+        v.findViewById(R.id.pendingContent).setVisibility(View.VISIBLE);
+        v.findViewById(R.id.hostingContent).setVisibility(View.VISIBLE);
+    }*/
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

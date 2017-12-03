@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class HangoutActivity extends AppCompatActivity {
 
@@ -24,6 +25,14 @@ public class HangoutActivity extends AppCompatActivity {
         toolbar.setTitle("Beer with Andrea @ 7PM");
         setSupportActionBar(toolbar);
         ImageView backdrop = findViewById(R.id.backdrop);
+        TextView date = findViewById(R.id.hangout_date);
+        date.setText("7-11 PM");
+        TextView place = findViewById(R.id.hangout_place);
+        place.setText("Sodermalm, Stockholm");
+        TextView people = findViewById(R.id.hangout_people);
+        people.setText("Andrea");
+        TextView type = findViewById(R.id.hangout_type);
+        type.setText("Beer");
 
         backdrop.setImageResource(R.drawable.bar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

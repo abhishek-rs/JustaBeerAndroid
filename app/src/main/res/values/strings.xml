@@ -1,10 +1,13 @@
 <resources>
+
     <string name="app_name">Just A Beer</string>
-    <string name="title_home">Home</string>
-    <string name="title_myhangouts">My hangouts</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_profile">Profile</string>
-    <string name="title_addhangout">Add hangout</string>
+
+    <string name="title_home">JUST A BEER</string>
+    <string name="title_myhangouts">MY HANGOUTS</string>
+    <string name="title_notifications">NOTIFICATIONS</string>
+    <string name="title_profile">PROFILE</string>
+    <string name="title_addhangout">CREATE HANGOUT</string>
+    <!-- card stuff-->
     <string name="cardview_contents">This is a CardView widget. CardView widgets can have
         shadows and rounded corners.
         \n\nTo create a card with a shadow, use the <font fgcolor="#FFFFFFFF">android:elevation</font>
@@ -17,9 +20,9 @@
     <string name="card_seemorebutton">See more</string>
     <string name="placeholder">Placeholder</string>
     <!--Hangouts-->
-    <string name="hangouts_tab1">Joining</string>
-    <string name="hangouts_tab2">Pending</string>
-    <string name="hangouts_tab3">Hosting</string>
+    <string name="hangouts_tab1">JOINING</string>
+    <string name="hangouts_tab2">PENDING</string>
+    <string name="hangouts_tab3">HOSTING</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -82,9 +82,13 @@
                                 android:textStyle="bold"
                                 android:visibility="visible" />
 
-                            <com.google.android.gms.maps.MapView
+                            <ImageView
+                                android:id="@+id/cbPicView"
                                 android:layout_width="match_parent"
-                                android:layout_height="153dp" />
+                                android:layout_height="0dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_weight="3"
+                                android:src="@drawable/map" />
 
                             <Button
                                 android:id="@+id/hangoutCardProfile"
@@ -183,9 +187,17 @@
                                 android:textStyle="bold"
                                 android:visibility="visible" />
 
-                            <com.google.android.gms.maps.MapView
+                            <!--<com.google.android.gms.maps.MapView
                                 android:layout_width="match_parent"
-                                android:layout_height="153dp" />
+                                android:layout_height="153dp" />-->
+
+                            <ImageView
+                                android:id="@+id/cbPicView1"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_weight="3"
+                                android:src="@drawable/map" />
 
                             <Button
                                 android:id="@+id/hangoutCard3Profile"
@@ -204,7 +216,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:padding="10dp"
-                                android:text="Anyone up for a beer?"
+                                android:text="Let's party!"
                                 android:textSize="18sp" />
 
                             <LinearLayout
@@ -283,9 +295,17 @@
                                 android:textStyle="bold"
                                 android:visibility="visible" />
 
-                            <com.google.android.gms.maps.MapView
+                            <!--<com.google.android.gms.maps.MapView
                                 android:layout_width="match_parent"
-                                android:layout_height="153dp" />
+                                android:layout_height="153dp" />-->
+
+                            <ImageView
+                                android:id="@+id/cbPicView2"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_weight="3"
+                                android:src="@drawable/map" />
 
                             <Button
                                 android:layout_width="match_parent"
@@ -303,7 +323,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:padding="10dp"
-                                android:text="Anyone up for a beer?"
+                                android:text="Anyone interested in Italy game?"
                                 android:textSize="18sp" />
 
                             <LinearLayout

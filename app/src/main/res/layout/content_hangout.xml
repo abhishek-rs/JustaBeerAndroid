@@ -6,8 +6,14 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.justagroup.justabeer.HangoutActivity"
-    tools:showIn="@layout/activity_hangout">
+    tools:showIn="@layout/activity_hangout"
+    >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
 
     <TableLayout
         android:layout_width="match_parent"
@@ -17,15 +23,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="32dp"
-            android:layout_marginVertical="16dp">
+            android:layout_marginVertical="8dp">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSecondary"
+                android:background="@color/background"
                 android:cropToPadding="false"
-                android:minHeight="48dp"
-                android:minWidth="48dp"
+                android:minHeight="32dp"
+                android:minWidth="32dp"
                 android:padding="4dp"
                 app:srcCompat="@drawable/ic_date_range_black_24dp" />
 
@@ -43,13 +49,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="32dp"
-            android:layout_marginVertical="16dp">
+            android:layout_marginVertical="8dp">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSecondary"
-                android:minHeight="48dp"
-                android:minWidth="48dp"
+                android:background="@color/background"
+                android:minHeight="32dp"
+                android:minWidth="32dp"
                 android:padding="4dp"
                 app:srcCompat="@drawable/ic_location_on_black_24dp"/>
             <TextView
@@ -67,14 +73,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="32dp"
-            android:layout_marginVertical="16dp">
+            android:layout_marginVertical="8dp">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSecondary"
-                android:minHeight="48dp"
-                android:minWidth="48dp"
+                android:background="@color/background"
+                android:minHeight="32dp"
+                android:minWidth="32dp"
                 android:padding="4dp"
                 app:srcCompat="@drawable/ic_local_cafe_black_24dp" />
 
@@ -93,13 +99,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="32dp"
-            android:layout_marginVertical="16dp">
+            android:layout_marginVertical="8dp">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSecondary"
-                android:minHeight="48dp"
-                android:minWidth="48dp"
+                android:background="@color/background"
+                android:minHeight="32dp"
+                android:minWidth="32dp"
                 android:padding="4dp"
                 app:srcCompat="@drawable/ic_people_black_24dp"/>
             <TextView
@@ -114,4 +120,220 @@
         </TableRow>
 
     </TableLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/commentTabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/commentsHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="@string/hangoutdetail_tabComment" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/messagesHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hangoutdetail_tabMessages" />
+
+        </android.support.design.widget.TabLayout>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp">
+
+            <LinearLayout
+                android:id="@+id/contentWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/comments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        app:cardBackgroundColor="@color/background"
+                        app:contentPadding="4dp">
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_margin="4dp">
+
+                            <ImageView
+                                android:id="@+id/commentimage1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="@color/colorGray"
+                                android:layout_gravity="left"
+                                android:layout_weight="3"
+                                android:layout_margin="5dp"
+                                app:srcCompat="@drawable/ic_person_black_24dp" />
+
+                            <TextView
+                                android:layout_toRightOf="@id/commentimage1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="Anyone up for a beer?"
+                                android:textSize="14sp" />
+
+                        </RelativeLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        app:cardBackgroundColor="@color/background"
+                        app:contentPadding="4dp">
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_margin="4dp">
+
+                            <ImageView
+                                android:id="@+id/commentimage2"
+                                android:layout_width="wrap_content"
+                                android:background="@color/colorGray"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="left"
+                                android:layout_weight="3"
+                                android:layout_margin="5dp"
+                                app:srcCompat="@drawable/ic_person_black_24dp" />
+
+                            <TextView
+                                android:layout_toRightOf="@id/commentimage2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="Yesss!"
+                                android:textSize="14sp" />
+
+                        </RelativeLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        app:cardBackgroundColor="@color/background"
+                        app:contentPadding="4dp">
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_margin="4dp">
+
+                            <ImageView
+                                android:id="@+id/commentimage3"
+                                android:layout_width="wrap_content"
+                                android:background="@color/colorGray"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="left"
+                                android:layout_weight="3"
+                                android:layout_margin="5dp"
+                                app:srcCompat="@drawable/ic_person_black_24dp" />
+
+                            <TextView
+                                android:layout_toRightOf="@id/commentimage3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="Hellooo?"
+                                android:textSize="14sp" />
+
+                        </RelativeLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                    <LinearLayout
+                        android:id="@+id/layout_chatbox"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:minHeight="48dp"
+                        android:background="#ffffff"
+                        android:layout_width="match_parent"
+                        >
+
+                        <EditText
+                            android:id="@+id/edittext_chatbox"
+                            android:hint="Enter message"
+                            android:background="@android:color/transparent"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:maxLines="6"/>
+
+                        <Button
+                            android:id="@+id/button_chatbox_send"
+                            android:text="SEND"
+                            android:textSize="14dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:layout_width="64dp"
+                            android:layout_height="48dp"
+                            android:gravity="center"
+                            android:layout_gravity="bottom" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/messages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <android.support.v7.widget.CardView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:text="This section will be available when your request to join the hangout is accepted"
+                                android:textSize="18sp" />
+
+                        </LinearLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+                <!-- tab content ends -->
+            </LinearLayout> <!--tab content wrapper-->
+        </ScrollView>
+    </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -1,12 +1,26 @@
 package com.justagroup.justabeer.Fragments;
 
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.text.InputFilter;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.justagroup.justabeer.R;
 
@@ -32,6 +46,7 @@ public class CreateHangoutFragment extends Fragment {
 
     public CreateHangoutFragment() {
         // Required empty public constructor
+
     }
 
     /**
@@ -64,8 +79,66 @@ public class CreateHangoutFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_hangout, container, false);
+        final View view = inflater.inflate(R.layout.fragment_create_hangout, container, false);
+
+        /*------- EVENT TYPE ----------
+        ImageView beer = (ImageView) view.findViewById(R.id.beerIcon);
+        ImageView coffee = (ImageView) view.findViewById(R.id.coffeeIcon);
+        ImageView food = (ImageView) view.findViewById(R.id.foodIcon);
+
+        RadioGroup eventTypeRadioGroup = (RadioGroup) view.findViewById(R.id.eventTypeRadio);
+        RadioButton radio1 = view.findViewById(R.id.beerRadio);
+        eventTypeRadioGroup.addView(radio1);
+        RadioButton radio2 = view.findViewById(R.id.coffeeRadio);
+        eventTypeRadioGroup.addView(radio2);
+        RadioButton radio3 = view.findViewById(R.id.foodRadio);
+        eventTypeRadioGroup.addView(radio3);
+
+        /*
+        //init event type radio group
+        RadioGroup eventTypeRadioGroup = (RadioGroup) view.findViewById(R.id.eventTypeRadio);
+        final String[] eventNames = new String[] {"Beer","Food","Sports"};
+        RadioButton radio1 = view.findViewById(R.id.beerRadio);
+        eventTypeRadioGroup.addView(radio1);
+        RadioButton radio2 = view.findViewById(R.id.foodRadio);
+        eventTypeRadioGroup.addView(radio2);
+        RadioButton radio3 = view.findViewById(R.id.sportsRadio);
+        eventTypeRadioGroup.addView(radio3);
+
+        eventTypeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int ind) {
+                Log.d("event type index", ind + "");
+                RadioButton button = null;
+
+                for (int i = 0; i < eventNames.length; ++i) {
+                    if (ind == i) {
+                        //button selected
+                        button = (RadioButton) view.findViewById(ind);
+                        //button = (RadioButton) radioGroup.getChildAt(ind);
+                        button.setChecked(true);
+                    } else {
+                        //buttons that are not selected
+                        button = (RadioButton) view.findViewById(ind);
+                        button.setChecked(false);
+                    }
+                }
+            }
+        });*/
+        //---------- TIME ------------
+
+
+        //-------- LOCATION ----------
+
+
+        //-------- DESCRIPTION ----------
+        /*EditText description = (EditText) view.findViewById(R.id.descriptionText);
+        description.setFilters(new InputFilter[] {new InputFilter.LengthFilter(200)});
+        */
+
+
+        return view;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,6 +164,8 @@ public class CreateHangoutFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

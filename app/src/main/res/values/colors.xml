@@ -3,11 +3,12 @@
     <color name="colorPrimary">#37474F</color>
     <color name="colorPrimaryDark">#263238</color>
     <color name="colorAccent">#FFB300</color>
+    <color name="dark">#222</color>
     <color name="colorGray">#cccccc</color>
     <color name="background">#ffee93</color>
     <color name="ok">#b4e288</color>
     <color name="danger">#ff5252</color>
-    <color name="colorSecondary">#FFC107</color>
+    <color name="colorSecondary">#ffc107</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>

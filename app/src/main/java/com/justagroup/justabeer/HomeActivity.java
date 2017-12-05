@@ -24,6 +24,8 @@ import android.support.v7.widget.CardView;
 
 import java.lang.reflect.Field;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -82,11 +84,13 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         db = FirebaseDatabase.getInstance();
         FirebaseUser curr = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference hangoutsRef = db.getReference("hangouts");
+        List<Hangout> data = getHangoutsFromDb(hangoutsRef);
+
         db.getReference("users").orderByChild("email").equalTo(curr.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User u = dataSnapshot.getChildren().iterator().next().getValue(User.class);
-                pushDatatoDb(hangoutsRef, u);
+            //    pushDatatoDb(hangoutsRef, u);
             }
 
             @Override
@@ -178,13 +182,48 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         setupViewPager(viewPager);
     }
 
+    public List<Hangout> getHangoutsFromDb(DatabaseReference ref){
+        final List<Hangout> hgs = new ArrayList<Hangout>();
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Hangout hg = dataSnapshot.getValue(Hangout.class);
+                hgs.add(hg);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Read from firebase", "Does not work man!");
+            }
+        });
+        return hgs;
+    }
+
     public void pushDatatoDb(DatabaseReference ref, User u){
         Calendar cal = Calendar.getInstance(); // creates calendar
-        cal.setTime(new Date()); // sets calendar time/date
-        cal.add(Calendar.HOUR_OF_DAY, 1); // adds one hour
+        cal.setTime(new Date());
+        cal.add(Calendar.HOUR_OF_DAY, 3); // adds one hour
         Date fromTime = cal.getTime();
-        cal.add(Calendar.HOUR_OF_DAY, 4);
+        cal.add(Calendar.HOUR_OF_DAY, 6);
         Date toTime = cal.getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        String strFromDate = dateFormat.format(fromTime).toString();
+        String strToDate = dateFormat.format(toTime).toString();
         DatabaseReference newRef = ref.push();
         List<String> pendingUsers = new ArrayList<String>();
         pendingUsers.add("AFO0hncym7cZ2qZS1pA7AZyYdzW2");
@@ -197,11 +236,12 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         List<String> privateMessageIds = new ArrayList<String>();
         privateMessageIds.add("");
         Hangout hg1 = new Hangout(newRef.getKey(),
-                                    "Beer with Buds",
-                                        fromTime,
-                                        toTime,
+                                    "Beer with people",
+                                        strFromDate,
+                                        strToDate,
                                     "Alright Alright Alright!",
-                                        new LatLng(59.3123021,18.0314929),
+                                        59.3123021,
+                                        18.0314929,
                                         Hangout.EventType.Beer,
                                         u.getId(),
                                         pendingUsers,

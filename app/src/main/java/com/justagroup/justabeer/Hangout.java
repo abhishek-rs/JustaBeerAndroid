@@ -19,12 +19,15 @@ public class Hangout implements Parcelable {
         Beer, Food, Sports
     }
 
+    public Hangout(){}
+
     String id;
     String title;
-    Date fromTime;
-    Date toTime;
+    String fromTime;
+    String toTime;
     String description;
-    LatLng location;
+    Double lat;
+    Double lng;
     EventType type;
     String owner;
     List<String> pendingUsers;
@@ -39,10 +42,11 @@ public class Hangout implements Parcelable {
 
     public Hangout(String id,
             String title,
-            Date fromTime,
-            Date toTime,
+            String fromTime,
+            String toTime,
             String description,
-            LatLng location,
+            Double lat,
+            Double lng,
             EventType type,
             String owner,
             List<String> pendingUsers,
@@ -55,7 +59,8 @@ public class Hangout implements Parcelable {
         this.fromTime = fromTime;
         this.toTime = toTime;
         this.description = description;
-        this.location = location;
+        this.lat = lat;
+        this.lng = lng;
         this.type = type;
         this.owner = owner;
         this.pendingUsers = pendingUsers;
@@ -69,10 +74,11 @@ public class Hangout implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(title);
-        dest.writeLong(fromTime.getTime());
-        dest.writeLong(toTime.getTime());
+        dest.writeString(fromTime);
+        dest.writeString(toTime);
         dest.writeString(description);
-        dest.writeParcelable(location, flags);
+        dest.writeDouble(lat);
+        dest.writeDouble(lng);
         dest.writeString(type.name());
         dest.writeString(owner);
         dest.writeList(pendingUsers);
@@ -96,10 +102,11 @@ public class Hangout implements Parcelable {
     public Hangout(Parcel in) {
         id = in.readString();
         title = in.readString();
-        fromTime = new Date(in.readLong());
-        toTime = new Date(in.readLong());
+        fromTime = in.readString();
+        toTime = in.readString();
         description = in.readString();
-        location = in.readParcelable(LatLng.class.getClassLoader());
+        lat = in.readDouble();
+        lng = in.readDouble();
         type = EventType.valueOf(in.readString());
         owner = in.readString();
         pendingUsers = (List<String>) in.readSerializable();
@@ -108,5 +115,43 @@ public class Hangout implements Parcelable {
         commentIds = (List<String>) in.readSerializable();
         privateMessageIds = (List<String>) in.readSerializable();
     }
+
+    public String getId() { return id; }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getFromTime() { return fromTime; }
+
+    public String getToTime() {
+        return toTime;
+    }
+
+    public String getDescription() { return description; }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public String getOwner() { return owner; }
+
+    public List<String> getPendingUsers() { return pendingUsers; }
+
+    public List<String> getConfirmedUsers() { return confirmedUsers; }
+
+    public List<String> getRejectedUsers() { return rejectedUsers; }
+
+    public List<String> getCommentIds() { return commentIds; }
+
+    public List<String> getPrivateMessageIds() { return privateMessageIds; }
 
 }

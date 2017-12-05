@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.support.v7.widget.CardView;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,6 +56,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
     NotificationsFragment notificationsFragment;
     ProfileFragment profileFragment;
     MenuItem prevMenuItem;
+    FirebaseDatabase db;
+
 
     @Override
     public void onFragmentInteraction(Uri uri){
@@ -68,6 +72,12 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.abs_layout);
+        db = FirebaseDatabase.getInstance();
+        final DatabaseReference hangoutsRef = db.getReference("hangouts");
+        pushDatatoDb(hangoutsRef);
+     //  Map<String, Object> user = new HashMap<>();
+     //   user.put("1", currentUser);
+
 
         final ActionBar ab = getSupportActionBar();
         ab.setTitle("JUST A BEER");
@@ -239,6 +249,10 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         })
         */
         }
+
+    public void pushDatatoDb(DatabaseReference ref){
+
+    }
 
     public void onStart(){
         super.onStart();

@@ -2,6 +2,8 @@ package com.justagroup.justabeer;
 
 import android.net.Uri;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.Date;
 import java.util.HashMap;
 
@@ -9,6 +11,7 @@ import java.util.HashMap;
  * Created by shekz on 02-12-2017.
  */
 
+@IgnoreExtraProperties
 public class User {
     private String id;
     private String fullName;
@@ -16,12 +19,12 @@ public class User {
     private String email;
     private Integer age;
     private String about;
-    private Date timestampJoined;
+    private String timestampJoined;
 
     public User() {
     }
 
-    public User(String id, String mFullName, String photo, String mEmail, Integer age, String about, Date timestampJoined) {
+    public User(String id, String mFullName, String photo, String mEmail, Integer age, String about, String timestampJoined) {
         this.id = id;
         this.fullName = mFullName;
         this.photo = photo;
@@ -37,9 +40,7 @@ public class User {
         return fullName;
     }
 
-    public String getPhoto() {
-        return photo;
-    }
+    public String getPhoto() { return photo; }
 
     public String getEmail() {
         return email;
@@ -53,7 +54,7 @@ public class User {
         return about;
     }
 
-    public Date getTimestampJoined() {
+    public String getTimestampJoined() {
         return timestampJoined;
     }
 }

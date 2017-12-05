@@ -8,6 +8,7 @@ import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by shekz on 22-11-2017.
@@ -26,11 +27,11 @@ public class Hangout implements Parcelable {
     LatLng location;
     EventType type;
     String owner;
-    ArrayList<String> pendingUsers;
-    ArrayList<String> confirmedUsers;
-    ArrayList<String> rejectedUsers;
-    ArrayList<String> commentIds;
-    ArrayList<String> privateMessageIds;
+    List<String> pendingUsers;
+    List<String> confirmedUsers;
+    List<String> rejectedUsers;
+    List<String> commentIds;
+    List<String> privateMessageIds;
 
     @Override public int describeContents() {
         return 0;
@@ -44,11 +45,11 @@ public class Hangout implements Parcelable {
             LatLng location,
             EventType type,
             String owner,
-            ArrayList<String> pendingUsers,
-            ArrayList<String> confirmedUsers,
-            ArrayList<String> rejectedUsers,
-            ArrayList<String> commentIds,
-            ArrayList<String> privateMessageIds)
+            List<String> pendingUsers,
+            List<String> confirmedUsers,
+            List<String> rejectedUsers,
+            List<String> commentIds,
+            List<String> privateMessageIds)
     {
         this.id = id;
         this.fromTime = fromTime;
@@ -74,11 +75,11 @@ public class Hangout implements Parcelable {
         dest.writeParcelable(location, flags);
         dest.writeString(type.name());
         dest.writeString(owner);
-        dest.writeSerializable(pendingUsers);
-        dest.writeSerializable(confirmedUsers);
-        dest.writeSerializable(rejectedUsers);
-        dest.writeSerializable(commentIds);
-        dest.writeSerializable(privateMessageIds);
+        dest.writeList(pendingUsers);
+        dest.writeList(confirmedUsers);
+        dest.writeList(rejectedUsers);
+        dest.writeList(commentIds);
+        dest.writeList(privateMessageIds);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator()
@@ -101,11 +102,11 @@ public class Hangout implements Parcelable {
         location = in.readParcelable(LatLng.class.getClassLoader());
         type = EventType.valueOf(in.readString());
         owner = in.readString();
-        pendingUsers = (ArrayList<String>) in.readSerializable();
-        confirmedUsers = (ArrayList<String>) in.readSerializable();
-        rejectedUsers = (ArrayList<String>) in.readSerializable();
-        commentIds = (ArrayList<String>) in.readSerializable();
-        privateMessageIds = (ArrayList<String>) in.readSerializable();
+        pendingUsers = (List<String>) in.readSerializable();
+        confirmedUsers = (List<String>) in.readSerializable();
+        rejectedUsers = (List<String>) in.readSerializable();
+        commentIds = (List<String>) in.readSerializable();
+        privateMessageIds = (List<String>) in.readSerializable();
     }
 
 }

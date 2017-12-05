@@ -24,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.justagroup.justabeer.HomeActivity;
 import com.justagroup.justabeer.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -91,7 +93,10 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser curr = FirebaseAuth.getInstance().getCurrentUser();
                             Uri photoUrl = curr.getPhotoUrl();
                             String photoUrlString = photoUrl != null ? photoUrl.toString() : "";
-                            User currentUser = new User(curr.getUid(), curr.getDisplayName(), photoUrlString, curr.getEmail(), 23, "", new Date());
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                            Date date = new Date();
+                            String strDate = dateFormat.format(date).toString();
+                            User currentUser = new User(curr.getUid(), curr.getDisplayName(), photoUrlString, curr.getEmail(), 23, "", strDate);
                             DatabaseReference ref = usersRef.push();
                             ref.setValue(currentUser);
                             Log.e("In login", currentUser.getEmail());

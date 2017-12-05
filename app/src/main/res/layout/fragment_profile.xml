@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="15dp"
-            android:layout_marginBottom="@dimen/activity_vertical_margin">
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            app:cardBackgroundColor="@color/cardBg">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -29,31 +31,31 @@
                     android:id="@+id/profileCardTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorSecondary"
+                    android:background="@color/cardHeaderBg"
                     android:capitalize="characters"
                     android:gravity="center"
                     android:padding="10dp"
                     android:paddingHorizontal="4sp"
                     android:paddingVertical="4sp"
-                    android:text="Girl 24"
-                    android:textColor="#FFFFFF"
+                    android:text="GIRL 24"
+                    android:textColor="@color/cardHeaderText"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="visible" />
-                    <!--android:textAppearance="@android:style/TextAppearance.Material.Widget.ActionBar.Menu" -->
-                    <!--my phone doesnt support the higher API needed for this hence for commenting out
+                <!--android:textAppearance="@android:style/TextAppearance.Material.Widget.ActionBar.Menu" -->
+                <!--my phone doesnt support the higher API needed for this hence for commenting out
                      uncomment to test if you have API21-->
 
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="204dp"
                     android:layout_height="179dp"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:layout_marginTop="25dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/beerlogo"
+                    android:src="@drawable/logo"
                     tools:layout_editor_absoluteX="55dp"
                     tools:layout_editor_absoluteY="130dp" />
 
@@ -63,26 +65,28 @@
                     android:orientation="horizontal">
 
                     <TextView
-                    android:id="@+id/Age"
-                    android:layout_width="180dp"
-                    android:layout_height="39dp"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="25dp"
-                    android:padding="10dp"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:text="Age" />
+                        android:id="@+id/Age"
+                        android:layout_width="180dp"
+                        android:layout_height="39dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:text="AGE"
+                        android:textColor="@color/colorSecondary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <TextView
-                    android:id="@+id/GivenAge"
-                    android:layout_width="180dp"
-                    android:layout_height="39dp"
-                    android:autoText="false"
-                    android:forceHasOverlappingRendering="false"
-                    android:gravity="center_horizontal"
-                    android:padding="10dp"
-                    android:textSize="16sp"
-                    android:text="23" />
+                        android:id="@+id/GivenAge"
+                        android:layout_width="180dp"
+                        android:layout_height="39dp"
+                        android:autoText="false"
+                        android:forceHasOverlappingRendering="false"
+                        android:gravity="center_horizontal"
+                        android:padding="10dp"
+                        android:text="23"
+                        android:textColor="@color/cardText"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -95,12 +99,13 @@
                         android:id="@+id/Gender"
                         android:layout_width="180dp"
                         android:layout_height="39dp"
-                        android:layout_weight="1"
                         android:layout_marginLeft="25dp"
+                        android:layout_weight="1"
                         android:padding="10dp"
+                        android:text="GENDER"
+                        android:textColor="@color/colorSecondary"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:text="Gender" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/ChosenGender"
@@ -109,10 +114,12 @@
                         android:forceHasOverlappingRendering="false"
                         android:gravity="center_horizontal"
                         android:padding="10dp"
-                        android:textSize="16sp"
-                        android:text="Female" />
+                        android:text="Female"
+                        android:textColor="@color/cardText"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -125,7 +132,8 @@
                         android:layout_marginLeft="25dp"
                         android:layout_weight="1"
                         android:padding="10dp"
-                        android:text="Interests"
+                        android:text="INTERESTS"
+                        android:textColor="@color/colorSecondary"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -138,6 +146,7 @@
                         android:forceHasOverlappingRendering="false"
                         android:padding="10dp"
                         android:text="Meeting new people and cultures"
+                        android:textColor="@color/cardText"
                         android:textSize="16sp" />
 
 
@@ -147,11 +156,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_margin="15dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/buttonBg"
                     android:bottomLeftRadius="10dp"
                     android:bottomRightRadius="10dp"
                     android:text="@string/profile_edit"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/buttonText"
                     android:topLeftRadius="10dp"
                     android:topRightRadius="10dp" />
 

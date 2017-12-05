@@ -8,6 +8,7 @@ import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by shekz on 22-11-2017.
@@ -18,19 +19,22 @@ public class Hangout implements Parcelable {
         Beer, Food, Sports
     }
 
+    public Hangout(){}
+
     String id;
     String title;
-    Date fromTime;
-    Date toTime;
+    String fromTime;
+    String toTime;
     String description;
-    LatLng location;
+    Double lat;
+    Double lng;
     EventType type;
     String owner;
-    ArrayList<String> pendingUsers;
-    ArrayList<String> confirmedUsers;
-    ArrayList<String> rejectedUsers;
-    ArrayList<String> commentIds;
-    ArrayList<String> privateMessageIds;
+    List<String> pendingUsers;
+    List<String> confirmedUsers;
+    List<String> rejectedUsers;
+    List<String> commentIds;
+    List<String> privateMessageIds;
 
     @Override public int describeContents() {
         return 0;
@@ -38,23 +42,25 @@ public class Hangout implements Parcelable {
 
     public Hangout(String id,
             String title,
-            Date fromTime,
-            Date toTime,
+            String fromTime,
+            String toTime,
             String description,
-            LatLng location,
+            Double lat,
+            Double lng,
             EventType type,
             String owner,
-            ArrayList<String> pendingUsers,
-            ArrayList<String> confirmedUsers,
-            ArrayList<String> rejectedUsers,
-            ArrayList<String> commentIds,
-            ArrayList<String> privateMessageIds)
+            List<String> pendingUsers,
+            List<String> confirmedUsers,
+            List<String> rejectedUsers,
+            List<String> commentIds,
+            List<String> privateMessageIds)
     {
         this.id = id;
         this.fromTime = fromTime;
         this.toTime = toTime;
         this.description = description;
-        this.location = location;
+        this.lat = lat;
+        this.lng = lng;
         this.type = type;
         this.owner = owner;
         this.pendingUsers = pendingUsers;
@@ -68,17 +74,18 @@ public class Hangout implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(title);
-        dest.writeLong(fromTime.getTime());
-        dest.writeLong(toTime.getTime());
+        dest.writeString(fromTime);
+        dest.writeString(toTime);
         dest.writeString(description);
-        dest.writeParcelable(location, flags);
+        dest.writeDouble(lat);
+        dest.writeDouble(lng);
         dest.writeString(type.name());
         dest.writeString(owner);
-        dest.writeSerializable(pendingUsers);
-        dest.writeSerializable(confirmedUsers);
-        dest.writeSerializable(rejectedUsers);
-        dest.writeSerializable(commentIds);
-        dest.writeSerializable(privateMessageIds);
+        dest.writeList(pendingUsers);
+        dest.writeList(confirmedUsers);
+        dest.writeList(rejectedUsers);
+        dest.writeList(commentIds);
+        dest.writeList(privateMessageIds);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator()
@@ -95,17 +102,56 @@ public class Hangout implements Parcelable {
     public Hangout(Parcel in) {
         id = in.readString();
         title = in.readString();
-        fromTime = new Date(in.readLong());
-        toTime = new Date(in.readLong());
+        fromTime = in.readString();
+        toTime = in.readString();
         description = in.readString();
-        location = in.readParcelable(LatLng.class.getClassLoader());
+        lat = in.readDouble();
+        lng = in.readDouble();
         type = EventType.valueOf(in.readString());
         owner = in.readString();
-        pendingUsers = (ArrayList<String>) in.readSerializable();
-        confirmedUsers = (ArrayList<String>) in.readSerializable();
-        rejectedUsers = (ArrayList<String>) in.readSerializable();
-        commentIds = (ArrayList<String>) in.readSerializable();
-        privateMessageIds = (ArrayList<String>) in.readSerializable();
+        pendingUsers = (List<String>) in.readSerializable();
+        confirmedUsers = (List<String>) in.readSerializable();
+        rejectedUsers = (List<String>) in.readSerializable();
+        commentIds = (List<String>) in.readSerializable();
+        privateMessageIds = (List<String>) in.readSerializable();
     }
+
+    public String getId() { return id; }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getFromTime() { return fromTime; }
+
+    public String getToTime() {
+        return toTime;
+    }
+
+    public String getDescription() { return description; }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public String getOwner() { return owner; }
+
+    public List<String> getPendingUsers() { return pendingUsers; }
+
+    public List<String> getConfirmedUsers() { return confirmedUsers; }
+
+    public List<String> getRejectedUsers() { return rejectedUsers; }
+
+    public List<String> getCommentIds() { return commentIds; }
+
+    public List<String> getPrivateMessageIds() { return privateMessageIds; }
 
 }

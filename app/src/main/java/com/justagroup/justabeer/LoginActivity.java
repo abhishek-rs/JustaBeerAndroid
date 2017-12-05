@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                                         new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()
                                 )
                         )
-                        //.setTheme(R.style.LoginTheme)
+                        .setTheme(R.style.LoginTheme)
                         .setLogo(R.mipmap.logo)
                         .build(),
                 RC_SIGN_IN);

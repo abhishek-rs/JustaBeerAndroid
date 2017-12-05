@@ -29,13 +29,15 @@
                     android:id="@+id/profileCardTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#000000"
+                    android:background="@color/colorSecondary"
                     android:capitalize="characters"
+                    android:gravity="center"
                     android:padding="10dp"
                     android:paddingHorizontal="4sp"
                     android:paddingVertical="4sp"
                     android:text="Girl 24"
                     android:textColor="#FFFFFF"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="visible" />
                     <!--android:textAppearance="@android:style/TextAppearance.Material.Widget.ActionBar.Menu" -->
@@ -120,12 +122,12 @@
                         android:id="@+id/About"
                         android:layout_width="180dp"
                         android:layout_height="39dp"
-                        android:layout_weight="1"
                         android:layout_marginLeft="25dp"
+                        android:layout_weight="1"
                         android:padding="10dp"
+                        android:text="Interests"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:text="About" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/AboutDescription"
@@ -135,7 +137,7 @@
                         android:autoText="false"
                         android:forceHasOverlappingRendering="false"
                         android:padding="10dp"
-                        android:text="Interested in meeting new people and cultures"
+                        android:text="Meeting new people and cultures"
                         android:textSize="16sp" />
 
 

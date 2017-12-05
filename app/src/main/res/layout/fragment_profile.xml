@@ -73,8 +73,7 @@
                         android:padding="10dp"
                         android:text="AGE"
                         android:textColor="@color/colorSecondary"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/GivenAge"
@@ -104,8 +103,7 @@
                         android:padding="10dp"
                         android:text="GENDER"
                         android:textColor="@color/colorSecondary"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/ChosenGender"
@@ -127,15 +125,14 @@
 
                     <TextView
                         android:id="@+id/About"
-                        android:layout_width="180dp"
+                        android:layout_width="149dp"
                         android:layout_height="39dp"
                         android:layout_marginLeft="25dp"
                         android:layout_weight="1"
                         android:padding="10dp"
                         android:text="INTERESTS"
                         android:textColor="@color/colorSecondary"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/AboutDescription"

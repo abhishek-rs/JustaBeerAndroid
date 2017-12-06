@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 
 import java.lang.reflect.Field;
 
@@ -79,8 +80,15 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         setContentView(R.layout.activity_home);
         mAuth = FirebaseAuth.getInstance();
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.abs_layout);
+
+        //Custom toolbar with drawer
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+
+
+
+        //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        //getSupportActionBar().setCustomView(R.layout.abs_layout);
         db = FirebaseDatabase.getInstance();
         FirebaseUser curr = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference hangoutsRef = db.getReference("hangouts");
@@ -103,8 +111,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
      //   user.put("1", currentUser);
 
 
-        final ActionBar ab = getSupportActionBar();
-        ab.setTitle("JUST A BEER");
+        //final ActionBar ab = getSupportActionBar();
+        //ab.setTitle("JUST A BEER");
 
         final BottomNavigationViewEx bnve = (BottomNavigationViewEx) findViewById(R.id.bnve);
         bnve.enableAnimation(false);
@@ -123,27 +131,27 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
                                 //mTextMessage.setText(R.string.title_home);
                                 //mCardView.
                                 viewPager.setCurrentItem(0);
-                                ab.setTitle("JUST A BEER");//@ string not working here
+                                //ab.setTitle("JUST A BEER");//@ string not working here
                                 return true;
                             case R.id.navigation_myhangouts:
                                 //mTextMessage.setText(R.string.title_myhangouts);
                                 viewPager.setCurrentItem(1);
-                                ab.setTitle("MY HANGOUTS");
+                                //ab.setTitle("MY HANGOUTS");
                                 return true;
                             case R.id.navigation_addhangout:
                                 //mTextMessage.setText(R.string.title_addhangout);
                                 viewPager.setCurrentItem(2);
-                                ab.setTitle("CREATE HANGOUT");
+                                //ab.setTitle("CREATE HANGOUT");
                                 return true;
                             case R.id.navigation_notifications:
                                 //mTextMessage.setText(R.string.title_notifications);
                                 viewPager.setCurrentItem(3);
-                                ab.setTitle("NOTIFICATIONS");
+                                //ab.setTitle("NOTIFICATIONS");
                                 return true;
                             case R.id.navigation_profile:
                                 viewPager.setCurrentItem(4);
                                 //mTextMessage.setText(R.string.title_profile);
-                                ab.setTitle("PROFILE");
+                                //ab.setTitle("PROFILE");
                                 return true;
                         }
                         return false;

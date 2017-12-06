@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- BLACK AND GOLD THEME DARK -->
+    <!-- Old bright yellow #ffc107, #B59A65-->
     <!-- General -->
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#222</color>
-    <color name="colorSecondary">#ffc107</color>
+    <color name="colorSecondary">#eabc62</color>
     <color name="black_overlay">#66000000</color>
-    <color name="colorAccent">#FFB300</color>
+    <color name="colorAccent">#eabc62</color>
     <color name="dark">#222</color>
     <color name="colorGray">#cccccc</color>
     <color name="background">#303030</color>
     <!-- Navbars -->
-    <color name="navBg">#ffc107</color>
+    <color name="navBg">#eabc62</color>
     <color name="navText">#000</color>
     <!-- Card colors -->
     <color name="cardBg">#D9191919</color>
     <color name="cardText">#d6d6d6</color>
-    <color name="cardHeaderBg">#ffc107</color>
+    <color name="cardHeaderBg">#eabc62</color>
     <color name="cardHeaderText">#000</color>
-    <color name="link">#ffc107</color>
+    <color name="link">#eabc62</color>
     <!-- buttons -->
-    <color name="buttonText">#FFB300</color>
+    <color name="buttonText">#eabc62</color>
     <color name="buttonBg">#000</color>
-    <color name="ok">#b4e288</color>
-    <color name="danger">#ff5252</color>
+    <color name="ok">#84a380</color>
+    <color name="danger">#db5757</color>
 </resources>

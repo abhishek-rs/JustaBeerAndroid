@@ -1,7 +1,7 @@
 package com.justagroup.justabeer;
 
 import android.app.Fragment;
-
+import android.support.v7.app.AppCompatActivity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -82,9 +82,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         //Custom toolbar with drawer
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
-
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        //setSupportActionBar(toolbar);
 
 
         //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);

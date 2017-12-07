@@ -2,10 +2,23 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="customToolbarStyle"
+        parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:background">@color/navBg</item>
+        <item name="android:textColorSecondary">@color/cardText</item>
+    </style>
+
+    <style name="sideMenuStyle"
+        parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:background">@color/dark</item>
+        <item name="android:textColor">@color/colorSecondary</item>
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownVerticalOffset">-4dp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -67,6 +80,5 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:padding">24dp</item>
     </style>
-
 
 </resources>

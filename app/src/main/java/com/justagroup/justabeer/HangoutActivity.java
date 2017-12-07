@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,6 +41,10 @@ public class HangoutActivity extends AppCompatActivity {
         TabLayout.Tab commentsTab = commentTabLayout.getTabAt(0);
         TabLayout.Tab messagesTab = commentTabLayout.getTabAt(1);
 
+        final FloatingActionButton joiningButton = (FloatingActionButton) findViewById(R.id.fab);
+        joiningButton.setImageResource(R.drawable.join);
+        final Button cancelHangoutButton = (Button) findViewById(R.id.cancelHangoutBtn);
+        cancelHangoutButton.setVisibility(View.GONE);//show only when request sent
 
         final LinearLayout commentsLayout = (LinearLayout) findViewById(R.id.comments);
         final LinearLayout messagesLayout = (LinearLayout) findViewById(R.id.messages);
@@ -70,23 +75,33 @@ public class HangoutActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
         backdrop.setImageResource(R.drawable.bar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         final Context mContext = this;
-        fab.setOnClickListener(new View.OnClickListener() {
+        joiningButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "You've signed up for the event. Await confirmation", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                FloatingActionButton fb = (FloatingActionButton) findViewById(R.id.fab);
-                fb.setImageResource(R.drawable.ic_cancel_black_24dp);
+                    //join event
+                    Snackbar.make(view, "You've signed up for the event. Await confirmation", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    joiningButton.setImageResource(R.drawable.hourglass);
+                    cancelHangoutButton.setVisibility(View.VISIBLE);
+                //TODO: send info to db
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        cancelHangoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                //cancel event
+                Snackbar.make(view, "Your request has been cancelled", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                joiningButton.setImageResource(R.drawable.join);
+                cancelHangoutButton.setVisibility(View.GONE);
+                //TODO: send info to db
+            }
+        });
     }
 
     @Override

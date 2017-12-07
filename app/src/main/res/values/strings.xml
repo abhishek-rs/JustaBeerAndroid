@@ -1,12 +1,12 @@
 <resources>
 
-    <string name="app_name">Just A Beer</string>
+    <string name="app_name">Just a Beer</string>
 
-    <string name="title_home">JUST A BEER</string>
-    <string name="title_myhangouts">MY HANGOUTS</string>
-    <string name="title_notifications">NOTIFICATIONS</string>
-    <string name="title_profile">PROFILE</string>
-    <string name="title_addhangout">CREATE HANGOUT</string>
+    <string name="title_home">Just a Beer</string>
+    <string name="title_myhangouts">My Hangouts</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_addhangout">Create Hangout</string>
     <!-- card stuff-->
     <string name="cardview_contents">This is a CardView widget. CardView widgets can have
         shadows and rounded corners.
@@ -108,4 +108,8 @@
     <string name="hangoutdetail_tabComment">Comments</string>
     <string name="hangoutdetail_tabMessages">Messages</string>
 
+    <!-- sidebar home -->
+    <string name="home_settings">Filter by</string>
+    <string name="filter1">Sort by distance</string>
+    <string name="filter2">Sort by popularity</string>
 </resources>

@@ -6,16 +6,17 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#222</color>
     <color name="colorSecondary">#eabc62</color>
+    <color name="textColorSecondary">#d6d6d6</color>
     <color name="black_overlay">#66000000</color>
     <color name="colorAccent">#eabc62</color>
     <color name="dark">#222</color>
     <color name="colorGray">#cccccc</color>
     <color name="background">#303030</color>
     <!-- Navbars -->
-    <color name="navBg">#eabc62</color>
-    <color name="navText">#000</color>
+    <color name="navText">#d6d6d6</color>
+    <color name="navBg">#000</color>
     <!-- Card colors -->
-    <color name="cardBg">#D9191919</color>
+    <color name="cardBg">#e2393939</color>
     <color name="cardText">#d6d6d6</color>
     <color name="cardHeaderBg">#eabc62</color>
     <color name="cardHeaderText">#000</color>

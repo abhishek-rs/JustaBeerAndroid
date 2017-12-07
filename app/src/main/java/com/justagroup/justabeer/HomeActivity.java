@@ -86,11 +86,11 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         final DatabaseReference hangoutsRef = db.getReference("hangouts");
         List<Hangout> data = getHangoutsFromDb(hangoutsRef);
 
-        db.getReference("users").orderByChild("email").equalTo(curr.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
+     /*   db.getReference("users").orderByChild("email").equalTo(curr.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User u = dataSnapshot.getChildren().iterator().next().getValue(User.class);
-            //    pushDatatoDb(hangoutsRef, u);
+                pushDatatoDb(hangoutsRef, u);
             }
 
             @Override
@@ -98,10 +98,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
 
             }
         });
-
-     //  Map<String, Object> user = new HashMap<>();
-     //   user.put("1", currentUser);
-
+*/
 
         final ActionBar ab = getSupportActionBar();
         ab.setTitle("JUST A BEER");
@@ -236,20 +233,36 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         List<String> privateMessageIds = new ArrayList<String>();
         privateMessageIds.add("");
         Hangout hg1 = new Hangout(newRef.getKey(),
-                                    "Beer with people",
+                                    "Hangout in Sodermalm",
                                         strFromDate,
                                         strToDate,
                                     "Alright Alright Alright!",
                                         59.3123021,
                                         18.0314929,
-                                        Hangout.EventType.Beer,
-                                        u.getId(),
+                                        Hangout.EventType.Coffee,
+                FirebaseAuth.getInstance().getCurrentUser().getUid(),
                                         pendingUsers,
                                         confirmedUsers,
                                         rejectedUsers,
                                         commentIds,
                                         privateMessageIds);
         newRef.setValue(hg1);
+        DatabaseReference newRef2 = ref.push();
+        Hangout hg2 = new Hangout(newRef2.getKey(),
+                "Hangout in Kista",
+                strFromDate,
+                strToDate,
+                "Let's have fun y'all!",
+                59.3123021,
+                18.0314929,
+                Hangout.EventType.Food,
+                FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                pendingUsers,
+                confirmedUsers,
+                rejectedUsers,
+                commentIds,
+                privateMessageIds);
+        newRef2.setValue(hg2);
     }
 
     public void onStart(){

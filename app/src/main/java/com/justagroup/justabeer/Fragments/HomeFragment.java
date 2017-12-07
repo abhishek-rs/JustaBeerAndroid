@@ -7,56 +7,49 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.justagroup.justabeer.CardHolder;
+import com.justagroup.justabeer.Hangout;
 import com.justagroup.justabeer.HangoutActivity;
 import com.justagroup.justabeer.HomeActivity;
 import com.justagroup.justabeer.LoginActivity;
 import com.justagroup.justabeer.R;
+import com.justagroup.justabeer.User;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link HomeFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HomeFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    FirebaseRecyclerAdapter cardAdapter;
+
 
     private CardView mCardView;
 
     private OnFragmentInteractionListener mListener;
 
     public HomeFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,24 +57,112 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        final FirebaseDatabase db = FirebaseDatabase.getInstance();
+        Query query = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("hangouts");
+        FirebaseRecyclerOptions<Hangout> options =
+                new FirebaseRecyclerOptions.Builder<Hangout>()
+                        .setQuery(query, Hangout.class)
+                        .build();
 
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        final RecyclerView mCardRecyclerView = (RecyclerView) view.findViewById(R.id.hangout_card_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mCardRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        final LinearLayoutManager mCardLayoutManager = new android.support.v7.widget.LinearLayoutManager(getActivity());
+        mCardRecyclerView.setLayoutManager(mCardLayoutManager);
+
+        // specify an adapter (see also next example)
+
+        cardAdapter = new FirebaseRecyclerAdapter<Hangout, CardHolder>(options) {
+            @Override
+            public CardHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.hangout_card, parent, false);
+                return new CardHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(final CardHolder holder, int position, Hangout model) {
+
+                db.getReference("users").orderByChild("id").equalTo(model.getOwner()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User u = dataSnapshot.getChildren().iterator().next().getValue(User.class);
+                        if(u != null) holder.owner.setText(u.getFullName());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                holder.hangoutName.setText(model.getTitle());
+                switch(model.getType()){
+                    case Beer:
+                        holder.hangoutImage.setImageResource(R.drawable.bar1);
+                        break;
+                    case Food:
+                        holder.hangoutImage.setImageResource(R.drawable.food2);
+                        break;
+                    case Coffee:
+                        holder.hangoutImage.setImageResource(R.drawable.coffee2);
+                    default :
+                        holder.hangoutImage.setImageResource(R.drawable.bar3);
+                        break;
+                }
+            //    holder.owner.setText(model.getOwner());
+                holder.desc.setText(model.getDescription());
+                holder.attendees.setText(Integer.toString(model.getConfirmedUsers().size()));
+                holder.comments.setText(Integer.toString(model.getCommentIds().size() - 1));
+                holder.seeMore.setText("Check it out");
+                holder.seeMore.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), HangoutActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                    }});
+            }
+
+        };
+
+        cardAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = cardAdapter.getItemCount();
+                int lastVisiblePosition =
+                        mCardLayoutManager.findLastCompletelyVisibleItemPosition();
+                // If the recycler view is initially being loaded or the
+                // user is at the bottom of the list, scroll to the bottom
+                // of the list to show the newly added message.
+                if (lastVisiblePosition == -1 ||
+                        (positionStart >= (friendlyMessageCount - 1) &&
+                                lastVisiblePosition == (positionStart - 1))) {
+                    mCardRecyclerView.scrollToPosition(0);
+                }
+            }
+        });
+
+        mCardRecyclerView.setAdapter(cardAdapter);
+
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -89,17 +170,14 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        cardAdapter.startListening();
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
 
-        // TODO: make general, now connected to example button instance
-        final Button button = getView().findViewById(R.id.hangout_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), HangoutActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -119,18 +197,7 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

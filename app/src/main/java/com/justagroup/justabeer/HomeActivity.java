@@ -306,9 +306,12 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*switch(item.getItemId()){
-            case
-        }*/
+        switch (item.getItemId()) {
+            case R.id.filter1:
+                //filter nearest
+            case R.id.filter2:
+                //filter by popularity (amount of people joining)
+        }
         return super.onOptionsItemSelected(item);
     }
 }

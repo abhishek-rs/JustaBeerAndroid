@@ -7,6 +7,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+//new imports
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.util.Log;
+
+import com.google.firebase.database.ValueEventListener;
+import com.justagroup.justabeer.User;
+//firebase stuff
+
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.Query;
 
 import com.justagroup.justabeer.R;
 
@@ -19,19 +36,17 @@ import com.justagroup.justabeer.R;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static final String TAG = ProfileFragment.class.getSimpleName();
+    public TextView fullName;
+    public ImageView userImage;
+    public TextView age;
+    public TextView about;
+    public TextView comments;
+    public Button editProfile;
 
     private OnFragmentInteractionListener mListener;
 
     public ProfileFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -46,8 +61,6 @@ public class ProfileFragment extends Fragment {
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,16 +69,43 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        //Call firebase using their example
+        //DatabaseReference mDatabase;
+        //mDatabase = FirebaseDatabase.getInstance().getReference();
+        // Get a reference to our users
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
+
+        // Attach a listener to read the data at our users reference
+        ValueEventListener userListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get User object and use the values to update the UI
+                User user = dataSnapshot.getValue(User.class);
+                System.out.println(user);
+                Log.w(TAG, user)
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting User failed, log a message
+                Log.w(TAG, "loadPUser:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+
+       // mUserReference.addValueEventListener(userListener);
+
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

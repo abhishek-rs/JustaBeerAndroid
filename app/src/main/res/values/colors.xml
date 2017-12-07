@@ -16,7 +16,7 @@
     <color name="navText">#d6d6d6</color>
     <color name="navBg">#000</color>
     <!-- Card colors -->
-    <color name="cardBg">#D9191919</color>
+    <color name="cardBg">#e2393939</color>
     <color name="cardText">#d6d6d6</color>
     <color name="cardHeaderBg">#eabc62</color>
     <color name="cardHeaderText">#000</color>

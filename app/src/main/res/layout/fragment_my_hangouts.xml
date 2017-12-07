@@ -5,16 +5,21 @@
     android:layout_height="match_parent"
     tools:context="com.justagroup.justabeer.Fragments.MyHangoutsFragment">
 
-    <!-- Tab layout -->
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:orientation="vertical">
 
+        <!-- Tab layout -->
         <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/cardBg"
+            app:tabSelectedTextColor="@color/colorSecondary"
+            app:tabTextColor="@color/cardText">
 
             <android.support.design.widget.TabItem
                 android:id="@+id/joining"
@@ -35,208 +40,177 @@
                 android:text="@string/hangouts_tab3" />
         </android.support.design.widget.TabLayout>
 
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="40dp">
 
             <LinearLayout
+                android:id="@+id/contentWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/hangoutCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="15dp"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin">
+                <!--Tab contents (add dynamic cards and maybe separate container fragments in future) -->
 
-                    <LinearLayout
+                <!--Joining tab content-->
+                <LinearLayout
+                    android:id="@+id/joiningContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/hangoutCard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/hangoutCard1Title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="#000000"
-                            android:capitalize="characters"
-                            android:padding="10dp"
-                            android:paddingHorizontal="4sp"
-                            android:paddingVertical="4sp"
-                            android:text="Beer @ Södermalm 19-20"
-                            android:textAppearance="@android:style/TextAppearance.Material.Widget.ActionBar.Menu"
-                            android:textColor="#FFFFFF"
-                            android:textStyle="bold"
-                            android:visibility="visible" />
-
-                        <com.google.android.gms.maps.MapView
-                            android:layout_width="match_parent"
-                            android:layout_height="153dp" />
-
-                        <Button
-                            android:id="@+id/hangoutCard1Profile"
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:background="#FFFFFF"
-                            android:fontFamily="sans-serif"
-                            android:padding="10dp"
-                            android:text="@string/card_profile"
-                            android:textAlignment="viewStart"
-                            android:textColor="#333333"
-                            android:visibility="visible" />
-
-                        <TextView
-                            android:id="@+id/hangoutCard1Content"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:text="Anyone up for a beer?"
-                            android:textSize="18sp" />
+                        android:layout_margin="@dimen/cardMargin"
+                        app:cardBackgroundColor="@color/cardBg">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/hangoutCard1People"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center_horizontal"
-                                android:padding="10dp"
-                                android:text="Joining: 3" />
-
-                            <TextView
-                                android:id="@+id/hangoutCard1Messages"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:autoText="false"
-                                android:forceHasOverlappingRendering="false"
-                                android:gravity="center_horizontal"
-                                android:padding="10dp"
-                                android:text="Messages: 5" />
-                        </LinearLayout>
-
-                        <Button
-                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
-                            android:background="@color/colorPrimary"
-                            android:bottomLeftRadius="10dp"
-                            android:bottomRightRadius="10dp"
-                            android:text="@string/card_seemorebutton"
-                            android:textColor="#FFFFFF"
-                            android:topLeftRadius="10dp"
-                            android:topRightRadius="10dp" />
+                            android:orientation="vertical">
 
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+                            <TextView
+                                android:id="@+id/hangoutCardTitle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/cardHeaderBg"
+                                android:capitalize="characters"
+                                android:padding="10dp"
+                                android:paddingHorizontal="4sp"
+                                android:paddingVertical="4sp"
+                                android:text="SÖDERMALM, 19-20"
+                                android:textAppearance="@style/TextAppearance.AppCompat" />
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/hangoutCard2"
+                            <ImageView
+                                android:id="@+id/cbPicView"
+                                android:layout_width="match_parent"
+                                android:layout_height="230dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_weight="3"
+                                android:src="@drawable/bar_bengal" />
+
+                            <Button
+                                android:id="@+id/hangoutCardProfile"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@android:color/transparent"
+                                android:fontFamily="sans-serif"
+                                android:padding="10dp"
+                                android:text="@string/card_profile"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/link"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/hangoutCardContent1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:text="Anyone up for a beer?"
+                                android:textColor="@color/cardText"
+                                android:textSize="14sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/imageView2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_weight="1"
+                                    android:paddingTop="5dp"
+                                    android:src="@drawable/users" />
+
+                                <TextView
+                                    android:id="@+id/hangoutCardPeople"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:layout_weight="1"
+                                    android:gravity="left"
+                                    android:text="3"
+                                    android:textColor="@color/cardText"
+                                    android:textSize="18sp" />
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_weight="1"
+                                    android:paddingTop="5dp"
+                                    android:src="@drawable/chat" />
+
+                                <TextView
+                                    android:id="@+id/hangoutCardMessages"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="left"
+                                    android:text="12"
+                                    android:textColor="@color/cardText"
+                                    android:textSize="18sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <Button
+                                    android:id="@+id/hangout_button"
+                                    android:layout_width="150dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="15dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/buttonBg"
+                                    android:bottomLeftRadius="50dp"
+                                    android:bottomRightRadius="10dp"
+                                    android:text="@string/card_seemorebutton"
+                                    android:textColor="@color/buttonText"
+                                    android:topLeftRadius="10dp"
+                                    android:topRightRadius="10dp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+                <!--Pending Content-->
+                <LinearLayout
+                    android:id="@+id/pendingContent"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="15dp"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                    <!--Pending cards here-->
 
-                        <TextView
-                            android:id="@+id/hangoutCard2Title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="#000000"
-                            android:capitalize="characters"
-                            android:padding="10dp"
-                            android:paddingHorizontal="4sp"
-                            android:paddingVertical="4sp"
-                            android:text="Beer @ Södermalm 19-20"
-                            android:textAppearance="@android:style/TextAppearance.Material.Widget.ActionBar.Menu"
-                            android:textColor="#FFFFFF"
-                            android:textStyle="bold"
-                            android:visibility="visible" />
+                </LinearLayout>
 
-                        <com.google.android.gms.maps.MapView
-                            android:layout_width="match_parent"
-                            android:layout_height="153dp" />
+                <!--Hosting Content-->
+                <LinearLayout
+                    android:id="@+id/hostingContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                        <Button
-                            android:id="@+id/hangoutCard2Profile"
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:background="#FFFFFF"
-                            android:fontFamily="sans-serif"
-                            android:padding="10dp"
-                            android:text="@string/card_profile"
-                            android:textAlignment="viewStart"
-                            android:textColor="#333333"
-                            android:visibility="visible" />
+                    <!--Pending cards here-->
 
-                        <TextView
-                            android:id="@+id/hangoutCard2Content"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:text="Anyone up for a beer?"
-                            android:textSize="18sp" />
+                </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
+                <!-- tab content ends -->
 
-                            <TextView
-                                android:id="@+id/hangoutCard2People"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center_horizontal"
-                                android:padding="10dp"
-                                android:text="Joining: 3" />
-
-                            <TextView
-                                android:id="@+id/hangoutCard2Messages"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:autoText="false"
-                                android:forceHasOverlappingRendering="false"
-                                android:gravity="center_horizontal"
-                                android:padding="10dp"
-                                android:text="Messages: 5" />
-                        </LinearLayout>
-
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
-                            android:background="@color/colorPrimary"
-                            android:bottomLeftRadius="10dp"
-                            android:bottomRightRadius="10dp"
-                            android:text="@string/card_seemorebutton"
-                            android:textColor="#FFFFFF"
-                            android:topLeftRadius="10dp"
-                            android:topRightRadius="10dp" />
-
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-            </LinearLayout>
+            </LinearLayout> <!--tab content wrapper-->
         </ScrollView>
-
     </LinearLayout>
-
-    <!--Joining Tab Content-->
-
-    <!--Pending Tab Content-->
-
-    <!--Hosting Tab Content-->
-
 </FrameLayout>

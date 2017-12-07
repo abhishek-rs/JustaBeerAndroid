@@ -38,9 +38,6 @@ public class HomeFragment extends Fragment {
 
     FirebaseRecyclerAdapter cardAdapter;
 
-
-    private CardView mCardView;
-
     private OnFragmentInteractionListener mListener;
 
     public HomeFragment() {
@@ -71,7 +68,7 @@ public class HomeFragment extends Fragment {
                 .getReference()
                 .child("hangouts");
         FirebaseRecyclerOptions<Hangout> options =
-                new FirebaseRecyclerOptions.Builder<Hangout>()
+                    new FirebaseRecyclerOptions.Builder<Hangout>()
                         .setQuery(query, Hangout.class)
                         .build();
 
@@ -173,6 +170,12 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         cardAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        cardAdapter.stopListening();
     }
 
     @Override

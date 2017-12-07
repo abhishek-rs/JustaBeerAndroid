@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Hangout implements Parcelable {
     public enum EventType {
-        Beer, Food, Sports, Coffee
+        Beer, Food, Coffee
     }
 
     public Hangout(){}
@@ -56,6 +56,7 @@ public class Hangout implements Parcelable {
             List<String> privateMessageIds)
     {
         this.id = id;
+        this.title = title;
         this.fromTime = fromTime;
         this.toTime = toTime;
         this.description = description;

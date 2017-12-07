@@ -85,8 +85,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         FirebaseUser curr = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference hangoutsRef = db.getReference("hangouts");
         List<Hangout> data = getHangoutsFromDb(hangoutsRef);
-
-     /*   db.getReference("users").orderByChild("email").equalTo(curr.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
+/*
+        db.getReference("users").orderByChild("email").equalTo(curr.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User u = dataSnapshot.getChildren().iterator().next().getValue(User.class);
@@ -212,7 +212,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
     }
 
     public void pushDatatoDb(DatabaseReference ref, User u){
-        Calendar cal = Calendar.getInstance(); // creates calendar
+    /*    Calendar cal = Calendar.getInstance(); // creates calendar
         cal.setTime(new Date());
         cal.add(Calendar.HOUR_OF_DAY, 3); // adds one hour
         Date fromTime = cal.getTime();
@@ -262,7 +262,27 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
                 rejectedUsers,
                 commentIds,
                 privateMessageIds);
-        newRef2.setValue(hg2);
+        newRef2.setValue(hg2); */
+
+        DatabaseReference confirmedRef = db.getReference("confirmedRequests");
+        DatabaseReference pendingRef = db.getReference("pendingRequests");
+
+        ConfirmedRequest cr = new ConfirmedRequest("-L-i7Sna4C8zm_LNRUVr", "BUzTZqwGPfgP296lywz4wryllmj2");
+        ConfirmedRequest cr1 = new ConfirmedRequest("-L-iBxTyDP-PupQ7Ecr1", "BUzTZqwGPfgP296lywz4wryllmj2");
+        ConfirmedRequest cr2 = new ConfirmedRequest("-L-iBxUKmDlrN_wO3J_L", "tGXXebMZaoYHwuSogRUePyF0hwj1");
+        ConfirmedRequest cr3 = new ConfirmedRequest("-L-iCm9AjSCndEevCdwY", "BUzTZqwGPfgP296lywz4wryllmj2");
+        PendingRequest pr = new PendingRequest("-L-i7Sna4C8zm_LNRUVr", "AFO0hncym7cZ2qZS1pA7AZyYdzW2");
+        PendingRequest pr2 = new PendingRequest("-L-iBxTyDP-PupQ7Ecr1", "AFO0hncym7cZ2qZS1pA7AZyYdzW2");
+        PendingRequest pr3 = new PendingRequest("-L-iBxUKmDlrN_wO3J_L", "BUzTZqwGPfgP296lywz4wryllmj2");
+        PendingRequest pr4 = new PendingRequest("-L-iCm9AjSCndEevCdwY", "AFO0hncym7cZ2qZS1pA7AZyYdzW2");
+        confirmedRef.push().setValue(cr);
+        confirmedRef.push().setValue(cr1);
+        confirmedRef.push().setValue(cr2);
+        confirmedRef.push().setValue(cr3);
+        pendingRef.push().setValue(pr);
+        pendingRef.push().setValue(pr2);
+        pendingRef.push().setValue(pr3);
+        pendingRef.push().setValue(pr4);
     }
 
     public void onStart(){

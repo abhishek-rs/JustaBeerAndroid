@@ -12,8 +12,8 @@
     <color name="colorGray">#cccccc</color>
     <color name="background">#303030</color>
     <!-- Navbars -->
-    <color name="navBg">#eabc62</color>
-    <color name="navText">#000</color>
+    <color name="navText">#d6d6d6</color>
+    <color name="navBg">#000</color>
     <!-- Card colors -->
     <color name="cardBg">#D9191919</color>
     <color name="cardText">#d6d6d6</color>

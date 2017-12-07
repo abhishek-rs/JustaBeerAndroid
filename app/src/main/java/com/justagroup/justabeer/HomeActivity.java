@@ -1,6 +1,7 @@
 package com.justagroup.justabeer;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -81,14 +82,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         mAuth = FirebaseAuth.getInstance();
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        //Custom toolbar with drawer
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.top_nav);
-        setSupportActionBar(toolbar);
-        toolbar.bringToFront();
-
-
-        //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        //getSupportActionBar().setCustomView(R.layout.abs_layout);
         db = FirebaseDatabase.getInstance();
         FirebaseUser curr = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference hangoutsRef = db.getReference("hangouts");
@@ -110,10 +103,15 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
      //  Map<String, Object> user = new HashMap<>();
      //   user.put("1", currentUser);
 
+        //-------- TOP NAV ----------
+        //Custom toolbar with filter drawer
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.top_nav);
+        final TextView topTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        setSupportActionBar(toolbar);
+        toolbar.bringToFront();
 
-        //final ActionBar ab = getSupportActionBar();
-        //ab.setTitle("JUST A BEER");
 
+        //-------- BOTTOM NAV ----------
         final BottomNavigationViewEx bnve = (BottomNavigationViewEx) findViewById(R.id.bnve);
         bnve.enableAnimation(false);
         bnve.enableShiftingMode(false);
@@ -128,30 +126,24 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
                     public boolean onNavigationItemSelected(@NonNull MenuItem item){
                         switch(item.getItemId()){
                             case R.id.navigation_home:
-                                //mTextMessage.setText(R.string.title_home);
-                                //mCardView.
                                 viewPager.setCurrentItem(0);
-                                //ab.setTitle("JUST A BEER");//@ string not working here
+                                topTitle.setText(R.string.title_home);
                                 return true;
                             case R.id.navigation_myhangouts:
-                                //mTextMessage.setText(R.string.title_myhangouts);
                                 viewPager.setCurrentItem(1);
-                                //ab.setTitle("MY HANGOUTS");
+                                topTitle.setText(R.string.title_myhangouts);
                                 return true;
                             case R.id.navigation_addhangout:
-                                //mTextMessage.setText(R.string.title_addhangout);
                                 viewPager.setCurrentItem(2);
-                                //ab.setTitle("CREATE HANGOUT");
+                                topTitle.setText(R.string.title_addhangout);
                                 return true;
                             case R.id.navigation_notifications:
-                                //mTextMessage.setText(R.string.title_notifications);
                                 viewPager.setCurrentItem(3);
-                                //ab.setTitle("NOTIFICATIONS");
+                                topTitle.setText(R.string.title_notifications);
                                 return true;
                             case R.id.navigation_profile:
                                 viewPager.setCurrentItem(4);
-                                //mTextMessage.setText(R.string.title_profile);
-                                //ab.setTitle("PROFILE");
+                                topTitle.setText(R.string.title_profile);
                                 return true;
                         }
                         return false;

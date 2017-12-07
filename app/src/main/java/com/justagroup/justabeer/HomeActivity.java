@@ -13,6 +13,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -125,22 +127,27 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
                             case R.id.navigation_home:
                                 viewPager.setCurrentItem(0);
                                 topTitle.setText(R.string.title_home);
+                                toolbar.inflateMenu(R.menu.menu_settings);
                                 return true;
                             case R.id.navigation_myhangouts:
                                 viewPager.setCurrentItem(1);
                                 topTitle.setText(R.string.title_myhangouts);
+                                toolbar.getMenu().clear();
                                 return true;
                             case R.id.navigation_addhangout:
                                 viewPager.setCurrentItem(2);
                                 topTitle.setText(R.string.title_addhangout);
+                                toolbar.getMenu().clear();
                                 return true;
                             case R.id.navigation_notifications:
                                 viewPager.setCurrentItem(3);
                                 topTitle.setText(R.string.title_notifications);
+                                toolbar.getMenu().clear();
                                 return true;
                             case R.id.navigation_profile:
                                 viewPager.setCurrentItem(4);
                                 topTitle.setText(R.string.title_profile);
+                                toolbar.getMenu().clear();
                                 return true;
                         }
                         return false;
@@ -288,6 +295,22 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
 
     }
 
+    //------- SIDE NAVBAR SETTINGS ------
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_settings, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        /*switch(item.getItemId()){
+            case
+        }*/
+        return super.onOptionsItemSelected(item);
+    }
 }
 
 

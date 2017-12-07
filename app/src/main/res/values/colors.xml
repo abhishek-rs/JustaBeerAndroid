@@ -6,6 +6,7 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#222</color>
     <color name="colorSecondary">#eabc62</color>
+    <color name="textColorSecondary">#d6d6d6</color>
     <color name="black_overlay">#66000000</color>
     <color name="colorAccent">#eabc62</color>
     <color name="dark">#222</color>

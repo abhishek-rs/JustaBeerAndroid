@@ -10,6 +10,15 @@
     <style name="customToolbarStyle"
         parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:background">@color/navBg</item>
+        <item name="android:textColorSecondary">@color/cardText</item>
+    </style>
+
+    <style name="sideMenuStyle"
+        parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:background">@color/dark</item>
+        <item name="android:textColor">@color/colorSecondary</item>
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownVerticalOffset">-4dp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

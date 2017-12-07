@@ -78,10 +78,12 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        //Call firebase using their example
+        //Call firebase using their example that did not work
+
         //DatabaseReference mDatabase;
         //mDatabase = FirebaseDatabase.getInstance().getReference();
-        // Get a reference to our users
+
+        // My version
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
 
         // Attach a listener to read the data at our users reference
@@ -91,7 +93,7 @@ public class ProfileFragment extends Fragment {
                 // Get User object and use the values to update the UI
                 User user = dataSnapshot.getValue(User.class);
                 System.out.println(user);
-                Log.w(TAG, user)
+                //Log.w(TAG, user)
             }
 
             @Override
@@ -101,8 +103,8 @@ public class ProfileFragment extends Fragment {
                 // ...
             }
         };
-
-       // mUserReference.addValueEventListener(userListener);
+        //THE THING THAT DIDNT WORK
+       //mUserReference.addValueEventListener(userListener);
 
 
         return view;

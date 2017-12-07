@@ -108,4 +108,8 @@
     <string name="hangoutdetail_tabComment">Comments</string>
     <string name="hangoutdetail_tabMessages">Messages</string>
 
+    <!-- sidebar home -->
+    <string name="home_settings">Filter by</string>
+    <string name="filter1">Sort by distance</string>
+    <string name="filter2">Sort by popularity</string>
 </resources>

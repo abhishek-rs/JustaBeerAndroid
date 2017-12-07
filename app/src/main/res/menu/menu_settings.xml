@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.justagroup.justabeer.HangoutActivity"
+    android:id="@+id/sidenav">
+    <item
+        android:id="@+id/filter1"
+        android:orderInCategory="100"
+        android:title="@string/filter1"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/filter2"
+        android:title="@string/filter2" />
+</menu>

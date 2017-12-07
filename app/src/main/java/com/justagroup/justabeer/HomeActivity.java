@@ -13,6 +13,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -86,8 +88,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         FirebaseUser curr = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference hangoutsRef = db.getReference("hangouts");
         List<Hangout> data = getHangoutsFromDb(hangoutsRef);
-
-     /*   db.getReference("users").orderByChild("email").equalTo(curr.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
+/*
+        db.getReference("users").orderByChild("email").equalTo(curr.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User u = dataSnapshot.getChildren().iterator().next().getValue(User.class);
@@ -125,22 +127,27 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
                             case R.id.navigation_home:
                                 viewPager.setCurrentItem(0);
                                 topTitle.setText(R.string.title_home);
+                                toolbar.inflateMenu(R.menu.menu_settings);
                                 return true;
                             case R.id.navigation_myhangouts:
                                 viewPager.setCurrentItem(1);
                                 topTitle.setText(R.string.title_myhangouts);
+                                toolbar.getMenu().clear();
                                 return true;
                             case R.id.navigation_addhangout:
                                 viewPager.setCurrentItem(2);
                                 topTitle.setText(R.string.title_addhangout);
+                                toolbar.getMenu().clear();
                                 return true;
                             case R.id.navigation_notifications:
                                 viewPager.setCurrentItem(3);
                                 topTitle.setText(R.string.title_notifications);
+                                toolbar.getMenu().clear();
                                 return true;
                             case R.id.navigation_profile:
                                 viewPager.setCurrentItem(4);
                                 topTitle.setText(R.string.title_profile);
+                                toolbar.getMenu().clear();
                                 return true;
                         }
                         return false;
@@ -212,7 +219,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
     }
 
     public void pushDatatoDb(DatabaseReference ref, User u){
-        Calendar cal = Calendar.getInstance(); // creates calendar
+    /*    Calendar cal = Calendar.getInstance(); // creates calendar
         cal.setTime(new Date());
         cal.add(Calendar.HOUR_OF_DAY, 3); // adds one hour
         Date fromTime = cal.getTime();
@@ -262,7 +269,27 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
                 rejectedUsers,
                 commentIds,
                 privateMessageIds);
-        newRef2.setValue(hg2);
+        newRef2.setValue(hg2); */
+
+        DatabaseReference confirmedRef = db.getReference("confirmedRequests");
+        DatabaseReference pendingRef = db.getReference("pendingRequests");
+
+        ConfirmedRequest cr = new ConfirmedRequest("-L-i7Sna4C8zm_LNRUVr", "BUzTZqwGPfgP296lywz4wryllmj2");
+        ConfirmedRequest cr1 = new ConfirmedRequest("-L-iBxTyDP-PupQ7Ecr1", "BUzTZqwGPfgP296lywz4wryllmj2");
+        ConfirmedRequest cr2 = new ConfirmedRequest("-L-iBxUKmDlrN_wO3J_L", "tGXXebMZaoYHwuSogRUePyF0hwj1");
+        ConfirmedRequest cr3 = new ConfirmedRequest("-L-iCm9AjSCndEevCdwY", "BUzTZqwGPfgP296lywz4wryllmj2");
+        PendingRequest pr = new PendingRequest("-L-i7Sna4C8zm_LNRUVr", "AFO0hncym7cZ2qZS1pA7AZyYdzW2");
+        PendingRequest pr2 = new PendingRequest("-L-iBxTyDP-PupQ7Ecr1", "AFO0hncym7cZ2qZS1pA7AZyYdzW2");
+        PendingRequest pr3 = new PendingRequest("-L-iBxUKmDlrN_wO3J_L", "BUzTZqwGPfgP296lywz4wryllmj2");
+        PendingRequest pr4 = new PendingRequest("-L-iCm9AjSCndEevCdwY", "AFO0hncym7cZ2qZS1pA7AZyYdzW2");
+        confirmedRef.push().setValue(cr);
+        confirmedRef.push().setValue(cr1);
+        confirmedRef.push().setValue(cr2);
+        confirmedRef.push().setValue(cr3);
+        pendingRef.push().setValue(pr);
+        pendingRef.push().setValue(pr2);
+        pendingRef.push().setValue(pr3);
+        pendingRef.push().setValue(pr4);
     }
 
     public void onStart(){
@@ -288,6 +315,25 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
 
     }
 
+    //------- SIDE NAVBAR SETTINGS ------
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_settings, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.filter1:
+                //filter nearest
+            case R.id.filter2:
+                //filter by popularity (amount of people joining)
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
 
 

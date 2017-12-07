@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Hangout implements Parcelable {
     public enum EventType {
-        Beer, Food, Sports
+        Beer, Food, Sports, Coffee
     }
 
     public Hangout(){}

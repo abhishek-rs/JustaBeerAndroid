@@ -82,8 +82,9 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         //Custom toolbar with drawer
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-        //setSupportActionBar(toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.top_nav);
+        setSupportActionBar(toolbar);
+        toolbar.bringToFront();
 
 
         //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);

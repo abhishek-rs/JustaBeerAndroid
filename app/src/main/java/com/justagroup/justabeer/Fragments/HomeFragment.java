@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -31,6 +32,7 @@ import com.justagroup.justabeer.Hangout;
 import com.justagroup.justabeer.HangoutActivity;
 import com.justagroup.justabeer.HomeActivity;
 import com.justagroup.justabeer.LoginActivity;
+import com.justagroup.justabeer.ProfileActivity;
 import com.justagroup.justabeer.R;
 import com.justagroup.justabeer.User;
 
@@ -99,7 +101,10 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User u = dataSnapshot.getChildren().iterator().next().getValue(User.class);
-                        if(u != null) holder.owner.setText(u.getFullName());
+                        if(u != null) {
+                            holder.owner.setText(u.getFullName());
+                            holder.user = u;
+                        }
                     }
 
                     @Override
@@ -134,6 +139,21 @@ public class HomeFragment extends Fragment {
                         intent.putExtra("hangout", model);
                         startActivity(intent);
                     }});
+
+                holder.owner.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(holder.user != null) {
+                            Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            intent.putExtra("user", holder.user);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(getContext(), "User is null", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
             }
 
         };

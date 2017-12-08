@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                             Date date = new Date();
                             String strDate = dateFormat.format(date).toString();
-                            User currentUser = new User(curr.getUid(), curr.getDisplayName(), photoUrlString, curr.getEmail(), 23, "", strDate);
+                            User currentUser = new User(curr.getUid(), curr.getDisplayName(), photoUrlString, curr.getEmail(), 23, User.Gender.Female,"", strDate);
                             DatabaseReference ref = usersRef.push();
                             ref.setValue(currentUser);
                             Log.e("In login", currentUser.getEmail());

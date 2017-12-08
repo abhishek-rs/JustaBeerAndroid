@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ValueEventListener;
 import com.justagroup.justabeer.User;
 //firebase stuff
@@ -26,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.Query;
 
 import com.justagroup.justabeer.R;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,21 +81,34 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        //Call firebase using their example that did not work
-
-        //DatabaseReference mDatabase;
-        //mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser current = FirebaseAuth.getInstance().getCurrentUser();
 
         // My version
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
 
         // Attach a listener to read the data at our users reference
         ValueEventListener userListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get User object and use the values to update the UI
-                User user = dataSnapshot.getValue(User.class);
-                System.out.println(user);
+                User user = dataSnapshot.getChildren().iterator().next().getValue(User.class);
+                TextView title = getView().findViewById(R.id.profile_card_title);
+                TextView age = getView().findViewById(R.id.profile_age);
+                TextView gender = getView().findViewById(R.id.profile_gender);
+                TextView about = getView().findViewById(R.id.profile_about);
+                ImageView image = getView().findViewById(R.id.profile_image_view);
+                title.setText(user.getFullName());
+                age.setText(Integer.toString(user.getAge()));
+                gender.setText("Not defined in db");
+                about.setText(user.getAbout());
+                if(user.getPhoto() != null) {
+                    Picasso
+                            .with(getActivity())
+                            .load(user.getPhoto())
+                            .into(image);
+                }
+
+
                 //Log.w(TAG, user)
             }
 
@@ -104,10 +120,8 @@ public class ProfileFragment extends Fragment {
             }
         };
         //THE THING THAT DIDNT WORK
-       //mUserReference.addValueEventListener(userListener);
-
-
-        return view;
+       usersRef.orderByChild("id").equalTo(current.getUid()).addValueEventListener(userListener);
+       return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

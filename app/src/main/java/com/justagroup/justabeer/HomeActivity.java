@@ -84,6 +84,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         mAuth = FirebaseAuth.getInstance();
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
+        //Log.d("test", "hello");
+
         db = FirebaseDatabase.getInstance();
         FirebaseUser curr = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference hangoutsRef = db.getReference("hangouts");

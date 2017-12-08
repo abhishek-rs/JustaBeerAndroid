@@ -105,7 +105,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        final FirebaseUser current = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // My version
         final DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
@@ -123,7 +123,7 @@ public class ProfileFragment extends Fragment {
                 userImage = getView().findViewById(R.id.profile_image_view);
                 fullName.setText(currentUser.getFullName());
                 age.setText(Integer.toString(currentUser.getAge()));
-                gender.setText("Not available");
+                gender.setText(currentUser.getGender());
                 about.setText(currentUser.getAbout());
                 if (!currentUser.getPhoto().equals("")) {
                     Picasso
@@ -146,7 +146,7 @@ public class ProfileFragment extends Fragment {
 
 
         //THE THING THAT DIDNT WORK
-        usersRef.orderByChild("id").equalTo(current.getUid()).addValueEventListener(userListener);
+        usersRef.orderByChild("id").equalTo(currentFirebaseUser.getUid()).addValueEventListener(userListener);
 
 
         // ------------ EDIT MODE ----------------
@@ -182,6 +182,7 @@ public class ProfileFragment extends Fragment {
         editModeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //name
+                editName.setText(fullName.getText());
                 editName.setVisibility(View.VISIBLE);
                 editNameCaption.setVisibility(View.VISIBLE);
 
@@ -245,7 +246,9 @@ public class ProfileFragment extends Fragment {
                 editAge.setVisibility(View.GONE);
 
                 //gender
-                gender.setText(editGender.getSelectedItem().toString());
+                String genderString = editGender.getSelectedItem().toString();
+                gender.setText(genderString);
+
                 editGender.setVisibility(View.GONE);
                 gender.setVisibility(View.VISIBLE);
 
@@ -262,7 +265,7 @@ public class ProfileFragment extends Fragment {
                 editBtnContainer.setVisibility(View.GONE);
 
                 //update database
-                usersRef.child("-L-crEOENVdMSAnmujbm").setValue(new User(current.getUid(), fullName.getText().toString(), "http://www.watoday.com.au/content/dam/images/1/m/j/7/z/9/image.related.socialLead.620x349.gtq15g.png/1484266450200.jpg", currentUser.getEmail(), Integer.parseInt(age.getText().toString()), about.getText().toString(), currentUser.getTimestampJoined()));
+                usersRef.child("-L-crEOENVdMSAnmujbm").setValue(new User(currentUser.getId(), fullName.getText().toString(), "http://www.watoday.com.au/content/dam/images/1/m/j/7/z/9/image.related.socialLead.620x349.gtq15g.png/1484266450200.jpg", currentUser.getEmail(), Integer.parseInt(age.getText().toString()), gender.getText().toString(), about.getText().toString(), currentUser.getTimestampJoined()));
             }
         });
 
@@ -272,7 +275,7 @@ public class ProfileFragment extends Fragment {
                 editNameCaption.setVisibility(View.GONE);
 
                 age.setVisibility(View.VISIBLE);
-                age.setVisibility(View.GONE);
+                editAge.setVisibility(View.GONE);
 
                 editGender.setVisibility(View.GONE);
                 gender.setVisibility(View.VISIBLE);
@@ -289,6 +292,17 @@ public class ProfileFragment extends Fragment {
 
     }
 
+
+    /*private void updateUserDbData(String name, String photoURL, String email, Integer age, String gender, String about) {
+        FirebaseDatabase.getInstance('users/' + current).set({
+                fullName: name,
+                photo: photoURL,
+                email: email,
+                age : age,
+                gender: gender,
+                about: about
+        });
+    }*/
 
 
     private String setUndefinedText() {

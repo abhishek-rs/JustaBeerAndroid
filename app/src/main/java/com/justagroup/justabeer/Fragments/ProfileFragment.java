@@ -63,6 +63,7 @@ public class ProfileFragment extends Fragment {
     public TextView gender;
     public TextView comments;
     public boolean editMode = false;
+    public User currentUser;
     /*edit mode
     public Button editProfile;
     public EditText editAge;
@@ -114,21 +115,21 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get User object and use the values to update the UI
-                User user = dataSnapshot.getChildren().iterator().next().getValue(User.class);
-                TextView title = getView().findViewById(R.id.profile_card_title);
+                currentUser = dataSnapshot.getChildren().iterator().next().getValue(User.class);
+                fullName = getView().findViewById(R.id.profile_card_title);
                 age = getView().findViewById(R.id.profile_age);
                 gender = getView().findViewById(R.id.profile_gender);
                 about = getView().findViewById(R.id.profile_about);
-                ImageView image = getView().findViewById(R.id.profile_image_view);
-                title.setText(user.getFullName());
-                age.setText(Integer.toString(user.getAge()));
+                userImage = getView().findViewById(R.id.profile_image_view);
+                fullName.setText(currentUser.getFullName());
+                age.setText(Integer.toString(currentUser.getAge()));
                 gender.setText("Not available");
-                about.setText(user.getAbout());
-                if (!user.getPhoto().equals("")) {
+                about.setText(currentUser.getAbout());
+                if (!currentUser.getPhoto().equals("")) {
                     Picasso
                             .with(getActivity())
-                            .load(user.getPhoto())
-                            .into(image);
+                            .load(currentUser.getPhoto())
+                            .into(userImage);
                 }
 
 
@@ -147,9 +148,6 @@ public class ProfileFragment extends Fragment {
         //THE THING THAT DIDNT WORK
         usersRef.orderByChild("id").equalTo(current.getUid()).addValueEventListener(userListener);
 
-        /*final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String currentUser = "justabeer-10b50/users" + usersRef.getRef(current);
-        DatabaseReference ownProfileRef = database.getReference(currentUser);*/
 
         // ------------ EDIT MODE ----------------
         // edit mode components
@@ -229,6 +227,11 @@ public class ProfileFragment extends Fragment {
         // save changes to view and db
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if(editName.getText() != null){
+                    fullName.setText(editName.getText());
+                } else {
+                    fullName.setText(currentUser.getId());
+                }
                 editName.setVisibility(View.GONE);
                 editNameCaption.setVisibility(View.GONE);
 
@@ -236,7 +239,7 @@ public class ProfileFragment extends Fragment {
                 if (editAge.getText()!= null) {
                     age.setText(editAge.getText());
                 } else {
-                    age.setText(setUndefinedText());
+                    age.setText("0");
                 }
                 age.setVisibility(View.VISIBLE);
                 editAge.setVisibility(View.GONE);
@@ -258,33 +261,11 @@ public class ProfileFragment extends Fragment {
                 editModeButton.setVisibility(View.VISIBLE);
                 editBtnContainer.setVisibility(View.GONE);
 
-                usersRef.child("-L-crEOENVdMSAnmujbm").setValue(new User(current.getUid(), "NEW NAME", "moi", current.getEmail(), 39, about.getText().toString(), "2017/12/05 23:47:36"));
-                /*FirebaseDatabase db = FirebaseDatabase.getInstance();
-                DatabaseReference currentUserRef = db.getReference("users/-L-crEOENVdMSAnmujbm");
-
-                currentUserRef.push().setValue();
-                confirmedRef.push().setValue(cr);
-
-                usersRef.getRef(current.);
-                // save changes to db
-                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                        .setDisplayName("Jane Q. User")
-                        .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
-                        .build();
-
-                current.updateProfile(profileUpdates)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "User profile updated.");
-                                }
-                            }
-                        });*/
+                //update database
+                usersRef.child("-L-crEOENVdMSAnmujbm").setValue(new User(current.getUid(), fullName.getText().toString(), "http://www.watoday.com.au/content/dam/images/1/m/j/7/z/9/image.related.socialLead.620x349.gtq15g.png/1484266450200.jpg", currentUser.getEmail(), Integer.parseInt(age.getText().toString()), about.getText().toString(), currentUser.getTimestampJoined()));
             }
         });
 
-        // save changes to view and db
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 editName.setVisibility(View.GONE);

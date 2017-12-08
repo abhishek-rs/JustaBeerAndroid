@@ -82,11 +82,11 @@ public class Hangout implements Parcelable {
         dest.writeDouble(lng);
         dest.writeString(type.name());
         dest.writeString(owner);
-        dest.writeList(pendingUsers);
-        dest.writeList(confirmedUsers);
-        dest.writeList(rejectedUsers);
-        dest.writeList(commentIds);
-        dest.writeList(privateMessageIds);
+        dest.writeStringList(pendingUsers);
+        dest.writeStringList(confirmedUsers);
+        dest.writeStringList(rejectedUsers);
+        dest.writeStringList(commentIds);
+        dest.writeStringList(privateMessageIds);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator()
@@ -110,11 +110,16 @@ public class Hangout implements Parcelable {
         lng = in.readDouble();
         type = EventType.valueOf(in.readString());
         owner = in.readString();
-        pendingUsers = (List<String>) in.readSerializable();
-        confirmedUsers = (List<String>) in.readSerializable();
-        rejectedUsers = (List<String>) in.readSerializable();
-        commentIds = (List<String>) in.readSerializable();
-        privateMessageIds = (List<String>) in.readSerializable();
+        pendingUsers = new ArrayList<String>();
+        confirmedUsers = new ArrayList<String>();
+        rejectedUsers = new ArrayList<String>();
+        commentIds = new ArrayList<String>();
+        privateMessageIds = new ArrayList<String>();
+        in.readStringList(pendingUsers);
+        in.readStringList(confirmedUsers);
+        in.readStringList(rejectedUsers);
+        in.readStringList(commentIds);
+        in.readStringList(privateMessageIds);
     }
 
     public String getId() { return id; }

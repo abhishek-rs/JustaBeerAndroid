@@ -112,4 +112,11 @@
     <string name="home_settings">Filter by</string>
     <string name="filter1">Sort by distance</string>
     <string name="filter2">Sort by popularity</string>
+
+    <!--- profile page -->
+    <string-array name="genderSpinner">
+        <item name="male">Male</item>
+        <item name="female">Female</item>
+        <item name="other">Other</item>
+    </string-array>
 </resources>

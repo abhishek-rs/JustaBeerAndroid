@@ -1,21 +1,27 @@
 package com.justagroup.justabeer.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 //new imports
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ValueEventListener;
+import com.justagroup.justabeer.HangoutActivity;
 import com.justagroup.justabeer.User;
 //firebase stuff
 
@@ -29,6 +35,10 @@ import com.google.firebase.database.Query;
 
 import com.justagroup.justabeer.R;
 import com.squareup.picasso.Picasso;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,8 +54,15 @@ public class ProfileFragment extends Fragment {
     public ImageView userImage;
     public TextView age;
     public TextView about;
+    public TextView gender;
     public TextView comments;
+    public boolean editMode = false;
+    /*edit mode
     public Button editProfile;
+    public EditText editAge;
+    public EditText editGender;
+    public EditText editInterests;*/
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -93,15 +110,15 @@ public class ProfileFragment extends Fragment {
                 // Get User object and use the values to update the UI
                 User user = dataSnapshot.getChildren().iterator().next().getValue(User.class);
                 TextView title = getView().findViewById(R.id.profile_card_title);
-                TextView age = getView().findViewById(R.id.profile_age);
-                TextView gender = getView().findViewById(R.id.profile_gender);
-                TextView about = getView().findViewById(R.id.profile_about);
+                age = getView().findViewById(R.id.profile_age);
+                gender = getView().findViewById(R.id.profile_gender);
+                about = getView().findViewById(R.id.profile_about);
                 ImageView image = getView().findViewById(R.id.profile_image_view);
                 title.setText(user.getFullName());
                 age.setText(Integer.toString(user.getAge()));
-                gender.setText("Not defined in db");
+                gender.setText("Not available");
                 about.setText(user.getAbout());
-                if(!user.getPhoto().equals("")) {
+                if (!user.getPhoto().equals("")) {
                     Picasso
                             .with(getActivity())
                             .load(user.getPhoto())
@@ -120,8 +137,136 @@ public class ProfileFragment extends Fragment {
             }
         };
         //THE THING THAT DIDNT WORK
-       usersRef.orderByChild("id").equalTo(current.getUid()).addValueEventListener(userListener);
-       return view;
+        usersRef.orderByChild("id").equalTo(current.getUid()).addValueEventListener(userListener);
+
+
+        // ------------ EDIT MODE ----------------
+        // edit mode components
+        final Spinner editGender = (Spinner) view.findViewById(R.id.editGender);
+        editGender.setVisibility(View.GONE);
+
+        final EditText editAge = (EditText) view.findViewById(R.id.editAge);
+        editAge.setVisibility(View.GONE);
+
+        final EditText editInterests = (EditText) view.findViewById(R.id.editInterests);
+        editInterests.setVisibility(View.GONE);
+
+        final LinearLayout editBtnContainer = (LinearLayout) view.findViewById(R.id.editButtons);
+        editBtnContainer.setVisibility(View.GONE);
+        final Button cancelButton = (Button) view.findViewById(R.id.cancelButton);
+        final Button saveButton = (Button) view.findViewById(R.id.saveButton);
+
+        final Button editModeButton = (Button) view.findViewById(R.id.editModeButton);
+
+        //List<Object> editComponents = Arrays.asList((Object) editAge, editGender, editInterests, saveButton, cancelButton);
+        //List<TextView> viewComponents = Arrays.asList(editAge, editGender, editInterests);
+        /*for(int i = 0; i < editViewComponents.size(); i++){
+            editViewComponents.get
+        }
+                */
+
+        editModeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("mode", "edit");
+                Log.d("age", age.toString());
+                Log.d("gender", gender.toString());
+                Log.d("interests", about.toString());
+
+                //age
+                if (age.getText() != null) {
+                    editAge.setText(age.getText());
+                } else {
+                    editAge.setText(setUndefinedText());
+                }
+                age.setVisibility(View.GONE);
+                editAge.setVisibility(View.VISIBLE);
+
+                /*gender
+                if (gender.getText() != null) {
+                    if(gender.getText().equals(editGender.getItemAtPosition(0).toString())){
+                        editGender.setSelection(0);
+                    } else if (gender.getText().equals(editGender.getItemAtPosition(1).toString())) {
+                        editGender.setSelection(1);
+                    } else {
+                        editGender.setSelection(2);
+                    }
+
+                } else {
+                    editGender.setSelection(1);
+                }*/
+                gender.setVisibility(View.GONE);
+                editGender.setVisibility(View.VISIBLE);
+
+                //interests/about
+                if (about.getText() != null) {
+                    editInterests.setText(about.getText());
+                } else {
+                    editInterests.setText(setUndefinedText());
+                }
+                about.setVisibility(View.GONE);
+                editInterests.setVisibility(View.VISIBLE);
+
+                editModeButton.setVisibility(View.GONE);
+                editBtnContainer.setVisibility(View.VISIBLE);
+            }
+        });
+
+        // save changes to view and db
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //age
+                if (editAge.getText()!= null) {
+                    age.setText(editAge.getText());
+                } else {
+                    age.setText(setUndefinedText());
+                }
+                age.setVisibility(View.VISIBLE);
+                editAge.setVisibility(View.GONE);
+
+                //gender
+                gender.setText(editGender.getSelectedItem().toString());
+                editGender.setVisibility(View.GONE);
+                gender.setVisibility(View.VISIBLE);
+
+                //interests/about
+                if (editInterests.getText() != null) {
+                    about.setText(editInterests.getText());
+                } else {
+                    about.setText(setUndefinedText());
+                }
+                editInterests.setVisibility(View.GONE);
+                about.setVisibility(View.VISIBLE);
+
+                editModeButton.setVisibility(View.VISIBLE);
+                editBtnContainer.setVisibility(View.GONE);
+            }
+        });
+
+        // save changes to view and db
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                age.setVisibility(View.VISIBLE);
+                age.setVisibility(View.GONE);
+
+                editGender.setVisibility(View.GONE);
+                gender.setVisibility(View.VISIBLE);
+
+                editInterests.setVisibility(View.GONE);
+                about.setVisibility(View.VISIBLE);
+
+                editModeButton.setVisibility(View.VISIBLE);
+                editBtnContainer.setVisibility(View.GONE);
+            }
+        });
+
+        return view;
+
+    }
+
+
+
+    private String setUndefinedText() {
+        return "undefined";
     }
 
     // TODO: Rename method, update argument and hook method into UI event

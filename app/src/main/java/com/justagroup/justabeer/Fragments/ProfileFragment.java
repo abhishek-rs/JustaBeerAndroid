@@ -142,6 +142,11 @@ public class ProfileFragment extends Fragment {
 
         // ------------ EDIT MODE ----------------
         // edit mode components
+        final EditText editName = (EditText) view.findViewById(R.id.editName);
+        final TextView editNameCaption = (TextView) view.findViewById(R.id.editNameCaption);
+        editName.setVisibility(View.GONE);
+        editNameCaption.setVisibility(View.GONE);
+
         final Spinner editGender = (Spinner) view.findViewById(R.id.editGender);
         editGender.setVisibility(View.GONE);
 
@@ -171,6 +176,9 @@ public class ProfileFragment extends Fragment {
                 Log.d("age", age.toString());
                 Log.d("gender", gender.toString());
                 Log.d("interests", about.toString());
+
+                editName.setVisibility(View.VISIBLE);
+                editNameCaption.setVisibility(View.VISIBLE);
 
                 //age
                 if (age.getText() != null) {
@@ -214,6 +222,9 @@ public class ProfileFragment extends Fragment {
         // save changes to view and db
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                editName.setVisibility(View.GONE);
+                editNameCaption.setVisibility(View.GONE);
+
                 //age
                 if (editAge.getText()!= null) {
                     age.setText(editAge.getText());
@@ -245,6 +256,9 @@ public class ProfileFragment extends Fragment {
         // save changes to view and db
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                editName.setVisibility(View.GONE);
+                editNameCaption.setVisibility(View.GONE);
+
                 age.setVisibility(View.VISIBLE);
                 age.setVisibility(View.GONE);
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,10 +19,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.ValueEventListener;
+import com.justagroup.justabeer.ConfirmedRequest;
 import com.justagroup.justabeer.HangoutActivity;
+import com.justagroup.justabeer.PendingRequest;
 import com.justagroup.justabeer.User;
 //firebase stuff
 
@@ -98,10 +104,10 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        FirebaseUser current = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser current = FirebaseAuth.getInstance().getCurrentUser();
 
         // My version
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+        final DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
 
         // Attach a listener to read the data at our users reference
         ValueEventListener userListener = new ValueEventListener() {
@@ -136,9 +142,14 @@ public class ProfileFragment extends Fragment {
                 // ...
             }
         };
+
+
         //THE THING THAT DIDNT WORK
         usersRef.orderByChild("id").equalTo(current.getUid()).addValueEventListener(userListener);
 
+        /*final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String currentUser = "justabeer-10b50/users" + usersRef.getRef(current);
+        DatabaseReference ownProfileRef = database.getReference(currentUser);*/
 
         // ------------ EDIT MODE ----------------
         // edit mode components
@@ -172,11 +183,7 @@ public class ProfileFragment extends Fragment {
 
         editModeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("mode", "edit");
-                Log.d("age", age.toString());
-                Log.d("gender", gender.toString());
-                Log.d("interests", about.toString());
-
+                //name
                 editName.setVisibility(View.VISIBLE);
                 editNameCaption.setVisibility(View.VISIBLE);
 
@@ -250,6 +257,30 @@ public class ProfileFragment extends Fragment {
 
                 editModeButton.setVisibility(View.VISIBLE);
                 editBtnContainer.setVisibility(View.GONE);
+
+                usersRef.child("-L-crEOENVdMSAnmujbm").setValue(new User(current.getUid(), "NEW NAME", "moi", current.getEmail(), 39, about.getText().toString(), "2017/12/05 23:47:36"));
+                /*FirebaseDatabase db = FirebaseDatabase.getInstance();
+                DatabaseReference currentUserRef = db.getReference("users/-L-crEOENVdMSAnmujbm");
+
+                currentUserRef.push().setValue();
+                confirmedRef.push().setValue(cr);
+
+                usersRef.getRef(current.);
+                // save changes to db
+                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                        .setDisplayName("Jane Q. User")
+                        .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
+                        .build();
+
+                current.updateProfile(profileUpdates)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "User profile updated.");
+                                }
+                            }
+                        });*/
             }
         });
 

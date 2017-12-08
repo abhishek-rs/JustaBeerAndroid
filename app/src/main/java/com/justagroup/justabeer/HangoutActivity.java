@@ -17,25 +17,59 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class HangoutActivity extends AppCompatActivity {
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
+public class HangoutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangout);
+        Hangout hangout = getIntent().getExtras().getParcelable("hangout");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Beer with Andrea @ 7PM");
+        toolbar.setTitle(hangout.getTitle());
         setSupportActionBar(toolbar);
         ImageView backdrop = findViewById(R.id.backdrop);
+
+        switch(hangout.getType()) {
+            case Beer:
+                backdrop.setImageResource(R.drawable.bar2);
+                break;
+            case Food:
+                backdrop.setImageResource(R.drawable.food3);
+                break;
+            case Coffee:
+                backdrop.setImageResource(R.drawable.coffee1);
+            default:
+                backdrop.setImageResource(R.drawable.bar1);
+                break;
+        }
+
         TextView date = findViewById(R.id.hangout_date);
-        date.setText("7-11 PM");
-        TextView place = findViewById(R.id.hangout_place);
-        place.setText("Sodermalm, Stockholm");
-        TextView people = findViewById(R.id.hangout_people);
-        people.setText("Andrea");
+
+        try {
+            DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            DateFormat format2 = new SimpleDateFormat("HH:mm");
+            Date toTime = format.parse(hangout.getToTime());
+            String toTimeStr = format2.format(toTime).toString();
+            Date fromTime = format.parse(hangout.getFromTime());
+            String fromTimeStr = format2.format(fromTime).toString();
+            date.setText(fromTimeStr + " - " + toTimeStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         TextView type = findViewById(R.id.hangout_type);
-        type.setText("Beer");
+        type.setText(hangout.getType().name());
+
+        TextView place = findViewById(R.id.hangout_place);
+
+        TextView people = findViewById(R.id.hangout_people);
+
 
         TabLayout commentTabLayout = (TabLayout) findViewById(R.id.commentTabs);
         TabLayout.Tab commentsTab = commentTabLayout.getTabAt(0);
@@ -74,8 +108,6 @@ public class HangoutActivity extends AppCompatActivity {
             }
         });
 
-
-        backdrop.setImageResource(R.drawable.bar);
         final Context mContext = this;
         joiningButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -131,7 +131,7 @@ public class MyHangoutsFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        Hangout h = dataSnapshot.getChildren().iterator().next().getValue(Hangout.class);
+                        final Hangout h = dataSnapshot.getChildren().iterator().next().getValue(Hangout.class);
 
                         db.getReference("users").orderByChild("id").equalTo(h.getOwner()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -169,6 +169,7 @@ public class MyHangoutsFragment extends Fragment {
                             public void onClick(View v) {
                                 Intent intent = new Intent(getActivity(), HangoutActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                intent.putExtra("hangout", h);
                                 startActivity(intent);
                             }});
                     }
@@ -214,7 +215,7 @@ public class MyHangoutsFragment extends Fragment {
                 db.getReference("hangouts").orderByChild("id").equalTo(model.getHangoutId()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Hangout h = dataSnapshot.getChildren().iterator().next().getValue(Hangout.class);
+                        final Hangout h = dataSnapshot.getChildren().iterator().next().getValue(Hangout.class);
 
                         db.getReference("users").orderByChild("id").equalTo(h.getOwner()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -252,6 +253,7 @@ public class MyHangoutsFragment extends Fragment {
                             public void onClick(View v) {
                                 Intent intent = new Intent(getActivity(), HangoutActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                intent.putExtra("hangout", h);
                                 startActivity(intent);
                             }});
                     }
@@ -292,7 +294,7 @@ public class MyHangoutsFragment extends Fragment {
             }
 
             @Override
-            protected void onBindViewHolder(final CardHolder holder, int position, Hangout model) {
+            protected void onBindViewHolder(final CardHolder holder, int position, final Hangout model) {
 
                 db.getReference("users").orderByChild("id").equalTo(model.getOwner()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -330,6 +332,7 @@ public class MyHangoutsFragment extends Fragment {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), HangoutActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        intent.putExtra("hangout", model);
                         startActivity(intent);
                     }});
             }

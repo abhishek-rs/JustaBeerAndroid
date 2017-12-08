@@ -101,7 +101,7 @@ public class ProfileFragment extends Fragment {
                 age.setText(Integer.toString(user.getAge()));
                 gender.setText("Not defined in db");
                 about.setText(user.getAbout());
-                if(user.getPhoto() != null) {
+                if(!user.getPhoto().equals("")) {
                     Picasso
                             .with(getActivity())
                             .load(user.getPhoto())

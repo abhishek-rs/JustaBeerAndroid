@@ -16,7 +16,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView userAge;
     private TextView userGender;
     private TextView userAbout;
-    //private TextView userImage;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,22 +30,21 @@ public class ProfileActivity extends AppCompatActivity {
         userAge = (TextView) findViewById(R.id.user_age);
         userGender = (TextView) findViewById(R.id.user_gender);
         userAbout = (TextView) findViewById(R.id.user_about);
-        //userImage = (ImageView).findViewById(R.id.user_image_view);
+        imageView = (ImageView)findViewById(R.id.imageView);
 
 
         userName.setText(user.getFullName());
         userAge.setText(Integer.toString(user.getAge()));
         userGender.setText("Not defined in db");
         userAbout.setText(user.getAbout());
-/*
+
         if(!user.getPhoto().equals("")) {
             Picasso
-                    //.with(ProfileActivity.this)
                     .with(this)
                     .load(user.getPhoto())
-                    .into(image);
+                    .into(imageView);
 
     }
-*/
+
     }
 }

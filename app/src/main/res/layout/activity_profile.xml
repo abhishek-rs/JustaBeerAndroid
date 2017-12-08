@@ -51,7 +51,7 @@
                      uncomment to test if you have API21-->
 
                     <ImageView
-                        android:id="@+id/user_image_view"
+                        android:id="@+id/imageView"
                         android:layout_width="280dp"
                         android:layout_height="200dp"
                         android:layout_gravity="center"

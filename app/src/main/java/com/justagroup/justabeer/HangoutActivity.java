@@ -3,6 +3,9 @@ package com.justagroup.justabeer;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,16 +15,22 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class HangoutActivity extends AppCompatActivity {
 
@@ -29,11 +38,23 @@ public class HangoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangout);
-        Hangout hangout = getIntent().getExtras().getParcelable("hangout");
+        final Hangout hangout = getIntent().getExtras().getParcelable("hangout");
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(hangout.getTitle());
         setSupportActionBar(toolbar);
         ImageView backdrop = findViewById(R.id.backdrop);
+        final ListView attendeeList = findViewById(R.id.attendeeList);
+        List<String> attendees = new ArrayList<String>();
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.hangout_attendees, attendees);
+        adapter.add("Abhishek");
+        adapter.add("zeee");
+
+
+        attendeeList.setAdapter(adapter);
 
         switch(hangout.getType()) {
             case Beer:
@@ -68,8 +89,33 @@ public class HangoutActivity extends AppCompatActivity {
 
         TextView place = findViewById(R.id.hangout_place);
 
-        TextView people = findViewById(R.id.hangout_people);
+       // TextView people = findViewById(R.id.hangout_people);
+        Button mapBtn = findViewById(R.id.mapBtn);
 
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        try{
+            addresses = geocoder.getFromLocation(hangout.getLat(), hangout.getLng(), 1);
+            String address = addresses.get(0).getAddressLine(0);
+            place.setText(address);
+            mapBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Uri gmmIntentUri = Uri.parse("geo:" + Double.toString(hangout.getLat()) + "," + Double.toString(hangout.getLng()) + "?q=bars");
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(mapIntent);
+                    }
+                }
+            });
+
+        }
+        catch (IOException e){
+            System.out.print(e);
+        }
 
         TabLayout commentTabLayout = (TabLayout) findViewById(R.id.commentTabs);
         TabLayout.Tab commentsTab = commentTabLayout.getTabAt(0);

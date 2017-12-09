@@ -107,6 +107,7 @@
     <!-- hangout detail view -->
     <string name="hangoutdetail_tabComment">Comments</string>
     <string name="hangoutdetail_tabMessages">Messages</string>
+    <string name="map_button">Show places around here</string>
 
     <!-- sidebar home -->
     <string name="home_settings">Filter by</string>

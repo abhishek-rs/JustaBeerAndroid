@@ -32,4 +32,6 @@ public class CardHolder extends RecyclerView.ViewHolder {
         comments = (TextView)itemView.findViewById(R.id.hangout_card_comments);
         seeMore = (Button)itemView.findViewById(R.id.hangout_seemore);
     }
+
+    public User user;
 }

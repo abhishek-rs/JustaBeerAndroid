@@ -51,7 +51,7 @@ public class User implements Parcelable {
         dest.writeString(photo);
         dest.writeString(email);
         dest.writeInt(age);
-        //dest.writeString(gender.name());
+        dest.writeString(gender);
         dest.writeString(about);
         dest.writeString(timestampJoined);
     }
@@ -73,7 +73,7 @@ public class User implements Parcelable {
         photo = in.readString();
         email = in.readString();
         age = in.readInt();
-        //gender = Gender.valueOf(in.readString());
+        gender = in.readString();
         about = in.readString();
         timestampJoined = in.readString();
     }

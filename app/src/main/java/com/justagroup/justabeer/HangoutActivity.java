@@ -3,6 +3,9 @@ package com.justagroup.justabeer;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,16 +15,30 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class HangoutActivity extends AppCompatActivity {
 
@@ -29,47 +46,103 @@ public class HangoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangout);
-        Hangout hangout = getIntent().getExtras().getParcelable("hangout");
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(hangout.getTitle());
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ImageView backdrop = findViewById(R.id.backdrop);
+     //   final Hangout hangout = getIntent().getExtras().getParcelable("hangout");
+        final String hangoutId = getIntent().getExtras().getString("hangoutid");
+        final FirebaseDatabase db = FirebaseDatabase.getInstance();
+        FirebaseUser curr = FirebaseAuth.getInstance().getCurrentUser();
+        final DatabaseReference hangoutsRef = db.getReference("hangouts");
+        final DatabaseReference usersRef = db.getReference("users");
+        List<String> attendees = new ArrayList<String>();
+        final ListView attendeeList = findViewById(R.id.attendeeList);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.hangout_attendees, attendees);
+        attendeeList.setAdapter(adapter);
+        final ImageView backdrop = findViewById(R.id.backdrop);
+        final TextView date = findViewById(R.id.hangout_date);
+        final TextView type = findViewById(R.id.hangout_type);
+        final TextView place = findViewById(R.id.hangout_place);
+        final Button mapBtn = findViewById(R.id.mapBtn);
+        final Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
-        switch(hangout.getType()) {
-            case Beer:
-                backdrop.setImageResource(R.drawable.bar2);
-                break;
-            case Food:
-                backdrop.setImageResource(R.drawable.food3);
-                break;
-            case Coffee:
-                backdrop.setImageResource(R.drawable.coffee1);
-            default:
-                backdrop.setImageResource(R.drawable.bar1);
-                break;
-        }
 
-        TextView date = findViewById(R.id.hangout_date);
+        hangoutsRef.orderByChild("id").equalTo(hangoutId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final Hangout h = dataSnapshot.getChildren().iterator().next().getValue(Hangout.class);
+                toolbar.setTitle(h.getTitle());
+                switch(h.getType()) {
+                    case Beer:
+                        backdrop.setImageResource(R.drawable.bar2);
+                        break;
+                    case Food:
+                        backdrop.setImageResource(R.drawable.food3);
+                        break;
+                    case Coffee:
+                        backdrop.setImageResource(R.drawable.coffee1);
+                        break;
+                    default:
+                        backdrop.setImageResource(R.drawable.bar1);
+                        break;
+                }
 
-        try {
-            DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            DateFormat format2 = new SimpleDateFormat("HH:mm");
-            Date toTime = format.parse(hangout.getToTime());
-            String toTimeStr = format2.format(toTime).toString();
-            Date fromTime = format.parse(hangout.getFromTime());
-            String fromTimeStr = format2.format(fromTime).toString();
-            date.setText(fromTimeStr + " - " + toTimeStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+                try {
+                    DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    DateFormat format2 = new SimpleDateFormat("HH:mm");
+                    Date toTime = format.parse(h.getToTime());
+                    String toTimeStr = format2.format(toTime).toString();
+                    Date fromTime = format.parse(h.getFromTime());
+                    String fromTimeStr = format2.format(fromTime).toString();
+                    date.setText(fromTimeStr + " - " + toTimeStr);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
-        TextView type = findViewById(R.id.hangout_type);
-        type.setText(hangout.getType().name());
+                type.setText(h.getType().name());
 
-        TextView place = findViewById(R.id.hangout_place);
+                try{
+                    List<Address> addresses = geocoder.getFromLocation(h.getLat(), h.getLng(), 1);
+                    String address = addresses.get(0).getAddressLine(0);
+                    place.setText(address);
+                    mapBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Uri gmmIntentUri = Uri.parse("geo:" + Double.toString(h.getLat()) + "," + Double.toString(h.getLng()) + "?q=bars");
+                            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                            mapIntent.setPackage("com.google.android.apps.maps");
+                            if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                                startActivity(mapIntent);
+                            }
+                        }
+                    });
 
-        TextView people = findViewById(R.id.hangout_people);
+                }
+                catch (IOException e){
+                    System.out.print(e);
+                }
 
+                for (int i=0; i<h.confirmedUsers.size(); i++){
+                    db.getReference("users").orderByChild("id").equalTo(h.confirmedUsers.get(i)).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            User u = dataSnapshot.getChildren().iterator().next().getValue(User.class);
+                            adapter.add(u.getFullName());
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         TabLayout commentTabLayout = (TabLayout) findViewById(R.id.commentTabs);
         TabLayout.Tab commentsTab = commentTabLayout.getTabAt(0);

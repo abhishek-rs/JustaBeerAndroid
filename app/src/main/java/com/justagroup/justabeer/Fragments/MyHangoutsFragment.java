@@ -156,6 +156,7 @@ public class MyHangoutsFragment extends Fragment {
                                 break;
                             case Coffee:
                                 holder.hangoutImage.setImageResource(R.drawable.coffee2);
+                                break;
                             default :
                                 holder.hangoutImage.setImageResource(R.drawable.bar3);
                                 break;
@@ -170,6 +171,7 @@ public class MyHangoutsFragment extends Fragment {
                                 Intent intent = new Intent(getActivity(), HangoutActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 intent.putExtra("hangout", h);
+                                intent.putExtra("hangoutid", h.getId());
                                 startActivity(intent);
                             }});
                     }
@@ -240,6 +242,7 @@ public class MyHangoutsFragment extends Fragment {
                                 break;
                             case Coffee:
                                 holder.hangoutImage.setImageResource(R.drawable.coffee2);
+                                break;
                             default :
                                 holder.hangoutImage.setImageResource(R.drawable.bar3);
                                 break;
@@ -254,6 +257,7 @@ public class MyHangoutsFragment extends Fragment {
                                 Intent intent = new Intent(getActivity(), HangoutActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 intent.putExtra("hangout", h);
+                                intent.putExtra("hangoutid", h.getId());
                                 startActivity(intent);
                             }});
                     }
@@ -319,6 +323,7 @@ public class MyHangoutsFragment extends Fragment {
                         break;
                     case Coffee:
                         holder.hangoutImage.setImageResource(R.drawable.coffee2);
+                        break;
                     default :
                         holder.hangoutImage.setImageResource(R.drawable.bar3);
                         break;
@@ -333,6 +338,7 @@ public class MyHangoutsFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), HangoutActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         intent.putExtra("hangout", model);
+                        intent.putExtra("hangoutid", model.getId());
                         startActivity(intent);
                     }});
             }

@@ -188,12 +188,7 @@
         </android.support.design.widget.TabLayout>
 
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp">
-
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/contentWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -201,127 +196,30 @@
                 android:background="@color/dark"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/comments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <android.support.v7.widget.CardView
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/comment_card_recycler_view"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        app:cardBackgroundColor="@color/background"
-                        app:contentPadding="4dp">
-
-                        <RelativeLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/commentimage1"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_gravity="left"
-                                android:layout_margin="5dp"
-                                android:layout_weight="3"
-                                app:srcCompat="@drawable/user" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_toRightOf="@id/commentimage1"
-                                android:padding="5dp"
-                                android:text="Anyone up for a beer?"
-                                android:textColor="@color/cardText"
-                                android:textSize="14sp" />
-
-                        </RelativeLayout>
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        app:cardBackgroundColor="@color/background"
-                        app:contentPadding="4dp">
-
-                        <RelativeLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="40dp"
-                            android:layout_margin="4dp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/commentimage2"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_gravity="left"
-                                android:layout_margin="5dp"
-                                android:layout_weight="3"
-                                app:srcCompat="@drawable/user" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_toRightOf="@id/commentimage2"
-                                android:padding="5dp"
-                                android:text="Yesss!"
-                                android:textColor="@color/cardText"
-                                android:textSize="14sp" />
-
-                        </RelativeLayout>
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        app:cardBackgroundColor="@color/background"
-                        app:contentPadding="4dp">
-
-                        <RelativeLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/commentimage3"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_gravity="left"
-                                android:layout_margin="5dp"
-                                android:layout_weight="3"
-                                app:srcCompat="@drawable/user" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_toRightOf="@id/commentimage3"
-                                android:padding="5dp"
-                                android:text="Hellooo?"
-                                android:textColor="@color/cardText"
-                                android:textSize="14sp" />
-
-                        </RelativeLayout>
-
-                    </android.support.v7.widget.CardView>
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="50dp"
+                        android:scrollbars="vertical" />
 
                     <LinearLayout
-                        android:id="@+id/layout_chatbox"
+                        android:id="@+id/layout_commentbox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
                         android:background="#ffffff"
                         android:minHeight="48dp"
                         android:orientation="horizontal">
 
                         <EditText
-                            android:id="@+id/edittext_chatbox"
+                            android:id="@+id/edittext_commentbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -333,56 +231,91 @@
                             android:maxLines="6" />
 
                         <Button
-                            android:id="@+id/button_chatbox_send"
+                            android:id="@+id/button_commentbox_send"
                             android:layout_width="64dp"
                             android:layout_height="48dp"
                             android:layout_gravity="bottom"
-                            android:background="?attr/selectableItemBackground"
+                            android:background="@color/colorSecondary"
                             android:clickable="true"
                             android:gravity="center"
                             android:text="SEND"
                             android:textSize="14dp" />
+
                     </LinearLayout>
 
-                </LinearLayout>
+                </RelativeLayout>
 
-
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/messages"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone">
 
-                    <android.support.v7.widget.CardView
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="30dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
+                        <TextView
+                            android:id="@+id/unconfirmed_user_message"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:layout_gravity="center"
+                            android:textAlignment="center"
+                            android:text="This section will be available when your request to join the hangout is accepted"
+                            android:textColor="@color/cardText"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/messages_card_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="50dp"
+                        android:scrollbars="vertical"
+                        android:visibility="gone"/>
+
+                    <LinearLayout
+                        android:id="@+id/layout_messagesbox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="15dp"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        app:cardBackgroundColor="@color/cardBg">
+                        android:layout_alignParentBottom="true"
+                        android:background="#ffffff"
+                        android:minHeight="48dp"
+                        android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <EditText
+                            android:id="@+id/edittext_messagesbox"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:hint="Enter message"
+                            android:maxLines="6" />
 
-                            <TextView
+                        <Button
+                            android:id="@+id/button_messagesbox_send"
+                            android:layout_width="64dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="bottom"
+                            android:background="@color/colorSecondary"
+                            android:backgroundTint="@color/colorSecondary"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:text="SEND"
+                            android:textSize="14dp" />
 
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="10dp"
-                                android:text="This section will be available when your request to join the hangout is accepted"
-                                android:textColor="@color/cardText"
-                                android:textSize="18sp" />
+                    </LinearLayout>
 
-                        </LinearLayout>
-
-                    </android.support.v7.widget.CardView>
-
-                </LinearLayout>
-                <!-- tab content ends -->
-            </LinearLayout> <!--tab content wrapper-->
-        </ScrollView>
+                </RelativeLayout>
+            </RelativeLayout> <!--tab content wrapper-->
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

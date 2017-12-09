@@ -75,12 +75,7 @@ public class HomeFragment extends Fragment {
                         .build();
 
         final RecyclerView mCardRecyclerView = (RecyclerView) view.findViewById(R.id.hangout_card_recycler_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
         mCardRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
         final LinearLayoutManager mCardLayoutManager = new android.support.v7.widget.LinearLayoutManager(getActivity());
         mCardRecyclerView.setLayoutManager(mCardLayoutManager);
 

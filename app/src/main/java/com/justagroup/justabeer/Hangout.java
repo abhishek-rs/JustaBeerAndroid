@@ -15,7 +15,7 @@ import java.util.Date;
 
 public class Hangout implements Parcelable {
     public enum EventType {
-        Beer, Food, Sports
+        Beer, Food, Coffee
     }
 
     String id;

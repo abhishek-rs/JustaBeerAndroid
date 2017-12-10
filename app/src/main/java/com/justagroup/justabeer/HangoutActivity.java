@@ -41,6 +41,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -48,8 +50,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class HangoutActivity extends AppCompatActivity {
 
@@ -91,6 +96,10 @@ public class HangoutActivity extends AppCompatActivity {
         final Button commentButton = (Button) findViewById(R.id.button_commentbox_send);
         final EditText messageText = (EditText) findViewById(R.id.edittext_messagesbox);
         final Button messageButton = (Button) findViewById(R.id.button_messagesbox_send);
+        final FloatingActionButton joiningButton = (FloatingActionButton) findViewById(R.id.fab);
+        joiningButton.setImageResource(R.drawable.join);
+        final Button cancelHangoutButton = (Button) findViewById(R.id.cancelHangoutBtn);
+        cancelHangoutButton.setVisibility(View.GONE);//show only when request sent
 
         Query commentsQuery = FirebaseDatabase.getInstance()
                 .getReference()
@@ -117,8 +126,13 @@ public class HangoutActivity extends AppCompatActivity {
                 tb.setTitle(h.getTitle());
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 final Boolean isConfirmedUser = h.confirmedUsers.contains(curr.getUid());
+                final Boolean isOwner = curr.getUid().equals(h.getOwner());
+                final Boolean isPendingUser = h.pendingUsers.contains(curr.getUid());
                 TextView message = (TextView) findViewById(R.id.unconfirmed_user_message);
-                if(isConfirmedUser){
+                TextView hangoutDesc = (TextView) findViewById(R.id.hangout_desc);
+                hangoutDesc.setText(h.getDescription());
+                adapter.clear();
+                if(isConfirmedUser || isOwner){
                     message.setVisibility(View.GONE);
                     mMessageCardRecyclerView.setVisibility(View.VISIBLE);
                 }
@@ -205,9 +219,16 @@ public class HangoutActivity extends AppCompatActivity {
                             newCommentRef.setValue(c);
                             commentText.getText().clear();
 
+                            List<String> currentComments = h.getCommentIds();
+                            currentComments.add(newCommentRef.getKey());
+                            h.setCommentIds(currentComments);
+                            Map<String, Object> childUpdates = new HashMap<>();
+                            childUpdates.put("/hangouts/" + h.getId(), h);
+                            db.getReference().updateChildren(childUpdates);
+
                             if(!h.getOwner().equals(curr.getUid())){
                                 DatabaseReference newNotificationRef = notificationsRef.push();
-                                Notification n = new Notification(newNotificationRef.getKey(), curr.getUid(), h.getOwner(), strCommentTime, Notification.NotificationType.Comment);
+                                Notification n = new Notification(newNotificationRef.getKey(), curr.getUid(), h.getOwner(), strCommentTime, h.getId(), Notification.NotificationType.Comment);
                                 newNotificationRef.setValue(n);
                             }
                         }
@@ -228,9 +249,16 @@ public class HangoutActivity extends AppCompatActivity {
                                 newMessageRef.setValue(p);
                                 messageText.getText().clear();
 
+                                List<String> currentMessages = h.getPrivateMessageIds();
+                                currentMessages.add(newMessageRef.getKey());
+                                h.setCommentIds(currentMessages);
+                                Map<String, Object> childUpdates = new HashMap<>();
+                                childUpdates.put("/hangouts/" + h.getId(), h);
+                                db.getReference().updateChildren(childUpdates);
+
                                 if(!h.getOwner().equals(curr.getUid())){
                                     DatabaseReference newNotificationRef = notificationsRef.push();
-                                    Notification n = new Notification(newNotificationRef.getKey(), curr.getUid(), h.getOwner(), strMessageTime, Notification.NotificationType.PrivateMessage);
+                                    Notification n = new Notification(newNotificationRef.getKey(), curr.getUid(), h.getOwner(), strMessageTime, h.getId(), Notification.NotificationType.PrivateMessage);
                                     newNotificationRef.setValue(n);
                                 }
                             }
@@ -238,6 +266,150 @@ public class HangoutActivity extends AppCompatActivity {
                         else{
                             Toast.makeText(HangoutActivity.this, "You cannot send messages here just yet.", Toast.LENGTH_LONG).show();
                         }
+                    }
+                });
+
+                if(isOwner){
+                    joiningButton.setVisibility(View.GONE);
+                }
+                else if(isConfirmedUser){
+                    joiningButton.setImageResource(R.drawable.ic_check);
+                    cancelHangoutButton.setVisibility(View.VISIBLE);
+                }
+                else if(isPendingUser){
+                    joiningButton.setImageResource(R.drawable.hourglass);
+                    cancelHangoutButton.setVisibility(View.VISIBLE);
+                }
+
+                joiningButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(isConfirmedUser){
+                            Snackbar.make(view, "You're going to the event. Click 'cancel' button if you changed your mind.", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
+                        else if(isPendingUser){
+                            Snackbar.make(view, "We're waiting for the owner of the hangout to accept your request. Click cancel button if you changed your mind.", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
+                        else{
+                            Snackbar.make(view, "You've signed up for the event. Await confirmation", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            Calendar cal = Calendar.getInstance(); // creates calendar
+                            cal.setTime(new Date());
+                            Date requestTime = cal.getTime();
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                            String strRequestTime = dateFormat.format(requestTime).toString();
+
+                            DatabaseReference pendingRef = db.getReference("pendingRequests");
+                            PendingRequest pr = new PendingRequest(h.getId(), curr.getUid());
+                            pendingRef.push().setValue(pr);
+
+                            List<String> currentPendingUsers = h.getPendingUsers();
+                            currentPendingUsers.add(curr.getUid());
+                            h.setPendingUsers(currentPendingUsers);
+                            Map<String, Object> childUpdates = new HashMap<>();
+                            childUpdates.put("/hangouts/" + h.getId(), h);
+                            db.getReference().updateChildren(childUpdates);
+
+                            DatabaseReference newNotificationRef = notificationsRef.push();
+                            Notification n = new Notification(newNotificationRef.getKey(), curr.getUid(), h.getOwner(), strRequestTime, h.getId(), Notification.NotificationType.Request);
+                            newNotificationRef.setValue(n);
+
+                            joiningButton.setImageResource(R.drawable.hourglass);
+                            cancelHangoutButton.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+
+                cancelHangoutButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view){
+                        Calendar cal = Calendar.getInstance(); // creates calendar
+                        cal.setTime(new Date());
+                        Date requestTime = cal.getTime();
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                        String strRequestTime = dateFormat.format(requestTime).toString();
+
+                        if(isConfirmedUser){
+                            Snackbar.make(view, "You've cancelled your request. You won't be able to send private messages now.", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+
+                            final DatabaseReference confirmedRef = db.getReference("confirmedRequests");
+                            confirmedRef.orderByChild("hangoutId").equalTo(h.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot child : dataSnapshot.getChildren())
+                                    {
+                                        ConfirmedRequest c = child.getValue(ConfirmedRequest.class);
+                                        if(c != null ) {
+                                            if(c.guestId.equals(curr.getUid())){
+                                                DatabaseReference delRef = db.getReference("confirmedRequests/" + child.getKey());
+                                                delRef.removeValue();
+                                            }
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                            List<String> currentConfirmedUsers = h.getConfirmedUsers();
+                            int pos = currentConfirmedUsers.indexOf(curr.getUid());
+                            currentConfirmedUsers.remove(pos);
+                            h.setConfirmedUsers(currentConfirmedUsers);
+                            Map<String, Object> childUpdates = new HashMap<>();
+                            childUpdates.put("/hangouts/" + h.getId(), h);
+                            db.getReference().updateChildren(childUpdates);
+
+                            DatabaseReference newNotificationRef = notificationsRef.push();
+                            Notification n = new Notification(newNotificationRef.getKey(), curr.getUid(), h.getOwner(), strRequestTime, h.getId(), Notification.NotificationType.CancelConfirmation);
+                            newNotificationRef.setValue(n);
+                        }
+                        else if(isPendingUser){
+                            Snackbar.make(view, "You've cancelled your request to join the event.", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+
+                            final DatabaseReference pendingRef = db.getReference("pendingRequests");
+                            pendingRef.orderByChild("hangoutId").equalTo(h.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot child : dataSnapshot.getChildren())
+                                    {
+                                        PendingRequest c = child.getValue(PendingRequest.class);
+                                        if(c != null ) {
+                                            if(c.guestId.equals(curr.getUid())){
+                                                DatabaseReference delRef = db.getReference("pendingRequests/" + child.getKey());
+                                                delRef.removeValue();
+                                            }
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                            List<String> currentPendingUsers = h.getPendingUsers();
+                            int pos = currentPendingUsers.indexOf(curr.getUid());
+                            currentPendingUsers.remove(pos);
+                            h.setPendingUsers(currentPendingUsers);
+                            Map<String, Object> childUpdates = new HashMap<>();
+                            childUpdates.put("/hangouts/" + h.getId(), h);
+                            db.getReference().updateChildren(childUpdates);
+
+                            DatabaseReference newNotificationRef = notificationsRef.push();
+                            Notification n = new Notification(newNotificationRef.getKey(), curr.getUid(), h.getOwner(), strRequestTime, h.getId(), Notification.NotificationType.CancelRequest);
+                            newNotificationRef.setValue(n);
+                        }
+
+                        joiningButton.setImageResource(R.drawable.join);
+                        cancelHangoutButton.setVisibility(View.GONE);
                     }
                 });
             }
@@ -395,11 +567,6 @@ public class HangoutActivity extends AppCompatActivity {
         TabLayout.Tab commentsTab = commentTabLayout.getTabAt(0);
         TabLayout.Tab messagesTab = commentTabLayout.getTabAt(1);
 
-        final FloatingActionButton joiningButton = (FloatingActionButton) findViewById(R.id.fab);
-        joiningButton.setImageResource(R.drawable.join);
-        final Button cancelHangoutButton = (Button) findViewById(R.id.cancelHangoutBtn);
-        cancelHangoutButton.setVisibility(View.GONE);//show only when request sent
-
         final RelativeLayout commentsLayout = (RelativeLayout) findViewById(R.id.comments);
         final RelativeLayout messagesLayout = (RelativeLayout) findViewById(R.id.messages);
 
@@ -425,33 +592,6 @@ public class HangoutActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 Log.d("testing", "reselected tab:" + tab.getText());
-            }
-        });
-
-        final Context mContext = this;
-        joiningButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                    //join event
-                    Snackbar.make(view, "You've signed up for the event. Await confirmation", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                    joiningButton.setImageResource(R.drawable.hourglass);
-                    cancelHangoutButton.setVisibility(View.VISIBLE);
-                //TODO: send info to db
-            }
-        });
-
-
-
-        cancelHangoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                //cancel event
-                Snackbar.make(view, "Your request has been cancelled", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                joiningButton.setImageResource(R.drawable.join);
-                cancelHangoutButton.setVisibility(View.GONE);
-                //TODO: send info to db
             }
         });
     }

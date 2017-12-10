@@ -42,6 +42,13 @@ public class CreateHangoutFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    public String selectedType;
+    public String selectedPlace;
+    public String selectedStartTime;
+    public String selectedEndTime;
+    public String selectedDescription;
+
+
     private OnFragmentInteractionListener mListener;
 
     public CreateHangoutFragment() {
@@ -81,50 +88,29 @@ public class CreateHangoutFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_create_hangout, container, false);
 
-        /*------- EVENT TYPE ----------
-        ImageView beer = (ImageView) view.findViewById(R.id.beerIcon);
-        ImageView coffee = (ImageView) view.findViewById(R.id.coffeeIcon);
-        ImageView food = (ImageView) view.findViewById(R.id.foodIcon);
+        //------- EVENT TYPE ----------
+        final RadioGroup eventTypeRadioGroup = (RadioGroup) view.findViewById(R.id.eventTypeRadio);
+        RadioButton beerRadio = (RadioButton) view.findViewById(R.id.beerRadio);
+        RadioButton coffeeRadio = (RadioButton) view.findViewById(R.id.coffeeRadio);
+        RadioButton foodRadio = (RadioButton) view.findViewById(R.id.foodRadio);
 
-        RadioGroup eventTypeRadioGroup = (RadioGroup) view.findViewById(R.id.eventTypeRadio);
-        RadioButton radio1 = view.findViewById(R.id.beerRadio);
-        eventTypeRadioGroup.addView(radio1);
-        RadioButton radio2 = view.findViewById(R.id.coffeeRadio);
-        eventTypeRadioGroup.addView(radio2);
-        RadioButton radio3 = view.findViewById(R.id.foodRadio);
-        eventTypeRadioGroup.addView(radio3);
-
-        /*
         //init event type radio group
-        RadioGroup eventTypeRadioGroup = (RadioGroup) view.findViewById(R.id.eventTypeRadio);
-        final String[] eventNames = new String[] {"Beer","Food","Sports"};
-        RadioButton radio1 = view.findViewById(R.id.beerRadio);
-        eventTypeRadioGroup.addView(radio1);
-        RadioButton radio2 = view.findViewById(R.id.foodRadio);
-        eventTypeRadioGroup.addView(radio2);
-        RadioButton radio3 = view.findViewById(R.id.sportsRadio);
-        eventTypeRadioGroup.addView(radio3);
+        final String[] eventNames = new String[] {"Beer","Coffee","Food"};
 
         eventTypeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int ind) {
                 Log.d("event type index", ind + "");
-                RadioButton button = null;
 
-                for (int i = 0; i < eventNames.length; ++i) {
-                    if (ind == i) {
-                        //button selected
-                        button = (RadioButton) view.findViewById(ind);
-                        //button = (RadioButton) radioGroup.getChildAt(ind);
-                        button.setChecked(true);
-                    } else {
-                        //buttons that are not selected
-                        button = (RadioButton) view.findViewById(ind);
-                        button.setChecked(false);
-                    }
+                if(eventTypeRadioGroup.getCheckedRadioButtonId()!=-1){
+                    int id= eventTypeRadioGroup.getCheckedRadioButtonId();
+                    View radioButton = eventTypeRadioGroup.findViewById(id);
+                    int radioId = radioGroup.indexOfChild(radioButton);
+                    RadioButton btn = (RadioButton) eventTypeRadioGroup.getChildAt(radioId);
+                    selectedType = (String) btn.getText();
                 }
             }
-        });*/
+        });
         //---------- TIME ------------
 
 

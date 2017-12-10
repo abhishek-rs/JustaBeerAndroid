@@ -218,6 +218,7 @@
                             android:src="@drawable/clock" />
 
                         <EditText
+                            android:id="@+id/startTime"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
@@ -242,7 +243,7 @@
                             tools:text="-" />
 
                         <EditText
-                            android:id="@+id/editText5"
+                            android:id="@+id/endTime"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="20dp"

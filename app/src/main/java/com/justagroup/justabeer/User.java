@@ -78,6 +78,7 @@ public class User implements Parcelable {
         timestampJoined = in.readString();
     }
 
+    //getters
     public String getId() { return id; }
 
     public String getFullName() {
@@ -105,4 +106,38 @@ public class User implements Parcelable {
     public String getTimestampJoined() {
         return timestampJoined;
     }
+
+    //setters
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setFullName(String name){
+        this.fullName = name;
+    }
+
+    public void setPhoto(String url) {
+        this.photo = url;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public void setGender(String gender){
+        this.gender = gender;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public void setTimestampJoined(String timestamp) {
+        this.timestampJoined = timestamp;
+    }
+
 }

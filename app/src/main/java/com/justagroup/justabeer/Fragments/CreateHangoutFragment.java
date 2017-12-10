@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.justagroup.justabeer.Hangout;
+import com.justagroup.justabeer.HomeActivity;
 
 import com.justagroup.justabeer.R;
 
@@ -166,7 +167,7 @@ public class CreateHangoutFragment extends Fragment {
         final Button button = getView().findViewById(R.id.cancelHangout);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), HangoutActivity.class);
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
@@ -174,7 +175,8 @@ public class CreateHangoutFragment extends Fragment {
         final Button button2 = getView().findViewById(R.id.createHangout);
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), HangoutActivity.class);
+                pushDatatoDb();
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
@@ -184,7 +186,9 @@ public class CreateHangoutFragment extends Fragment {
 
     }
 
-    public void pushDatatoDb(DatabaseReference ref, Hangout h){
+    public void pushDatatoDb(){
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        final DatabaseReference ref = db.getReference("hangouts");
 
         Hangout.EventType eventType = Hangout.EventType.Beer;
         RadioGroup eventTypeRadioGroup = (RadioGroup) getView().findViewById(R.id.eventTypeRadio);
@@ -222,13 +226,13 @@ public class CreateHangoutFragment extends Fragment {
         EditText toTimeText = getView().findViewById(R.id.toTimeText);
         String strToTime = (String) toTimeText.getText().toString();
 
-        calFromTime.set(Calendar.HOUR,Integer.parseInt(strFromTime.substring(0,1));
+        calFromTime.set(Calendar.HOUR,Integer.parseInt(strFromTime.substring(0,1)));
         calFromTime.set(Calendar.MINUTE,Integer.parseInt(strFromTime.substring(3,5)));
         Date fromTime = calFromTime.getTime();
-        calFromTime.set(Calendar.HOUR,Integer.parseInt(strToTime.substring(0,1))));
+        calFromTime.set(Calendar.HOUR,Integer.parseInt(strToTime.substring(0,1)));
         calFromTime.set(Calendar.MINUTE,Integer.parseInt(strToTime.substring(3,5)));
         Date toTime = calToTime.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         String strFromDate = dateFormat.format(fromTime).toString();
         String strToDate = dateFormat.format(toTime).toString();
         DatabaseReference newRef = ref.push();
@@ -246,7 +250,7 @@ public class CreateHangoutFragment extends Fragment {
         String strDescriptionText = "";
         String strTitle = eventType + " @ " +calFromTime.get(Calendar.HOUR) + " - "+calToTime.get(Calendar.HOUR);
         EditText descriptionText = getView().findViewById(R.id.descriptionText);
-        String strDescriptionText = (String) descriptionText.getText().toString();
+        strDescriptionText = (String) descriptionText.getText().toString();
 
         LatLng location = new LatLng(0,0);
 

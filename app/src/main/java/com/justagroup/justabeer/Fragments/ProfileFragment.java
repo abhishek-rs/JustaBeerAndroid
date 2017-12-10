@@ -29,6 +29,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.justagroup.justabeer.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -89,6 +92,21 @@ public class ProfileFragment extends Fragment {
         // My version
         final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         final DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+        final EditText editName = (EditText) view.findViewById(R.id.editName);
+        final TextView editNameCaption = (TextView) view.findViewById(R.id.editNameCaption);
+        final Spinner editGender = (Spinner) view.findViewById(R.id.editGender);
+        final EditText editAge = (EditText) view.findViewById(R.id.editAge);
+        final EditText editInterests = (EditText) view.findViewById(R.id.editInterests);
+        final LinearLayout editBtnContainer = (LinearLayout) view.findViewById(R.id.editButtons);
+        final Button cancelButton = (Button) view.findViewById(R.id.cancelButton);
+        final Button saveButton = (Button) view.findViewById(R.id.saveButton);
+        final EditText editEmail = (EditText) view.findViewById(R.id.editEmail);
+        final TextView editEmailCaption = (TextView) view.findViewById(R.id.editEmailCaption);
+        final LinearLayout picContainer = (LinearLayout) view.findViewById(R.id.picContainer);
+        final LinearLayout emailContainer = (LinearLayout) view.findViewById(R.id.emailContainer);
+        final EditText editPic = (EditText) view.findViewById(R.id.editPic);
+        final TextView editPicCaption = (TextView) view.findViewById(R.id.editPicCaption);
+        final Button editModeButton = (Button) view.findViewById(R.id.editModeButton);
 
         // Attach a listener to read the data at our users reference
         ValueEventListener userListener = new ValueEventListener() {
@@ -97,6 +115,7 @@ public class ProfileFragment extends Fragment {
 
                 //define view fields
                 currentUser = dataSnapshot.getChildren().iterator().next().getValue(User.class);
+                final String currentKey = dataSnapshot.getChildren().iterator().next().getKey();
                 fullName = getView().findViewById(R.id.profile_card_title);
                 age = getView().findViewById(R.id.profile_age);
                 gender = getView().findViewById(R.id.profile_gender);
@@ -124,8 +143,77 @@ public class ProfileFragment extends Fragment {
                             .into(userImage);
                 }
 
+                editName.setVisibility(View.GONE);
+                editNameCaption.setVisibility(View.GONE);
+                editGender.setVisibility(View.GONE);
+                editAge.setVisibility(View.GONE);
+                editInterests.setVisibility(View.GONE);
+                editBtnContainer.setVisibility(View.GONE);
+                emailContainer.setVisibility(View.GONE);
+                picContainer.setVisibility(picContainer.GONE);
 
-                //Log.w(TAG, user)
+                saveButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        if(editName.getText() != null){
+                            fullName.setText(editName.getText());
+                        } else {
+                            fullName.setText(currentUser.getId());
+                        }
+
+                        //age
+                        if (editAge.getText()!= null) {
+                            age.setText(editAge.getText());
+                        } else {
+                            age.setText("0");
+                        }
+                        age.setVisibility(View.VISIBLE);
+                        //gender
+                        String genderString = editGender.getSelectedItem().toString();
+                        gender.setText(genderString);
+
+                        gender.setVisibility(View.VISIBLE);
+
+                        //interests/about
+                        if (editInterests.getText() != null) {
+                            about.setText(editInterests.getText());
+                        } else {
+                            about.setText(setUndefinedText());
+                        }
+                        editInterests.setVisibility(View.GONE);
+                        about.setVisibility(View.VISIBLE);
+
+                        //email
+                        //interests/about
+                        if (editEmail.getText() != null) {
+                            email.setText(editEmail.getText());
+                        } else {
+                            email.setText(setUndefinedText());
+                        }
+                        emailContainer.setVisibility(View.GONE);
+
+
+                        //photo URL
+                        if (editPic.getText() != null) {
+                            profileImageURL.setText(editPic.getText());
+                        } else {
+                            editPic.setText(setUndefinedText());
+                        }
+                        picContainer.setVisibility(View.GONE);
+
+                        editModeButton.setVisibility(View.VISIBLE);
+                        editBtnContainer.setVisibility(View.GONE);
+
+                        userImage.setVisibility(View.VISIBLE);
+
+                    //    usersRef.child(currentUser.getId()).setValue();
+
+                        User u = new User(currentUser.getId(), fullName.getText().toString(), profileImageURL.getText().toString(), currentUser.getEmail(), Integer.parseInt(age.getText().toString()), gender.getText().toString(), about.getText().toString(), currentUser.getTimestampJoined());
+
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        childUpdates.put("/users/" + currentKey, u);
+                        dbRef.updateChildren(childUpdates);
+                    }
+                });
             }
 
             @Override
@@ -139,47 +227,6 @@ public class ProfileFragment extends Fragment {
 
         //THE THING THAT DIDNT WORK
         usersRef.orderByChild("id").equalTo(currentFirebaseUser.getUid()).addValueEventListener(userListener);
-
-
-        // ------------ EDIT MODE ----------------
-        // edit mode components
-        final EditText editName = (EditText) view.findViewById(R.id.editName);
-        final TextView editNameCaption = (TextView) view.findViewById(R.id.editNameCaption);
-        editName.setVisibility(View.GONE);
-        editNameCaption.setVisibility(View.GONE);
-
-        final Spinner editGender = (Spinner) view.findViewById(R.id.editGender);
-        editGender.setVisibility(View.GONE);
-
-        final EditText editAge = (EditText) view.findViewById(R.id.editAge);
-        editAge.setVisibility(View.GONE);
-
-        final EditText editInterests = (EditText) view.findViewById(R.id.editInterests);
-        editInterests.setVisibility(View.GONE);
-
-        final LinearLayout editBtnContainer = (LinearLayout) view.findViewById(R.id.editButtons);
-        editBtnContainer.setVisibility(View.GONE);
-        final Button cancelButton = (Button) view.findViewById(R.id.cancelButton);
-        final Button saveButton = (Button) view.findViewById(R.id.saveButton);
-
-        final LinearLayout emailContainer = (LinearLayout) view.findViewById(R.id.emailContainer);
-        emailContainer.setVisibility(View.GONE);
-        final EditText editEmail = (EditText) view.findViewById(R.id.editEmail);
-        final TextView editEmailCaption = (TextView) view.findViewById(R.id.editEmailCaption);
-
-        final LinearLayout picContainer = (LinearLayout) view.findViewById(R.id.picContainer);
-        picContainer.setVisibility(picContainer.GONE);
-        final EditText editPic = (EditText) view.findViewById(R.id.editPic);
-        final TextView editPicCaption = (TextView) view.findViewById(R.id.editPicCaption);
-
-        final Button editModeButton = (Button) view.findViewById(R.id.editModeButton);
-
-        //List<Object> editComponents = Arrays.asList((Object) editAge, editGender, editInterests, saveButton, cancelButton);
-        //List<TextView> viewComponents = Arrays.asList(editAge, editGender, editInterests);
-        /*for(int i = 0; i < editViewComponents.size(); i++){
-            editViewComponents.get
-        }
-                */
 
         editModeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -244,76 +291,6 @@ public class ProfileFragment extends Fragment {
         });
 
         // save changes to view and db
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if(editName.getText() != null){
-                    fullName.setText(editName.getText());
-                } else {
-                    fullName.setText(currentUser.getId());
-                }
-                editName.setVisibility(View.GONE);
-                editNameCaption.setVisibility(View.GONE);
-
-                //age
-                if (editAge.getText()!= null) {
-                    age.setText(editAge.getText());
-                } else {
-                    age.setText("0");
-                }
-                age.setVisibility(View.VISIBLE);
-                editAge.setVisibility(View.GONE);
-
-                //gender
-                String genderString = editGender.getSelectedItem().toString();
-                gender.setText(genderString);
-
-                editGender.setVisibility(View.GONE);
-                gender.setVisibility(View.VISIBLE);
-
-                //interests/about
-                if (editInterests.getText() != null) {
-                    about.setText(editInterests.getText());
-                } else {
-                    about.setText(setUndefinedText());
-                }
-                editInterests.setVisibility(View.GONE);
-                about.setVisibility(View.VISIBLE);
-
-                //email
-                //interests/about
-                if (editEmail.getText() != null) {
-                    email.setText(editEmail.getText());
-                } else {
-                    email.setText(setUndefinedText());
-                }
-                emailContainer.setVisibility(View.GONE);
-
-
-                //photo URL
-                if (editPic.getText() != null) {
-                    profileImageURL.setText(editPic.getText());
-                } else {
-                    editPic.setText(setUndefinedText());
-                }
-                picContainer.setVisibility(View.GONE);
-
-                editModeButton.setVisibility(View.VISIBLE);
-                editBtnContainer.setVisibility(View.GONE);
-
-                userImage.setVisibility(View.VISIBLE);
-
-                //update database IN PROGRESS
-                //try 1: updates by creating new object to db
-                //usersRef.child(currentFirebaseUser.getUid()).setValue(new User(currentUser.getId(), userDbId, "http://www.watoday.com.au/content/dam/images/1/m/j/7/z/9/image.related.socialLead.620x349.gtq15g.png/1484266450200.jpg", currentUser.getEmail(), Integer.parseInt(age.getText().toString()), gender.getText().toString(), about.getText().toString(), currentUser.getTimestampJoined()));
-
-                //try 2: updates by creating new object to db
-                usersRef.child(currentUser.getId()).setValue(new User(currentUser.getId(), fullName.getText().toString(), profileImageURL.getText().toString(), currentUser.getEmail(), Integer.parseInt(age.getText().toString()), gender.getText().toString(), about.getText().toString(), currentUser.getTimestampJoined()));
-
-                //try 1: updates by creating new object to db
-                //usersRef.child(currentFirebaseUser.getUid()).setValue(new User(currentUser.getId(), userDbId, "http://www.watoday.com.au/content/dam/images/1/m/j/7/z/9/image.related.socialLead.620x349.gtq15g.png/1484266450200.jpg", currentUser.getEmail(), Integer.parseInt(age.getText().toString()), gender.getText().toString(), about.getText().toString(), currentUser.getTimestampJoined()));
-
-            }
-        });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -334,6 +311,7 @@ public class ProfileFragment extends Fragment {
 
                 editModeButton.setVisibility(View.VISIBLE);
                 editBtnContainer.setVisibility(View.GONE);
+                userImage.setVisibility(View.VISIBLE);
             }
         });
 

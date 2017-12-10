@@ -152,12 +152,21 @@ public class Hangout implements Parcelable {
 
     public List<String> getPendingUsers() { return pendingUsers; }
 
+    public void setPendingUsers(List<String> pendingUsers) { this.pendingUsers = pendingUsers; }
+
     public List<String> getConfirmedUsers() { return confirmedUsers; }
+
+    public void setConfirmedUsers(List<String> confirmedUsers) { this.confirmedUsers = confirmedUsers; }
 
     public List<String> getRejectedUsers() { return rejectedUsers; }
 
+    public void setRejectedUsers(List<String> rejectedUsers) { this.rejectedUsers = rejectedUsers; }
+
     public List<String> getCommentIds() { return commentIds; }
+
+    public void setCommentIds(List<String> commentIds) { this.commentIds = commentIds; }
 
     public List<String> getPrivateMessageIds() { return privateMessageIds; }
 
+    public void setPrivateMessageIds(List<String> privateMessageIds) { this.privateMessageIds = privateMessageIds; }
 }

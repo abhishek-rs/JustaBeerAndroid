@@ -8,7 +8,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,6 +46,7 @@ public class CreateHangoutFragment extends Fragment {
 
     public String selectedType;
     public String selectedPlace;
+    public String selectedDate;
     public String selectedStartTime;
     public String selectedEndTime;
     public String selectedDescription;
@@ -111,16 +114,77 @@ public class CreateHangoutFragment extends Fragment {
                 }
             }
         });
+        //---------- DATE ------------
+        final RadioGroup eventDate = (RadioGroup) view.findViewById(R.id.dateRadio);
+
+        //init event type radio group
+        eventDate.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int ind) {
+                Log.d("event type index", ind + "");
+
+                if(eventDate.getCheckedRadioButtonId()!=-1){
+                    int id= eventDate.getCheckedRadioButtonId();
+                    View radioButton = eventDate.findViewById(id);
+                    int radioId = radioGroup.indexOfChild(radioButton);
+                    RadioButton btn = (RadioButton) eventDate.getChildAt(radioId);
+                    selectedDate = (String) btn.getText();
+                }
+            }
+        });
         //---------- TIME ------------
 
 
         //-------- LOCATION ----------
+        EditText eventLocation = view.findViewById(R.id.eventPlace);
+        eventLocation.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s != null){
+                    selectedPlace = s.toString();
+                } else {
+                    selectedPlace = "Mystery Location";
+                }
+            }
+        });
 
 
         //-------- DESCRIPTION ----------
-        /*EditText description = (EditText) view.findViewById(R.id.descriptionText);
+        EditText description = (EditText) view.findViewById(R.id.descriptionText);
         description.setFilters(new InputFilter[] {new InputFilter.LengthFilter(200)});
-        */
+
+        description.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s != null){
+                    selectedDescription = s.toString();
+                } else {
+                    selectedDescription = "Mystery Location";
+                }
+            }
+        });
 
 
         return view;

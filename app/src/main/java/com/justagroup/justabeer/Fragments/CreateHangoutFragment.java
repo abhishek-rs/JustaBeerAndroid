@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.Context;
 import android.graphics.Color;
+import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -44,6 +45,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import android.location.Geocoder;
 
 import com.justagroup.justabeer.Hangout;
 import com.justagroup.justabeer.HomeActivity;
@@ -67,6 +69,7 @@ public class CreateHangoutFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Context ctx;
 
     private OnFragmentInteractionListener mListener;
 
@@ -252,7 +255,19 @@ public class CreateHangoutFragment extends Fragment {
         EditText descriptionText = getView().findViewById(R.id.descriptionText);
         strDescriptionText = (String) descriptionText.getText().toString();
 
+        EditText locationText = getView().findViewById(R.id.eventPlace);
+
         LatLng location = new LatLng(0,0);
+        Geocoder geocoder = new Geocoder(ctx);
+        List<Address> addresses;
+        try {
+            addresses = geocoder.getFromLocationName(locationText.getText().toString(), 1);
+            if (addresses.size() > 0) {
+                double latitude = addresses.get(0).getLatitude();
+                double longitude = addresses.get(0).getLongitude();
+                location = new LatLng(latitude, longitude);
+            }
+        } catch (Exception e) {}
 
         Hangout hg1 = new Hangout(newRef.getKey(),
                 strTitle,
@@ -280,6 +295,7 @@ public class CreateHangoutFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        this.ctx = context;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

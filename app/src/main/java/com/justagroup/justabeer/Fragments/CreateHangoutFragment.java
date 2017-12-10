@@ -239,15 +239,15 @@ public class CreateHangoutFragment extends Fragment {
         String strFromDate = dateFormat.format(fromTime).toString();
         String strToDate = dateFormat.format(toTime).toString();
         DatabaseReference newRef = ref.push();
-        ArrayList<String> pendingUsers = new ArrayList<String>();
+        List<String> pendingUsers = new ArrayList<String>();
         //pendingUsers.add("");
-        ArrayList<String> confirmedUsers = new ArrayList<String>();
+        List<String> confirmedUsers = new ArrayList<String>();
         //confirmedUsers.add("");
-        ArrayList<String> rejectedUsers = new ArrayList<String>();
+        List<String> rejectedUsers = new ArrayList<String>();
         //rejectedUsers.add("");
-        ArrayList<String> commentIds = new ArrayList<String>();
+        List<String> commentIds = new ArrayList<String>();
         //commentIds.add("");
-        ArrayList<String> privateMessageIds = new ArrayList<String>();
+        List<String> privateMessageIds = new ArrayList<String>();
         //privateMessageIds.add("");
 
         String strDescriptionText = "";
@@ -260,21 +260,23 @@ public class CreateHangoutFragment extends Fragment {
         LatLng location = new LatLng(0,0);
         Geocoder geocoder = new Geocoder(ctx);
         List<Address> addresses;
+        double latitude = 0;
+        double longitude = 0;
         try {
             addresses = geocoder.getFromLocationName(locationText.getText().toString(), 1);
             if (addresses.size() > 0) {
-                double latitude = addresses.get(0).getLatitude();
-                double longitude = addresses.get(0).getLongitude();
-                location = new LatLng(latitude, longitude);
+                latitude = addresses.get(0).getLatitude();
+                longitude = addresses.get(0).getLongitude();
             }
         } catch (Exception e) {}
 
         Hangout hg1 = new Hangout(newRef.getKey(),
                 strTitle,
-                fromTime,
-                toTime,
+                fromTime.toString(),
+                toTime.toString(),
                 strDescriptionText,
-                location,
+                latitude,
+                longitude,
                 eventType,
                 FirebaseAuth.getInstance().getCurrentUser().getUid(),
                 pendingUsers,

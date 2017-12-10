@@ -1,5 +1,6 @@
 package com.justagroup.justabeer.Fragments;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -16,14 +17,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TimePicker;
+import java.util.Calendar;
 import android.widget.Toast;
 
+import com.justagroup.justabeer.HomeActivity;
 import com.justagroup.justabeer.R;
 
 /**
@@ -93,12 +97,6 @@ public class CreateHangoutFragment extends Fragment {
 
         //------- EVENT TYPE ----------
         final RadioGroup eventTypeRadioGroup = (RadioGroup) view.findViewById(R.id.eventTypeRadio);
-        RadioButton beerRadio = (RadioButton) view.findViewById(R.id.beerRadio);
-        RadioButton coffeeRadio = (RadioButton) view.findViewById(R.id.coffeeRadio);
-        RadioButton foodRadio = (RadioButton) view.findViewById(R.id.foodRadio);
-
-        //init event type radio group
-        final String[] eventNames = new String[] {"Beer","Coffee","Food"};
 
         eventTypeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -133,7 +131,53 @@ public class CreateHangoutFragment extends Fragment {
             }
         });
         //---------- TIME ------------
+        final EditText startTime = (EditText) view.findViewById(R.id.startTime);
+        startTime.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(view.getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        startTime.setText( selectedHour + ":" + selectedMinute);
+                        selectedStartTime = startTime.getText().toString();
+                    }
+                }, hour, minute, true);
+                mTimePicker.setTitle("Starting Time");
+                mTimePicker.show();
+
+            }
+        });
+
+        final EditText endTime = (EditText) view.findViewById(R.id.endTime);
+        endTime.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(view.getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        endTime.setText( selectedHour + ":" + selectedMinute);
+                        selectedEndTime = endTime.getText().toString();
+                    }
+                }, hour, minute, true);
+                mTimePicker.setTitle("Ending Time");
+                mTimePicker.show();
+
+            }
+        });
 
         //-------- LOCATION ----------
         EditText eventLocation = view.findViewById(R.id.eventPlace);
@@ -191,6 +235,7 @@ public class CreateHangoutFragment extends Fragment {
 
     }
 
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -216,6 +261,20 @@ public class CreateHangoutFragment extends Fragment {
     }
 
 
+    /*public void setTimeOnClick (View view) {
+        Calendar cal = Calendar.getInstance();
+
+        TimePickerDialog timePicker = new TimePickerDialog(this, timePickerListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
+        //Create a cancel button and set the title of the dialog.
+        datePicker.setCancelable(false);
+        datePicker.setTitle("Select the date");
+        datePicker.show();
+    }*/
+
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -231,4 +290,5 @@ public class CreateHangoutFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

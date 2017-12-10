@@ -220,16 +220,19 @@
                         <EditText
                             android:id="@+id/startTime"
                             android:layout_width="100dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
                             android:layout_marginLeft="20dp"
                             android:layout_marginTop="5dp"
                             android:layout_weight="1"
-                            android:background="@android:drawable/btn_dropdown"
+                            android:background="@android:color/white"
                             android:ems="10"
+                            android:gravity="center"
                             android:inputType="time"
                             android:text="18.30"
                             android:textSize="14sp"
-                            tools:text="18.30" />
+                            tools:text="18.30"
+                            android:focusable="false"
+                            android:editable="false" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -245,16 +248,19 @@
                         <EditText
                             android:id="@+id/endTime"
                             android:layout_width="100dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
                             android:layout_marginRight="20dp"
                             android:layout_marginTop="5dp"
                             android:layout_weight="1"
-                            android:background="@android:drawable/btn_dropdown"
+                            android:background="@android:color/white"
                             android:ems="10"
+                            android:gravity="center"
                             android:inputType="time"
                             android:text="20.00"
                             android:textSize="14sp"
-                            tools:text="20.00" />
+                            tools:text="20.00"
+                            android:focusable="false"
+                            android:editable="false" />
 
                     </LinearLayout>
 

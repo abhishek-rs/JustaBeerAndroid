@@ -321,7 +321,7 @@ public class CreateHangoutFragment extends Fragment {
         List<String> pendingUsers = new ArrayList<String>();
         pendingUsers.add("");
         List<String> confirmedUsers = new ArrayList<String>();
-        confirmedUsers.add("");
+        confirmedUsers.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
         List<String> rejectedUsers = new ArrayList<String>();
         rejectedUsers.add("");
         List<String> commentIds = new ArrayList<String>();

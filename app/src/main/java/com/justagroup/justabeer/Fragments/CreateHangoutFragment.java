@@ -305,13 +305,13 @@ public class CreateHangoutFragment extends Fragment {
         String strToDate = dateFormat.format(calToTime).toString();*/
         String strFromDate = calFromTime.get(Calendar.YEAR) + "/" +
                 String.format("%02d",calFromTime.get(Calendar.MONTH)) + "/" +
-                String.format("%02d",calFromTime.get(Calendar.DATE)) + " " +
+                String.format("%02d",calFromTime.get(Calendar.DAY_OF_MONTH)) + " " +
                 String.format("%02d",calFromTime.get(Calendar.HOUR_OF_DAY)) + ":" +
                 String.format("%02d",calFromTime.get(Calendar.MINUTE)) + ":" +
                 String.format("%02d",calFromTime.get(Calendar.SECOND));
         String strToDate = calToTime.get(Calendar.YEAR) + "/" +
                 String.format("%02d",calToTime.get(Calendar.MONTH)) + "/" +
-                String.format("%02d",calToTime.get(Calendar.DATE)) + " " +
+                String.format("%02d",calToTime.get(Calendar.DAY_OF_MONTH)) + " " +
                 String.format("%02d",calToTime.get(Calendar.HOUR_OF_DAY)) + ":" +
                 String.format("%02d",calToTime.get(Calendar.MINUTE)) + ":" +
                 String.format("%02d",calToTime.get(Calendar.SECOND));

@@ -307,7 +307,7 @@
                             android:layout_weight="1"
                             android:src="@drawable/location" />
 
-                        <PlacePicker
+                        <EditText
                             android:id="@+id/eventPlace"
                             android:layout_width="match_parent"
                             android:layout_height="37dp"

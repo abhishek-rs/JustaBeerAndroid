@@ -24,7 +24,7 @@ import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.Button;
-
+import java.util.TimeZone;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,6 +44,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import android.location.Geocoder;
 
@@ -167,7 +168,7 @@ public class CreateHangoutFragment extends Fragment {
 
         //-------- BUTTONS ----------
 
-        final Button button = getView().findViewById(R.id.cancelHangout);
+        final Button button = view.findViewById(R.id.cancelHangout);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
@@ -175,7 +176,7 @@ public class CreateHangoutFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        final Button button2 = getView().findViewById(R.id.createHangout);
+        final Button button2 = view.findViewById(R.id.createHangout);
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 pushDatatoDb();
@@ -184,7 +185,69 @@ public class CreateHangoutFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        String selectedStartTime = "";
 
+        //---------- TIME ------------
+        final EditText startTime = (EditText) view.findViewById(R.id.startTime);
+        startTime.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(v.getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        String timeString = "";
+                        if(selectedHour < 10) timeString += "0";
+                        timeString += selectedHour + ":";
+                        if(selectedMinute < 10) timeString += "0";
+                        timeString += selectedMinute;
+                        startTime.setText( timeString);
+                        //selectedStartTime = startTime.getText().toString();
+                    }
+                }, hour, minute, true);
+                mTimePicker.setTitle("Starting Time");
+                mTimePicker.show();
+
+            }
+        });
+
+        String selectedEndTime = "";
+
+        //---------- TIME ------------
+        final EditText endTime = (EditText) view.findViewById(R.id.endTime);
+        endTime.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(v.getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        String timeString = "";
+                        if(selectedHour < 10) timeString += "0";
+                        timeString += selectedHour + ":";
+                        if(selectedMinute < 10) timeString += "0";
+                        timeString += selectedMinute;
+                        endTime.setText(timeString);
+                        //selectedEndTime = startTime.getText().toString();
+                    }
+                }, hour, minute, true);
+                mTimePicker.setTitle("Starting Time");
+                mTimePicker.show();
+
+            }
+        });
         return view;
 
     }
@@ -208,8 +271,8 @@ public class CreateHangoutFragment extends Fragment {
         }
 
         RadioGroup dateRadioGroup = (RadioGroup) getView().findViewById(R.id.dateRadio);
-        Calendar calFromTime = Calendar.getInstance(); // creates calendar
-        Calendar calToTime = Calendar.getInstance();
+        Calendar calFromTime = Calendar.getInstance(TimeZone.getTimeZone("Europe/Stockholm"), new Locale("sv","se")); // creates calendar
+        Calendar calToTime = Calendar.getInstance(TimeZone.getTimeZone("Europe/Stockholm"), new Locale("sv","se"));
         calFromTime.setTime(new Date());
         calToTime.setTime(new Date());
         switch(dateRadioGroup.getCheckedRadioButtonId()) {
@@ -223,35 +286,53 @@ public class CreateHangoutFragment extends Fragment {
 
         }
 
-        EditText fromTimeText = getView().findViewById(R.id.fromTimeText);
+        EditText fromTimeText = getView().findViewById(R.id.startTime);
         String strFromTime = (String) fromTimeText.getText().toString();
 
-        EditText toTimeText = getView().findViewById(R.id.toTimeText);
+        EditText toTimeText = getView().findViewById(R.id.endTime);
         String strToTime = (String) toTimeText.getText().toString();
 
-        calFromTime.set(Calendar.HOUR,Integer.parseInt(strFromTime.substring(0,1)));
+        Log.i("abc", ""+strFromTime);
+        calFromTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(strFromTime.substring(0,2)));
         calFromTime.set(Calendar.MINUTE,Integer.parseInt(strFromTime.substring(3,5)));
         Date fromTime = calFromTime.getTime();
-        calFromTime.set(Calendar.HOUR,Integer.parseInt(strToTime.substring(0,1)));
-        calFromTime.set(Calendar.MINUTE,Integer.parseInt(strToTime.substring(3,5)));
+        Log.i("","Time: "+fromTime.toString());
+        calToTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(strToTime.substring(0,2)));
+        calToTime.set(Calendar.MINUTE,Integer.parseInt(strToTime.substring(3,5)));
         Date toTime = calToTime.getTime();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        String strFromDate = dateFormat.format(fromTime).toString();
-        String strToDate = dateFormat.format(toTime).toString();
+        /*SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        String strFromDate = dateFormat.format(calFromTime).toString();
+        String strToDate = dateFormat.format(calToTime).toString();*/
+        String strFromDate = calFromTime.get(Calendar.YEAR) + "/" +
+                String.format("%02d",calFromTime.get(Calendar.MONTH)) + "/" +
+                String.format("%02d",calFromTime.get(Calendar.DATE)) + " " +
+                String.format("%02d",calFromTime.get(Calendar.HOUR_OF_DAY)) + ":" +
+                String.format("%02d",calFromTime.get(Calendar.MINUTE)) + ":" +
+                String.format("%02d",calFromTime.get(Calendar.SECOND));
+        String strToDate = calToTime.get(Calendar.YEAR) + "/" +
+                String.format("%02d",calToTime.get(Calendar.MONTH)) + "/" +
+                String.format("%02d",calToTime.get(Calendar.DATE)) + " " +
+                String.format("%02d",calToTime.get(Calendar.HOUR_OF_DAY)) + ":" +
+                String.format("%02d",calToTime.get(Calendar.MINUTE)) + ":" +
+                String.format("%02d",calToTime.get(Calendar.SECOND));
+        Log.i("pushDataToDb","fromtime: "+strFromDate);
+
         DatabaseReference newRef = ref.push();
         List<String> pendingUsers = new ArrayList<String>();
-        //pendingUsers.add("");
+        pendingUsers.add("");
         List<String> confirmedUsers = new ArrayList<String>();
-        //confirmedUsers.add("");
+        confirmedUsers.add("");
         List<String> rejectedUsers = new ArrayList<String>();
-        //rejectedUsers.add("");
+        rejectedUsers.add("");
         List<String> commentIds = new ArrayList<String>();
-        //commentIds.add("");
+        commentIds.add("");
         List<String> privateMessageIds = new ArrayList<String>();
-        //privateMessageIds.add("");
+        privateMessageIds.add("");
+
+
+        String strTitle = eventType + " @ " +calFromTime.get(Calendar.HOUR_OF_DAY) + " - "+calToTime.get(Calendar.HOUR_OF_DAY);
 
         String strDescriptionText = "";
-        String strTitle = eventType + " @ " +calFromTime.get(Calendar.HOUR) + " - "+calToTime.get(Calendar.HOUR);
         EditText descriptionText = getView().findViewById(R.id.descriptionText);
         strDescriptionText = (String) descriptionText.getText().toString();
 
@@ -272,8 +353,8 @@ public class CreateHangoutFragment extends Fragment {
 
         Hangout hg1 = new Hangout(newRef.getKey(),
                 strTitle,
-                fromTime.toString(),
-                toTime.toString(),
+                strFromDate,
+                strToDate,
                 strDescriptionText,
                 latitude,
                 longitude,

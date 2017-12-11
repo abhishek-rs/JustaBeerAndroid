@@ -338,11 +338,11 @@ public class CreateHangoutFragment extends Fragment {
 
         EditText locationText = getView().findViewById(R.id.eventPlace);
 
-        LatLng location = new LatLng(0,0);
         Geocoder geocoder = new Geocoder(ctx);
         List<Address> addresses;
-        double latitude = 0;
-        double longitude = 0;
+        double latitude = 59.3307515;
+        double longitude = 18.047369;
+        LatLng location = new LatLng(latitude,longitude);
         try {
             addresses = geocoder.getFromLocationName(locationText.getText().toString(), 1);
             if (addresses.size() > 0) {

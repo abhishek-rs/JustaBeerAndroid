@@ -6,7 +6,7 @@ package com.justagroup.justabeer;
 
 public class Notification {
 
-    enum NotificationType {
+    public enum NotificationType {
         Comment, Request, CancelRequest, CancelConfirmation, PrivateMessage, AcceptedRequest, RejectedRequest
     }
 

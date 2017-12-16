@@ -4,7 +4,9 @@ import android.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,9 +33,28 @@ public class ProfileActivity extends AppCompatActivity {
         User user = (User) getIntent().getParcelableExtra("user");
         final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        //----- TOOLBAR ------
+        Toolbar toolbar = (Toolbar) findViewById(R.id.top_nav);
+        setSupportActionBar(toolbar);
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("Profile");
+        //make back button to work
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         String userId = user.getId();
         String currentUserId = currentUser.getUid();
 
+        // ----- PROFILE INFO ------
         //if (!userId.equals(currentUserId)) {
             if (user != null) {
                 Log.d(TAG, "user = " + user);

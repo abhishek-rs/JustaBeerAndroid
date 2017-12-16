@@ -100,7 +100,23 @@ public class HangoutActivity extends AppCompatActivity {
         joiningButton.setImageResource(R.drawable.join);
         final Button cancelHangoutButton = (Button) findViewById(R.id.cancelHangoutBtn);
         cancelHangoutButton.setVisibility(View.GONE);//show only when request sent
+        Toolbar toolbar = (Toolbar) findViewById(R.id.top_nav);
 
+
+        //toolbar with back button
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        //firebase stuff
         Query commentsQuery = FirebaseDatabase.getInstance()
                 .getReference()
                 .child("comments").orderByChild("hangoutId").equalTo(hangoutId);
@@ -273,7 +289,7 @@ public class HangoutActivity extends AppCompatActivity {
                     joiningButton.setVisibility(View.GONE);
                 }
                 else if(isConfirmedUser){
-                    joiningButton.setImageResource(R.drawable.ic_check);
+                    joiningButton.setImageResource(R.drawable.checked);
                     cancelHangoutButton.setVisibility(View.VISIBLE);
                 }
                 else if(isPendingUser){

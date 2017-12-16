@@ -8,6 +8,14 @@
     android:fitsSystemWindows="true"
     tools:context="com.justagroup.justabeer.HangoutActivity">
 
+    <include
+        android:id="@+id/top_nav"
+        layout="@layout/top_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/viewpager"
+        android:layout_weight="1"></include>
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"

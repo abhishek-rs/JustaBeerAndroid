@@ -23,13 +23,23 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.justagroup.justabeer.CardHolder;
+import com.justagroup.justabeer.ConfirmedRequest;
 import com.justagroup.justabeer.Hangout;
 import com.justagroup.justabeer.HangoutActivity;
 import com.justagroup.justabeer.Notification;
 import com.justagroup.justabeer.NotificationCardHolder;
+import com.justagroup.justabeer.PendingRequest;
 import com.justagroup.justabeer.ProfileActivity;
 import com.justagroup.justabeer.R;
 import com.justagroup.justabeer.User;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NotificationsFragment extends Fragment {
     FirebaseRecyclerAdapter cardAdapter;
@@ -61,6 +71,9 @@ public class NotificationsFragment extends Fragment {
         final FirebaseDatabase db = FirebaseDatabase.getInstance();
         final FirebaseUser curr = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference hangoutsRef = db.getReference("hangouts");
+        final DatabaseReference pendingRef = db.getReference("pendingRequests");
+        final DatabaseReference confirmedRef = db.getReference("confirmedRequests");
+        final DatabaseReference notificationsRef = db.getReference("notifications");
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
                 .child("notifications").orderByChild("toUser").equalTo(curr.getUid());
@@ -129,34 +142,125 @@ public class NotificationsFragment extends Fragment {
                                         startActivity(intent);
                                     }
                                 });
+                                Calendar cal = Calendar.getInstance(); // creates calendar
+                                cal.setTime(new Date());
+                                Date requestTime = cal.getTime();
+                                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                final String strRequestTime = dateFormat.format(requestTime).toString();
                                 holder.requestsAccept.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        hangoutsRef.orderByChild("id").equalTo(model.getHangoutId()).addValueEventListener(new ValueEventListener() {
+                                        hangoutsRef.orderByChild("id").equalTo(model.getHangoutId()).addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
                                                 final Hangout h = dataSnapshot.getChildren().iterator().next().getValue(Hangout.class);
+
+                                                List<String> currentPendingUsers = h.getPendingUsers();
+                                                int pos = currentPendingUsers.indexOf(model.getFromUser());
+                                                if(pos != -1) currentPendingUsers.remove(pos);
+                                                h.setPendingUsers(currentPendingUsers);
+
+                                                List<String> currentConfirmedUsers = h.getConfirmedUsers();
+                                                currentConfirmedUsers.add(model.getFromUser());
+                                                h.setConfirmedUsers(currentConfirmedUsers);
+
+                                                Map<String, Object> childUpdates = new HashMap<>();
+                                                childUpdates.put("/hangouts/" + h.getId(), h);
+                                                db.getReference().updateChildren(childUpdates);
+
                                             }
                                             @Override
                                             public void onCancelled(DatabaseError databaseError) {
 
                                             }
                                         });
+                                        pendingRef.orderByChild("hangoutId").equalTo(model.getHangoutId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                for (DataSnapshot child : dataSnapshot.getChildren())
+                                                {
+                                                    PendingRequest c = child.getValue(PendingRequest.class);
+                                                    if(c != null ) {
+                                                        if(c.getGuestId().equals(model.getFromUser())){
+                                                            DatabaseReference delRef = db.getReference("pendingRequests/" + child.getKey());
+                                                            delRef.removeValue();
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+
+                                        ConfirmedRequest cr = new ConfirmedRequest(model.getHangoutId(), model.getFromUser());
+                                        confirmedRef.push().setValue(cr);
+
+                                        DatabaseReference newNotificationRef = notificationsRef.push();
+                                        Notification n = new Notification(newNotificationRef.getKey(), curr.getUid(), model.getFromUser(), strRequestTime, model.getHangoutId(), Notification.NotificationType.AcceptedRequest);
+                                        newNotificationRef.setValue(n);
+
+                                        DatabaseReference delRef = db.getReference( "notifications/" + model.getId());
+                                        delRef.removeValue();
+
                                     }
                                 });
                                 holder.requestsReject.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        hangoutsRef.orderByChild("id").equalTo(model.getHangoutId()).addValueEventListener(new ValueEventListener() {
+                                        hangoutsRef.orderByChild("id").equalTo(model.getHangoutId()).addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
                                                 final Hangout h = dataSnapshot.getChildren().iterator().next().getValue(Hangout.class);
+
+                                                List<String> currentPendingUsers = h.getPendingUsers();
+                                                int pos = currentPendingUsers.indexOf(model.getFromUser());
+                                                if(pos != -1) currentPendingUsers.remove(pos);
+                                                h.setPendingUsers(currentPendingUsers);
+
+                                                List<String> currentRejectedUsers = h.getRejectedUsers();
+                                                currentRejectedUsers.add(model.getFromUser());
+                                                h.setRejectedUsers(currentRejectedUsers);
+
+                                                Map<String, Object> childUpdates = new HashMap<>();
+                                                childUpdates.put("/hangouts/" + h.getId(), h);
+                                                db.getReference().updateChildren(childUpdates);
+
                                             }
                                             @Override
                                             public void onCancelled(DatabaseError databaseError) {
 
                                             }
                                         });
+
+                                        pendingRef.orderByChild("hangoutId").equalTo(model.getHangoutId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                for (DataSnapshot child : dataSnapshot.getChildren())
+                                                {
+                                                    PendingRequest c = child.getValue(PendingRequest.class);
+                                                    if(c != null ) {
+                                                        if(c.getGuestId().equals(model.getFromUser())){
+                                                            DatabaseReference delRef = db.getReference("pendingRequests/" + child.getKey());
+                                                            delRef.removeValue();
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+
+                                        DatabaseReference newNotificationRef = notificationsRef.push();
+                                        Notification n = new Notification(newNotificationRef.getKey(), curr.getUid(), model.getFromUser(), strRequestTime, model.getHangoutId(), Notification.NotificationType.RejectedRequest);
+                                        newNotificationRef.setValue(n);
+                                        DatabaseReference delRef = db.getReference( "notifications/" + model.getId());
+                                        delRef.removeValue();
                                     }
                                 });
                             }

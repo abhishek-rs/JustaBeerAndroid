@@ -89,7 +89,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         db = FirebaseDatabase.getInstance();
         FirebaseUser curr = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference hangoutsRef = db.getReference("hangouts");
-        List<Hangout> data = getHangoutsFromDb(hangoutsRef);
+     //   List<Hangout> data = getHangoutsFromDb(hangoutsRef);
 /*
         db.getReference("users").orderByChild("email").equalTo(curr.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -193,8 +193,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Hangout hg = dataSnapshot.getValue(Hangout.class);
-                hgs.add(hg);
+         //       Hangout hg = dataSnapshot.getValue(Hangout.class);
+        //        hgs.add(hg);
             }
 
             @Override

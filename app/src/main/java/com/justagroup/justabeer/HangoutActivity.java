@@ -125,9 +125,9 @@ public class HangoutActivity extends AppCompatActivity {
                 setSupportActionBar(tb);
                 tb.setTitle(h.getTitle());
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                final Boolean isConfirmedUser = h.confirmedUsers.contains(curr.getUid());
+                final Boolean isConfirmedUser = (h.confirmedUsers != null) ? h.confirmedUsers.contains(curr.getUid()) : false;
                 final Boolean isOwner = curr.getUid().equals(h.getOwner());
-                final Boolean isPendingUser = h.pendingUsers.contains(curr.getUid());
+                final Boolean isPendingUser =  (h.pendingUsers != null ) ? h.pendingUsers.contains(curr.getUid()) : false;
                 TextView message = (TextView) findViewById(R.id.unconfirmed_user_message);
                 TextView hangoutDesc = (TextView) findViewById(R.id.hangout_desc);
                 hangoutDesc.setText(h.getDescription());
@@ -192,18 +192,21 @@ public class HangoutActivity extends AppCompatActivity {
                 }
 
                 for (int i=0; i<h.confirmedUsers.size(); i++){
-                    db.getReference("users").orderByChild("id").equalTo(h.confirmedUsers.get(i)).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            User u = dataSnapshot.getChildren().iterator().next().getValue(User.class);
-                            adapter.add(u.getFullName());
-                        }
+                    if(h.confirmedUsers.get(i) != ""){
+                        db.getReference("users").orderByChild("id").equalTo(h.confirmedUsers.get(i)).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                User u = dataSnapshot.getChildren().iterator().next().getValue(User.class);
+                                adapter.add(u.getFullName());
+                            }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                        }
-                    });
+                            }
+                        });
+                    }
+                    else continue;
                 }
 
                 commentButton.setOnClickListener(new View.OnClickListener() {
@@ -343,7 +346,7 @@ public class HangoutActivity extends AppCompatActivity {
                                     {
                                         ConfirmedRequest c = child.getValue(ConfirmedRequest.class);
                                         if(c != null ) {
-                                            if(c.guestId.equals(curr.getUid())){
+                                            if(c.getGuestId().equals(curr.getUid())){
                                                 DatabaseReference delRef = db.getReference("confirmedRequests/" + child.getKey());
                                                 delRef.removeValue();
                                             }
@@ -381,8 +384,29 @@ public class HangoutActivity extends AppCompatActivity {
                                     {
                                         PendingRequest c = child.getValue(PendingRequest.class);
                                         if(c != null ) {
-                                            if(c.guestId.equals(curr.getUid())){
+                                            if(c.getGuestId().equals(curr.getUid())){
                                                 DatabaseReference delRef = db.getReference("pendingRequests/" + child.getKey());
+                                                delRef.removeValue();
+                                            }
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                            notificationsRef.orderByChild("hangoutId").equalTo(h.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot child : dataSnapshot.getChildren())
+                                    {
+                                        Notification n = child.getValue(Notification.class);
+                                        if(n != null ) {
+                                            if(n.getFromUser().equals(curr.getUid()) && n.getType() == Notification.NotificationType.Request){
+                                                DatabaseReference delRef = db.getReference("notifications/" + child.getKey());
                                                 delRef.removeValue();
                                             }
                                         }
